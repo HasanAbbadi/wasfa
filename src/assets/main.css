@@ -1,0 +1,227 @@
+@import './base.css';
+
+#app {
+  /* direction: rtl; */
+  font-weight: normal;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--color-heading);
+}
+
+a {
+  text-decoration: none;
+  color: var(--color-accent);
+  transition: 0.4s;
+  padding: 3px;
+}
+button {
+  padding: var(--button-padding);
+  background-color: var(--color-accent);
+  color: var(--color-secondary);
+  border-radius: var(--border-radius);
+  border: none;
+  box-shadow: var(--c-shadow-1);
+}
+
+input {
+  padding: var(--input-padding);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+}
+
+a {
+  color: var(--color-accent);
+}
+
+@media (hover: hover) {
+  a:hover {
+    opacity: 0.7;
+  }
+}
+
+form {
+  background-color: var(--color-background-soft); /* Softer background for the form */
+  padding: 32px; /* Increased padding */
+  border-radius: var(--border-radius);
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-heading); /* Use heading color for labels */
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'],
+input[type='number'],
+input[type='date'],
+input[type='file'],
+textarea,
+select {
+  width: calc(100% - 16px); /* Account for padding */
+  padding: var(--input-padding);
+  margin-bottom: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-medium);
+  background-color: var(--color-background); /* Match input background to body */
+  color: var(--color-text);
+  font-size: var(--font-size-base);
+  transition: border-color 0.2s ease; /* Smooth border color transition */
+}
+
+input[type='text']:focus,
+input[type='email']:focus,
+input[type='password']:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--color-accent);
+  outline: none; /* Remove default outline */
+  box-shadow: 0 0 4px rgba(var(--c-blue-dark-rgb), 0.2); /* Subtle blue shadow on focus */
+}
+
+input[type='checkbox'] {
+  /* Base styling */
+  box-sizing: border-box;
+  appearance: none;
+  width: 18px;
+  aspect-ratio: 1;
+  border: 2px solid var(--color-border, #79747e);
+  border-radius: 6px;
+  margin: 0;
+  cursor: pointer;
+  transition:
+    background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  display: grid;
+  place-content: center;
+}
+
+/* Checked state */
+input[type='checkbox']:checked {
+  background-color: var(--color-secondary);
+  border-color: var(--color-accent);
+}
+
+/* Checkmark (hidden by default) */
+input[type='checkbox']::before {
+  content: '';
+  box-sizing: border-box;
+  width: 10px;
+  height: 10px;
+  clip-path: polygon(14% 44%, 0 58%, 42% 98%, 100% 24%, 86% 10%, 42% 62%);
+  transform: scale(0);
+  background-color: var(--color-accent);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reveal checkmark when checked */
+input[type='checkbox']:checked::before {
+  transform: scale(1);
+}
+
+/* Indeterminate state */
+input[type='checkbox']:indeterminate {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+input[type='checkbox']:indeterminate::before {
+  content: '';
+  width: 10px;
+  height: 2px;
+  background-color: var(--color-accent);
+  transform: scale(1);
+}
+
+/* Hover state */
+input[type='checkbox']:hover {
+  box-shadow: 0px 0px 8px 0px rgba(var(--color-secondary-rgb), 0.2);
+}
+
+/* Focus state */
+input[type='checkbox']:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+/* Disabled state */
+input[type='checkbox']:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+  border-color: var(--color-border, #79747e);
+}
+
+input[type='checkbox']:disabled:checked {
+  background-color: var(--color-accent);
+  border-color: transparent;
+}
+
+textarea {
+  height: 120px;
+  resize: vertical; /* Allow vertical resizing */
+}
+
+select {
+  appearance: none; /* Customize select arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234285F4'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e"); /* Blue SVG arrow */
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px; /* Make space for the arrow */
+}
+
+button {
+  background-color: var(--color-secondary);
+  color: var(--color-accent);
+  padding: var(--button-padding);
+  border: none;
+  border-radius: var(--radius-large);
+  cursor: pointer;
+  font-weight: var(--font-weight-medium);
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: var(--color-accent);
+  color: var(--color-secondary);
+}
+
+button:active {
+  background-color: darken(var(--color-accent), 20%);
+}
+
+button.secondary {
+  background-color: transparent;
+  color: var(--color-secondary);
+  box-shadow: none;
+}
+
+button.secondary:hover {
+  background-color: rgba(var(--color-secondary-rgb), 0.1);
+}
+
+button.danger {
+  --color-secondary: var(--color-danger);
+  --color-secondary-rgb: 255, 0, 0;
+}
+
+/* Error message styling */
+.error-message {
+  color: var(--color-danger);
+  font-size: var(--font-size-small);
+  margin-top: -8px; /* Adjust spacing as needed */
+  margin-bottom: 8px;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background-color: var(--color-border);
+}
