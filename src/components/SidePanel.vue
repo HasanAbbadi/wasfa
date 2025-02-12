@@ -16,6 +16,9 @@
   padding: 10px;
   z-index: 99;
   user-select: none;
+  /* TODO: Fix overflow hides the psuedo curve */
+  /* overflow-y: auto;
+  overflow-x: visible; */
 }
 
 #side-panel {
@@ -40,10 +43,11 @@
   flex: 1;
   margin: auto;
   margin-top: 1.5em;
+  width: 100%;
 }
 
 #side-panel:has(.content *) {
-  width: minmax(80%, 500px);
+  width: 450px;
 }
 
 /* https://css-shape.com/inverted-radius/ */
