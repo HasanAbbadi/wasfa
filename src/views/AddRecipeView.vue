@@ -3,8 +3,10 @@ import { useRecipesStore } from '@/stores/recipes'
 import MultiSelect from '@/components/MultiSelect.vue'
 import AddOrderedInputs from '@/components/AddOrderedInputs.vue'
 import AddIngredients from '@/components/AddIngredients.vue'
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch, onUnmounted } from 'vue'
 import type { recipeType } from '@/types'
+
+const emit = defineEmits(['viewRecipe', 'viewAbout', 'viewDraft'])
 
 const recipesStore = useRecipesStore()
 
@@ -34,6 +36,12 @@ onMounted(() => {
     instructions.value = draft.instructions || []
     notes.value = draft.notes || []
   }
+
+  emit('viewDraft', draft)
+})
+
+onUnmounted(() => {
+  emit('viewDraft', null)
 })
 
 // Watch for changes and save to localStorage
@@ -52,6 +60,7 @@ watch(
       notes: notes.value,
     }
     localStorage.setItem('recipe-draft', JSON.stringify(draft))
+    emit('viewDraft', draft)
   },
   { deep: true },
 )
@@ -142,6 +151,7 @@ form {
   display: flex;
   flex-direction: column;
   gap: 1em;
+  margin: auto;
 }
 
 input,

@@ -100,6 +100,12 @@ nav a.router-link-exact-active {
   height: 1.5em;
 }
 
+@media (max-width: 1024px) {
+  nav {
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
 @media (min-width: 1024px) {
   nav {
     position: relative;
@@ -136,7 +142,7 @@ nav a.router-link-exact-active {
     content: '';
     position: absolute;
     top: 0;
-    right: calc(var(--width) * -1);
+    inset-inline-end: calc(var(--width) * -1);
 
     width: var(--width);
     aspect-ratio: 1;

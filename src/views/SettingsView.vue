@@ -4,6 +4,16 @@ import IconLightTheme from '@/components/icons/IconLightTheme.vue'
 import ImportExportButtons from '@/components/ImportExportButtons.vue'
 import SwitchComponent from '@/components/SwitchComponent.vue'
 import { useThemeStore } from '@/stores/theme'
+import { onMounted, onUnmounted, defineEmits } from 'vue'
+
+const emit = defineEmits(['viewRecipe', 'viewAbout'])
+
+onMounted(() => {
+  emit('viewAbout', true)
+})
+onUnmounted(() => {
+  emit('viewAbout', false)
+})
 
 const themeStore = useThemeStore()
 </script>
@@ -30,7 +40,6 @@ const themeStore = useThemeStore()
 
 <style>
 .settings {
-  max-width: 600px;
   margin-inline-end: auto;
 }
 </style>

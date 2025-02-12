@@ -46,4 +46,10 @@ header h1 {
   cursor: pointer;
   box-shadow: none;
 }
+
+@media (max-width: 1024px) {
+  header {
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+  }
+}
 </style>

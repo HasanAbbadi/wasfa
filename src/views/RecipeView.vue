@@ -1,30 +1,27 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useRecipesStore } from '@/stores/recipes'
-import { defineEmits } from 'vue'
-import IconClose from '@/components/icons/IconClose.vue'
 import IconClock from '@/components/icons/IconClock.vue'
 import IconFire from '@/components/icons/IconFire.vue'
 import IconPeople from '@/components/icons/IconPeople.vue'
 import IconIngredients from '@/components/icons/IconIngredients.vue'
 import IconInstructions from '@/components/icons/IconInstructions.vue'
-
-const emit = defineEmits(['close'])
+import type { recipeType } from '@/types/index'
 
 const recipe = ref()
 
 const props = defineProps<{
-  id: number
+  id?: number
+  recipeData?: recipeType
 }>()
 
 const recipesStore = useRecipesStore()
-recipe.value = computed(() => recipesStore.getRecipeById(props.id))
+// @ts-expect-error shut up ts
+recipe.value = computed(() => props.recipeData || recipesStore.getRecipeById(props.id))
 </script>
 
 <template>
-  <h1 class="extra-margin">.</h1>
   <div class="recipe-wrapper">
-    <button class="close secondary" @click="emit('close')"><IconClose /></button>
     <h1>{{ recipe.value.name }}</h1>
     <p>{{ recipe.value.description }}</p>
     <div class="recipe-details">
@@ -36,15 +33,15 @@ recipe.value = computed(() => recipesStore.getRecipeById(props.id))
         <IconFire />
         {{ recipe.value.cookTime }} m
       </div>
-      <div class="detail" v-if="recipe.value.servings">
+      <div class="detail" v-if="recipe.value.servings > 0">
         <IconPeople />
         {{ recipe.value.servings }}
       </div>
-      <div class="detail" v-if="recipe.value.ingredients">
+      <div class="detail" v-if="recipe.value.ingredients?.length > 0">
         <IconIngredients />
         {{ recipe.value.ingredients.length }}
       </div>
-      <div class="detail" v-if="recipe.value.instructions">
+      <div class="detail" v-if="recipe.value.instructions?.length > 0">
         <IconInstructions />
         {{ recipe.value.instructions.length }}
       </div>
@@ -81,17 +78,12 @@ recipe.value = computed(() => recipesStore.getRecipeById(props.id))
 </template>
 
 <style scoped>
-h1.extra-margin {
-  opacity: 0;
-}
-
 .recipe-wrapper:not(.route) {
-  padding: 2rem;
+  padding: 1em;
   border-radius: 12px;
-  background: var(--color-background-soft);
   color: var(--color-text);
-  max-width: 600px;
   position: relative;
+  flex: 1;
 }
 
 .recipe-wrapper .close {
@@ -121,11 +113,9 @@ p {
 }
 
 .recipe-details {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1rem;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  gap: 0.2rem;
 }
 
 .recipe-details .detail {
@@ -136,6 +126,7 @@ p {
   background: var(--color-background-mute);
   padding: 0.5rem 1rem;
   border-radius: 8px;
+  margin: 0;
 }
 
 .recipe-ingredients,
