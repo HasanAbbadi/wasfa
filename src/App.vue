@@ -8,6 +8,7 @@ import { useThemeStore } from '@/stores/theme'
 import RecipeView from './views/RecipeView.vue'
 import AboutView from './views/AboutView.vue'
 import type { recipeType } from './types'
+import RecipeActionsView from './views/RecipeActionsView.vue'
 
 const themeStore = useThemeStore()
 
@@ -20,6 +21,7 @@ onMounted(() => {
 const recipeId = ref<number | null>(null)
 const isAbout = ref(false)
 const draftRecipe = ref<recipeType | null>(null)
+const recipeActions = ref<number | null>(null)
 
 const viewRecipe = (id: number) => {
   recipeId.value = id
@@ -32,6 +34,10 @@ const viewAbout = (bool: boolean) => {
 const viewDraft = (recipe: recipeType | null) => {
   draftRecipe.value = recipe
 }
+
+const viewRecipeActions = (id: number | null) => {
+  recipeActions.value = id
+}
 </script>
 
 <template>
@@ -42,13 +48,19 @@ const viewDraft = (recipe: recipeType | null) => {
       <NavigationBar />
 
       <div id="view">
-        <RouterView @viewRecipe="viewRecipe" @viewAbout="viewAbout" @viewDraft="viewDraft" />
+        <RouterView
+          @viewRecipe="viewRecipe"
+          @viewAbout="viewAbout"
+          @viewDraft="viewDraft"
+          @viewRecipeActions="viewRecipeActions"
+        />
       </div>
 
       <SidePanel>
         <RecipeView v-if="recipeId" :id="recipeId" />
         <AboutView v-if="isAbout" />
         <RecipeView v-if="draftRecipe" :recipe-data="draftRecipe" />
+        <RecipeActionsView v-if="recipeActions" :id="recipeActions" />
       </SidePanel>
     </main>
   </div>

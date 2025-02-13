@@ -6,7 +6,9 @@ import IconFire from '@/components/icons/IconFire.vue'
 import IconPeople from '@/components/icons/IconPeople.vue'
 import IconIngredients from '@/components/icons/IconIngredients.vue'
 import IconInstructions from '@/components/icons/IconInstructions.vue'
+import IconExpand from '@/components/icons/IconExpand.vue'
 import type { recipeType } from '@/types/index'
+import { RouterLink } from 'vue-router'
 
 const recipe = ref()
 
@@ -22,6 +24,7 @@ recipe.value = computed(() => props.recipeData || recipesStore.getRecipeById(pro
 
 <template>
   <div class="recipe-wrapper">
+    <RouterLink :to="'/recipe/' + recipe.value.id"> <IconExpand /> </RouterLink>
     <h1>{{ recipe.value.name }}</h1>
     <p>{{ recipe.value.description }}</p>
     <div class="recipe-details">
@@ -86,17 +89,19 @@ recipe.value = computed(() => props.recipeData || recipesStore.getRecipeById(pro
   flex: 1;
 }
 
-.recipe-wrapper .close {
+.recipe-wrapper a {
   position: absolute;
   top: 1rem;
-  right: 1rem;
+  inset-inline-start: 1rem;
   background: transparent;
   border: none;
   cursor: pointer;
+
   transition: transform 0.2s ease-in-out;
+  color: var(--color-text);
 }
 
-.recipe-wrapper .close:hover {
+.recipe-wrapper a:hover {
   transform: scale(1.1);
 }
 
