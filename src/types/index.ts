@@ -18,4 +18,32 @@ type ingredientType = {
   name?: string
 }
 
-export type { recipeType, ingredientType }
+type filterOptionsType = {
+  name?: string
+  cookTime?: numericalFilterType
+  prepTime?: numericalFilterType
+  servings?: numericalFilterType
+  ingredients?: numericalFilterType
+  instructions?: numericalFilterType
+  date?: dateFilterType
+  tags?: string[]
+  sort?: sortType
+}
+
+type numericalFilterType = {
+  operator: 'gt' | 'lt' | 'eq'
+  value: number
+}
+
+type dateFilterType = {
+  type: 'any' | 'today' | 'lastWeek' | 'lastMonth' | 'lastYear' | 'custom'
+  start?: number
+  end?: number
+}
+
+type sortType = {
+  method: 'name' | 'cookTime' | 'prepTime' | 'servings' | 'date'
+  order: 'asc' | 'desc'
+}
+
+export type { recipeType, ingredientType, filterOptionsType }

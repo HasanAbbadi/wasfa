@@ -32,6 +32,9 @@ defineExpose({
 <template>
   <div v-if="!isClosed" class="modal-backdrop" @click="close" ref="modal">
     <div class="modal" @click.stop>
+      <div class="modal-header">
+        <slot name="modal-header" />
+      </div>
       <div class="modal-body">
         <slot name="modal-body" />
       </div>
@@ -88,16 +91,23 @@ defineExpose({
   background-color: var(--color-background);
   padding: 2rem;
   border-radius: var(--border-radius);
-  width: 400px;
+  max-height: 80%;
+  /* width: 400px; */
   max-width: 80%;
   display: flex;
   flex-direction: column;
   gap: 2rem;
 }
 
+.modal-header:not(:has(*)) {
+  display: none;
+}
+
 .modal-body {
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
   gap: 1rem;
 }
 

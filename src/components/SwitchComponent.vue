@@ -89,7 +89,6 @@ const stopRipple = () => {
   padding-inline: 2em;
   padding-block: 1em;
   position: relative;
-  overflow: hidden;
 }
 
 .switch-component .body {

@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import RecipeCard from '@/components/RecipeCard.vue'
 import SegmentedButtons from '@/components/SegmentedButtons.vue'
+import FilterRecipes from '@/components/FilterRecipes.vue'
 import IconGrid from '@/components/icons/IconGrid.vue'
 import IconList from '@/components/icons/IconList.vue'
-import { useRecipesStore } from '@/stores/recipes'
+// import { useRecipesStore } from '@/stores/recipes'
+import { useFilterStore } from '@/stores/filter'
 import { onMounted, onUnmounted, ref, shallowRef, watch } from 'vue'
 
 const emit = defineEmits(['viewRecipe'])
@@ -13,7 +15,8 @@ onUnmounted(() => {
   emit('viewRecipe', null)
 })
 
-const recipesStore = useRecipesStore()
+// const recipesStore = useRecipesStore()
+const filterStore = useFilterStore()
 
 const segmentedButtons = ref([
   {
@@ -49,13 +52,18 @@ onMounted(() => {
   if (storedValue) {
     viewMode.value = storedValue as 'grid' | 'list'
   }
+
+  console.log(filterStore.filteredRecipes.length)
 })
 </script>
 
 <template>
   <div class="header">
     <h1>Recipes</h1>
-    <SegmentedButtons v-model="segmentedButtons" />
+    <div>
+      <FilterRecipes />
+      <SegmentedButtons v-model="segmentedButtons" />
+    </div>
   </div>
 
   <div v-if="viewMode === 'list'" class="recipe-list body">
@@ -69,7 +77,7 @@ onMounted(() => {
     </div>
     <div
       class="list-item"
-      v-for="recipe in recipesStore.recipes"
+      v-for="recipe in filterStore.finalRecipes"
       :key="recipe.id"
       @click="emit('viewRecipe', recipe.id)"
     >
@@ -84,7 +92,7 @@ onMounted(() => {
 
   <div v-if="viewMode === 'grid'" class="recipe-grid body">
     <RecipeCard
-      v-for="recipe in recipesStore.recipes"
+      v-for="recipe in filterStore.finalRecipes"
       :key="recipe.id"
       :recipe="recipe"
       @click="emit('viewRecipe', recipe.id)"
