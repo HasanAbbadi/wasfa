@@ -13,8 +13,11 @@ const recipesStore = useRecipesStore()
 </script>
 
 <template>
-  <h1>Recipes</h1>
-  <div class="recipe-list">
+  <div class="header">
+    <h1>Recipes</h1>
+  </div>
+
+  <div class="recipe-list body">
     <RecipeCard
       v-for="recipe in recipesStore.recipes"
       :key="recipe.id"

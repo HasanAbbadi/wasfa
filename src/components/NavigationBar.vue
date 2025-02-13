@@ -130,39 +130,5 @@ nav a.router-link-exact-active {
   .expand-nav {
     display: block;
   }
-
-  /* https://css-shape.com/inverted-radius/ */
-  nav::after {
-    --r: 2px; /* the radius */
-    --s: calc(var(--r) * 9); /* size of inner curve */
-    --x: 0px; /* horizontal offset (no percentane) */
-    --y: 0px; /* vertical offset (no percentage) */
-    --width: 20px;
-
-    content: '';
-    position: absolute;
-    top: 0;
-    inset-inline-end: calc(var(--width) * -1);
-
-    width: var(--width);
-    aspect-ratio: 1;
-    background: var(--color-background-soft);
-    --_m: /calc(2 * var(--r)) calc(2 * var(--r)) radial-gradient(#000 70%, #0000 72%);
-    --_g: conic-gradient(
-      from 90deg at calc(100% - var(--r)) calc(100% - var(--r)),
-      #0000 25%,
-      #000 0
-    );
-    --_d: (var(--s) + var(--r));
-    mask:
-      calc(100% - var(--_d) - var(--x)) 100% var(--_m),
-      100% calc(100% - var(--_d) - var(--y)) var(--_m),
-      radial-gradient(var(--s) at 100% 100%, #0000 99%, #000 calc(100% + 1px))
-        calc(-1 * var(--r) - var(--x)) calc(-1 * var(--r) - var(--y)),
-      var(--_g) calc(-1 * var(--_d) - var(--x)) 0,
-      var(--_g) 0 calc(-1 * var(--_d) - var(--y));
-    mask-repeat: no-repeat;
-    z-index: 100;
-  }
 }
 </style>

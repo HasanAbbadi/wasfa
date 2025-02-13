@@ -80,14 +80,24 @@ main {
 }
 
 #view {
-  overflow-y: auto;
+  overflow-y: hidden;
   flex: 1;
+  display: flex;
+  flex-direction: column;
   padding: 2em;
+  background-color: var(--color-background);
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
 
-#view h1 {
+#view .header {
   margin: 1em 0.7em;
   margin-top: 0.5em;
+}
+
+#view .body {
+  overflow-y: auto;
+  flex: 1;
+  padding-inline: 0.5rem;
 }
 
 @media (max-width: 1024px) {

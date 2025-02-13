@@ -19,8 +19,11 @@ const themeStore = useThemeStore()
 </script>
 
 <template>
-  <div class="settings">
+  <div class="header">
     <h1>Settings</h1>
+  </div>
+
+  <div class="settings body">
     <SwitchComponent v-model="themeStore.isDark">
       <template #handle-content>
         <IconDarkTheme v-if="themeStore.isDark" />
