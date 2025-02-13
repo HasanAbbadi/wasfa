@@ -151,7 +151,6 @@ onUnmounted(() => {
 
 .full-recipe-view .tag {
   background-color: var(--color-accent);
-  color: white;
   padding: 0.25rem 0.75rem;
   border-radius: var(--border-radius);
   font-size: 0.9rem;
@@ -279,16 +278,16 @@ onUnmounted(() => {
   }
 }
 
-@media (max-width: 768px) {
-  .recipe-header {
+@media (max-width: 1248px) {
+  .full-recipe-view .recipe-header {
     grid-template-columns: 1fr;
   }
 
-  .recipe-columns {
+  .full-recipe-view .recipe-columns {
     grid-template-columns: 1fr;
   }
 
-  .recipe-image {
+  .full-recipe-view .recipe-image {
     height: 250px;
   }
 

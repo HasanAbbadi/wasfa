@@ -1,9 +1,19 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
+import ModalComponent from '@/components/ModalComponent.vue'
+import SnackBar from '@/components/SnackBar.vue'
+import { defineProps, ref } from 'vue'
+
+const isClosed = ref(true)
+const snackbar = ref()
 
 defineProps<{
   id: number
 }>()
+
+const onDelete = () => {
+  isClosed.value = true
+  snackbar.value?.show()
+}
 </script>
 
 <template>
@@ -11,8 +21,19 @@ defineProps<{
     <h4>Recipe Actions</h4>
     <button class="secondary">Print</button>
     <button class="secondary">Edit</button>
-    <button class="secondary danger">Delete</button>
+    <button class="secondary danger" @click="isClosed = false">Delete</button>
   </div>
+  <SnackBar message="Recipe Deleted Sucessfully!" ref="snackbar" />
+  <ModalComponent @close="isClosed = true" v-model="isClosed" v-if="!isClosed">
+    <template #modal-body>
+      <h3>Are you sure?</h3>
+      <p>Once deleted, there is no going back.</p>
+    </template>
+    <template #modal-footer>
+      <button class="secondary" type="button" @click="isClosed = true">Cancel</button>
+      <button class="secondary danger" type="button" @click="onDelete">Delete</button>
+    </template>
+  </ModalComponent>
 </template>
 
 <style>

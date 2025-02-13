@@ -145,7 +145,7 @@ onBeforeUnmount(() => {
     var(--_g) calc(var(--_d) + var(--x)) 0,
     var(--_g) 0 calc(-1 * var(--_d) - var(--y));
   mask-repeat: no-repeat;
-  z-index: 100;
+  z-index: 98;
 }
 
 @media (max-width: 1024px) {
