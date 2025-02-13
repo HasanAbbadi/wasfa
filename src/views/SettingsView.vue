@@ -42,7 +42,7 @@ const themeStore = useThemeStore()
 </template>
 
 <style>
-.settings {
+/* .settings {
   margin-inline-end: auto;
-}
+} */
 </style>

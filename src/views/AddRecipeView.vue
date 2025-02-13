@@ -100,8 +100,11 @@ const onSubmit = () => {
 </script>
 
 <template>
-  <h1>Add Recipe</h1>
-  <div class="form">
+  <div class="header">
+    <h1>Add Recipe</h1>
+  </div>
+
+  <div class="form body">
     <form @submit.prevent="onSubmit">
       <label for="name">Name</label>
       <input type="text" name="name" id="name" required v-model="name" />

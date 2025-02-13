@@ -1,6 +1,6 @@
 <template>
   <div class="about-container">
-    <div class="header">
+    <div class="about-header">
       <h1 class="app-name">Wasfati</h1>
       <p class="app-description">An amazing application that simplifies recipe management.</p>
 

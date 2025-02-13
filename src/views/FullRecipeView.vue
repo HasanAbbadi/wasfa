@@ -23,7 +23,7 @@ onUnmounted(() => {
 })
 </script>
 <template>
-  <div class="full-recipe-view" v-if="recipe">
+  <div class="full-recipe-view body" v-if="recipe">
     <div class="recipe-header">
       <div
         class="recipe-image"
