@@ -3,15 +3,23 @@ import ModalComponent from '@/components/ModalComponent.vue'
 import SnackBar from '@/components/SnackBar.vue'
 import { defineProps, ref } from 'vue'
 
-const isClosed = ref(true)
+const modal = ref()
 const snackbar = ref()
 
 defineProps<{
   id: number
 }>()
 
+const onOpen = () => {
+  modal.value?.open()
+}
+
+const onClose = () => {
+  modal.value?.close()
+}
+
 const onDelete = () => {
-  isClosed.value = true
+  modal.value?.close()
   snackbar.value?.show()
 }
 </script>
@@ -21,16 +29,16 @@ const onDelete = () => {
     <h4>Recipe Actions</h4>
     <button class="secondary">Print</button>
     <button class="secondary">Edit</button>
-    <button class="secondary danger" @click="isClosed = false">Delete</button>
+    <button class="secondary danger" @click="onOpen">Delete</button>
   </div>
   <SnackBar message="Recipe Deleted Sucessfully!" ref="snackbar" />
-  <ModalComponent @close="isClosed = true" v-model="isClosed" v-if="!isClosed">
+  <ModalComponent @close="onClose" ref="modal">
     <template #modal-body>
       <h3>Are you sure?</h3>
       <p>Once deleted, there is no going back.</p>
     </template>
     <template #modal-footer>
-      <button class="secondary" type="button" @click="isClosed = true">Cancel</button>
+      <button class="secondary" type="button" @click="onClose">Cancel</button>
       <button class="secondary danger" type="button" @click="onDelete">Delete</button>
     </template>
   </ModalComponent>
