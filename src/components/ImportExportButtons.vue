@@ -4,8 +4,8 @@ import ModalComponent from './ModalComponent.vue'
 import { ref } from 'vue'
 import type { recipeType } from '@/types'
 
-const isClosedFirstModal = ref(true)
-const isClosedSecondModal = ref(true)
+const firstModal = ref()
+const secondModal = ref()
 const newRecipes = ref([] as recipeType[])
 const method = ref<'replace' | 'append'>('append')
 const isDuplicates = ref<recipeType['id'][]>([])
@@ -14,13 +14,13 @@ const isOverwrite = ref(false)
 
 const recipesStore = useRecipesStore()
 
-const openModal = () => {
-  isClosedFirstModal.value = false
+const openFirstModal = () => {
+  firstModal.value?.open()
 }
 
 const onImport = (m: 'replace' | 'append') => {
   method.value = m
-  isClosedFirstModal.value = true
+  firstModal.value?.close()
   promptForImport()
 }
 
@@ -60,7 +60,7 @@ const promptForImport = () => {
           console.error(err)
           newRecipes.value = []
         }
-        isClosedSecondModal.value = false
+        secondModal.value?.open()
       }
       reader.readAsText(file)
     }
@@ -69,7 +69,7 @@ const promptForImport = () => {
 }
 
 const onConfirmImport = () => {
-  isClosedSecondModal.value = true
+  secondModal.value?.open()
   if (method.value === 'append') {
     if (!isOverwrite.value) {
       newRecipes.value = newRecipes.value.filter(
@@ -86,7 +86,7 @@ const onConfirmImport = () => {
 }
 
 const onCancelImport = () => {
-  isClosedSecondModal.value = true
+  secondModal.value?.close()
   newRecipes.value = []
 }
 
@@ -107,17 +107,13 @@ const onExport = () => {
 <template>
   <div class="import-export-buttons">
     <!-- Import recipes from json file -->
-    <button class="secondary" type="button" @click="openModal">Import recipes</button>
+    <button class="secondary" type="button" @click="openFirstModal">Import recipes</button>
 
     <!-- Export recipes to json file -->
     <button class="secondary" type="button" @click="onExport">Export recipes</button>
   </div>
 
-  <ModalComponent
-    @close="isClosedFirstModal = true"
-    v-model="isClosedFirstModal"
-    v-if="!isClosedFirstModal"
-  >
+  <ModalComponent ref="firstModal">
     <template #modal-body>
       <h3>Import Recipes</h3>
       <p>
@@ -131,11 +127,7 @@ const onExport = () => {
     </template>
   </ModalComponent>
 
-  <ModalComponent
-    @close="isClosedSecondModal = true"
-    v-model="isClosedSecondModal"
-    v-if="!isClosedSecondModal"
-  >
+  <ModalComponent ref="secondModal">
     <template v-if="newRecipes.length > 0" #modal-body>
       <h3>{{ newRecipes.length }} Recipes found!</h3>
       <p v-if="method === 'append'">

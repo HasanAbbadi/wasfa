@@ -1,29 +1,19 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
-const emit = defineEmits(['close'])
-const isClosed = ref<boolean>()
-const isClosedParent = defineModel<boolean>()
-
-watch(isClosedParent, (value) => {
-  if (value === false) {
-    open()
-  }
-})
+import { ref } from 'vue'
+const isClosed = ref<boolean>(true)
+const modal = ref()
 
 const open = () => {
-  isClosedParent.value = false
-  // delay the opening
-  setTimeout(() => {
-    isClosed.value = false
-  }, 200)
+  isClosed.value = false
+  modal.value?.classList.remove('closed')
+  console.log('Opened')
 }
 
 const close = () => {
-  isClosed.value = true
   // delay the transition
+  modal.value?.classList.add('closed')
   setTimeout(() => {
-    isClosedParent.value = true
-    emit('close')
+    isClosed.value = true
   }, 200)
 }
 
@@ -32,10 +22,15 @@ window.addEventListener('keydown', (event) => {
     close()
   }
 })
+
+defineExpose({
+  open,
+  close,
+})
 </script>
 
 <template>
-  <div class="modal-backdrop" @click="close" :class="{ closed: isClosed }">
+  <div v-if="!isClosed" class="modal-backdrop" @click="close" ref="modal">
     <div class="modal" @click.stop>
       <div class="modal-body">
         <slot name="modal-body" />
