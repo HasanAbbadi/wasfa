@@ -110,6 +110,7 @@ main {
     width: 100%;
   }
   #view {
+    border-radius: 0;
     padding-bottom: 5rem;
     padding-inline: 1em;
   }

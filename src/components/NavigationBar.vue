@@ -50,7 +50,6 @@ nav {
   display: flex;
   justify-content: space-around;
   background-color: var(--color-background-soft);
-  border-radius: var(--border-radius) var(--border-radius) 0 0;
   padding: 10px;
   z-index: 99;
   user-select: none;
@@ -115,7 +114,6 @@ nav a.router-link-exact-active {
     align-items: flex-start;
     top: 0;
     height: 100%;
-    border-radius: 0;
     gap: 1rem;
     padding-inline: 1.2rem;
   }
