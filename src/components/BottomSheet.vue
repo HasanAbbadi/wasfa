@@ -7,8 +7,9 @@
       class="bottom-sheet"
       :class="{ dragging: isDragging }"
       :style="{
-        transform: `translateY(calc(${(1 - currentPosition) * 100}%))`,
-        transition: `transform ${isDragging ? '0s' : '0.3s'} cubic-bezier(0.2, 0, 0, 1)`,
+        bottom: `${currentPosition * 100 - 100}%`,
+        top: 'auto',
+        transition: `bottom ${isDragging ? '0s' : '0.3s'} cubic-bezier(0.2, 0, 0, 1)`,
       }"
     >
       <div class="handle-area" @mousedown="startDrag" @touchstart.prevent="startDrag">
