@@ -1,7 +1,9 @@
+<script setup lang="ts"></script>
+
 <template>
   <div class="about-container">
     <div class="about-header">
-      <h1 class="app-name">Wasfati</h1>
+      <img class="app-logo" src="../assets/logo-no-bg.svg" alt="Wasfati logo" />
       <p class="app-description">An amazing application that simplifies recipe management.</p>
 
       <div class="features">
@@ -39,9 +41,36 @@
   justify-content: space-between;
 }
 
+.about-container img {
+  --deg: 190deg;
+  filter: invert(60%) sepia(200%) saturate(9999%) hue-rotate(191deg) brightness(137%) contrast(100%);
+  width: 128px;
+  background-color: var(--color-border);
+  border: 5px solid var(--color-border);
+  border-radius: 50%;
+  opacity: 0.9;
+}
+
+/*
 .app-name {
   font-size: 2rem;
   font-weight: bold;
+  background-image:
+    radial-gradient(circle, transparent, var(--color-background-soft)),
+    url('../assets/logo-no-bg.svg');
+  background-size: contain;
+  animation: scroll 15s linear infinite;
+  margin-top: -0.25ch;
+  padding-top: 0.25ch;
+} */
+
+@keyframes scroll {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
 }
 
 .app-description {
