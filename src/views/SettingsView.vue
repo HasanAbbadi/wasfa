@@ -4,9 +4,12 @@ import IconLightTheme from '@/components/icons/IconLightTheme.vue'
 import ImportExportButtons from '@/components/ImportExportButtons.vue'
 import SwitchComponent from '@/components/SwitchComponent.vue'
 import { useThemeStore } from '@/stores/theme'
+import { usePanelStore } from '@/stores/panel'
 import { onMounted, onUnmounted, defineEmits } from 'vue'
 
 const emit = defineEmits(['viewRecipe', 'viewAbout'])
+
+const panelStore = usePanelStore()
 
 onMounted(() => {
   emit('viewAbout', true)
@@ -14,6 +17,10 @@ onMounted(() => {
 onUnmounted(() => {
   emit('viewAbout', false)
 })
+
+const expandPanel = () => {
+  panelStore.expand()
+}
 
 const themeStore = useThemeStore()
 </script>
@@ -38,6 +45,8 @@ const themeStore = useThemeStore()
     <hr />
 
     <ImportExportButtons />
+
+    <button @click="expandPanel">Open Sheet</button>
   </div>
 </template>
 

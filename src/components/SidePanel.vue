@@ -1,37 +1,50 @@
 <script setup lang="ts">
-import { ref, watch, onMounted, onBeforeUnmount } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import IconDoubleLeftArrow from '@/components/icons/IconDoubleLeftArrow.vue'
 import IconDoubleRightArrow from '@/components/icons/IconDoubleRightArrow.vue'
-const isExpanded = ref(true)
-let observer: MutationObserver
+import BottomSheet from './BottomSheet.vue'
+import { usePanelStore } from '@/stores/panel'
+import { storeToRefs } from 'pinia'
+
+const panelStore = usePanelStore()
+const { isExpanded } = storeToRefs(panelStore)
+const sheet = ref()
+
+const isMobile = ref(false)
 
 const expand = () => {
-  isExpanded.value = true
+  panelStore.expand()
+  console.log(isExpanded.value)
+  console.log(isMobile.value)
+  if (isMobile.value) sheet.value.open()
+}
+
+const collapse = () => {
+  panelStore.collapse()
 }
 
 watch(isExpanded, (value) => {
-  localStorage.setItem('side-panel-expanded', value.toString())
+  if (value) expand()
+  else collapse()
 })
 
 onMounted(() => {
-  const storedValue = localStorage.getItem('side-panel-expanded')
-  if (storedValue) {
-    isExpanded.value = storedValue === 'true'
-  }
+  isMobile.value = window.innerWidth < 768
 
-  observer = new MutationObserver(expand)
-  const el = document.querySelector('#side-panel .content')
-
-  if (el) observer.observe(el, { childList: true, subtree: true })
-})
-
-onBeforeUnmount(() => {
-  observer.disconnect()
+  window.addEventListener('resize', () => {
+    isMobile.value = window.innerWidth < 768
+  })
 })
 </script>
 
 <template>
-  <div id="side-panel" :class="{ expanded: isExpanded }">
+  <BottomSheet v-if="isMobile" class="panel" ref="sheet" @close="collapse" :snapPoints="[0.6, 1]">
+    <div class="content">
+      <slot />
+    </div>
+  </BottomSheet>
+
+  <div v-else id="side-panel" class="panel" :class="{ expanded: isExpanded }">
     <div class="content">
       <slot />
     </div>
