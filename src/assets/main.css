@@ -204,12 +204,11 @@ button.secondary {
 }
 
 button.secondary:hover {
-  background-color: rgba(var(--color-secondary-rgb), 0.1);
+  background-color: rgba(from var(--color-secondary) r g b / 0.1);
 }
 
 button.danger {
   --color-secondary: var(--color-danger);
-  --color-secondary-rgb: 255, 0, 0;
 }
 
 /* Error message styling */

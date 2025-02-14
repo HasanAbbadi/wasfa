@@ -87,7 +87,6 @@
 
   --color-accent: var(--c-blue-light);
   --color-secondary: var(--c-indigo-dark);
-  --color-secondary-rgb: var(--c-indigo-dark-rgb);
 
   --color-danger: var(--c-red-dark);
 
@@ -109,7 +108,6 @@
 
   --color-accent: var(--c-blue-dark);
   --color-secondary: var(--c-indigo);
-  --color-secondary-rgb: var(--c-indigo-rgb);
 
   --color-danger: var(--c-red-dark);
 
