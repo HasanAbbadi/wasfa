@@ -3,22 +3,24 @@ import { defineStore } from 'pinia'
 import type { filterOptionsType, recipeType } from '@/types'
 import { useRecipesStore } from './recipes'
 
+const STORAGE_KEY = 'filterOptions'
+
 export const useFilterStore = defineStore('filter', () => {
   const recipesStore = useRecipesStore()
 
-  const filterOptions = ref<filterOptionsType>({})
-  const filteredRecipes = ref<recipeType[]>([])
+  const savedFilters = localStorage.getItem(STORAGE_KEY)
+  const filterOptions = ref<filterOptionsType>(savedFilters ? JSON.parse(savedFilters) : {})
+
+  const filteredRecipes = ref<recipeType[] | null>(null)
 
   const finalRecipes = computed(() => {
-    if (filteredRecipes.value.length <= 0 || !filteredRecipes.value) {
-      return recipesStore.recipes
-    }
-    return filteredRecipes.value
+    return filteredRecipes.value !== null ? filteredRecipes.value : recipesStore.recipes
   })
 
   const resetFilters = () => {
-    filteredRecipes.value = []
+    filteredRecipes.value = null
     filterOptions.value = {}
+    localStorage.removeItem(STORAGE_KEY)
   }
 
   const setFilterOptions = (newOptions: filterOptionsType) => {
@@ -26,14 +28,21 @@ export const useFilterStore = defineStore('filter', () => {
   }
 
   const applyFilters = () => {
-    if (!filterOptions.value) return
-    // TODO: Implement Filter composable logic
+    if (!filterOptions.value || Object.keys(filterOptions.value).length === 0) {
+      filteredRecipes.value = null
+      return
+    }
+
+    // TODO: Implement actual filtering logic
+    filteredRecipes.value = recipesStore.recipes.filter(() => {
+      return true
+    })
   }
 
-  // watch for changes in filterOptions
   watch(
     filterOptions,
-    () => {
+    (newFilters) => {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(newFilters))
       applyFilters()
     },
     { deep: true },

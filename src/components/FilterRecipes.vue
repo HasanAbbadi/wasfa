@@ -10,7 +10,7 @@ import IconUp from './icons/IconUp.vue'
 import { useFilterStore } from '@/stores/filter'
 
 const filterStore = useFilterStore()
-const isFiltered = computed(() => filterStore.filteredRecipes.length > 0)
+const isFiltered = computed(() => Object.keys(filterStore.filterOptions).length > 0)
 
 const modal = ref()
 const filtersForm = ref()

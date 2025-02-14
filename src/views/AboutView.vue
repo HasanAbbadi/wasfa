@@ -43,7 +43,7 @@
 
 .about-container img {
   --deg: 190deg;
-  filter: invert(60%) sepia(200%) saturate(9999%) hue-rotate(191deg) brightness(137%) contrast(100%);
+  filter: invert(70%) sepia(100%) saturate(9999%) hue-rotate(201deg) brightness(140%) contrast(60%);
   width: 128px;
   background-color: var(--color-border);
   border: 5px solid var(--color-border);

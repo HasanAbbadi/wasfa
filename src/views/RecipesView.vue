@@ -54,12 +54,12 @@ onMounted(() => {
     viewMode.value = storedValue as 'grid' | 'list'
   }
 
-  console.log(filterStore.filteredRecipes.length)
+  console.log(filterStore.filterOptions)
 })
 </script>
 
 <template>
-  <template v-if="filterStore.filteredRecipes.length > 0">
+  <template v-if="filterStore.finalRecipes.length > 0">
     <div class="header">
       <h1>Recipes</h1>
       <div>
