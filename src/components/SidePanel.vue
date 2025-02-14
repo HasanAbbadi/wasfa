@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { ref, watch, onMounted, nextTick } from 'vue'
-import IconDoubleLeftArrow from '@/components/icons/IconDoubleLeftArrow.vue'
-import IconDoubleRightArrow from '@/components/icons/IconDoubleRightArrow.vue'
 import BottomSheet from './BottomSheet.vue'
 import { usePanelStore } from '@/stores/panel'
 import { storeToRefs } from 'pinia'
@@ -57,11 +55,6 @@ onMounted(() => {
     <div class="content">
       <slot />
     </div>
-
-    <div class="toggle-expanded" @click="isExpanded = !isExpanded">
-      <IconDoubleRightArrow v-if="isExpanded" />
-      <IconDoubleLeftArrow v-else />
-    </div>
   </div>
 </template>
 
@@ -91,28 +84,6 @@ onMounted(() => {
 
 #side-panel:not(.expanded) {
   width: 60px;
-}
-
-#side-panel .toggle-expanded {
-  position: absolute;
-  bottom: 0.5rem;
-  inset-inline-start: 1.5rem;
-}
-
-#side-panel .toggle-expanded {
-  align-self: flex-end;
-  margin-top: auto;
-  cursor: pointer;
-  opacity: 0.7;
-}
-
-#side-panel .toggle-expanded svg {
-  width: 1.5em;
-  height: 1.5em;
-}
-
-#side-panel:not(:has(.content *)) .toggle-expanded {
-  display: none;
 }
 
 #side-panel {

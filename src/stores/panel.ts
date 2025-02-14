@@ -1,8 +1,11 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+
+const STORAGE_KEY = 'side-panel-expanded'
 
 export const usePanelStore = defineStore('panel', () => {
-  const isExpanded = ref(false)
+  const savedState = localStorage.getItem(STORAGE_KEY) === 'true'
+  const isExpanded = ref(savedState ? savedState : false)
   const isMobile = ref(false)
 
   const expand = () => {
@@ -16,6 +19,10 @@ export const usePanelStore = defineStore('panel', () => {
   const toggle = () => {
     isExpanded.value = !isExpanded.value
   }
+
+  watch(isExpanded, (value) => {
+    localStorage.setItem(STORAGE_KEY, value.toString())
+  })
 
   return {
     isExpanded,
