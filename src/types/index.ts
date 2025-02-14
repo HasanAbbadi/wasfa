@@ -26,7 +26,7 @@ type filterOptionsType = {
   ingredients?: numericalFilterType
   instructions?: numericalFilterType
   date?: dateFilterType
-  tags?: string[]
+  tags?: tagsType
   sort?: sortType
 }
 
@@ -37,8 +37,13 @@ type numericalFilterType = {
 
 type dateFilterType = {
   type: 'any' | 'today' | 'lastWeek' | 'lastMonth' | 'lastYear' | 'custom'
-  start?: number
-  end?: number
+  start?: string
+  end?: string
+}
+
+type tagsType = {
+  and: boolean
+  tags: string[]
 }
 
 type sortType = {

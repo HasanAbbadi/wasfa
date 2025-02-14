@@ -3,6 +3,7 @@ import type { filterOptionsType } from '@/types'
 import MultiSelect from './MultiSelect.vue'
 import SwitchComponent from './SwitchComponent.vue'
 import { useFilterStore } from '@/stores/filter'
+import { onMounted, watch } from 'vue'
 defineProps<{
   tagsOptions: string[]
 }>()
@@ -10,20 +11,42 @@ defineProps<{
 const filterStore = useFilterStore()
 const filterOptions = filterStore.filterOptions
 
-const localForm = defineModel<any>({ required: true })
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const localForm = defineModel<filterOptionsType | any>({ required: true })
 
 const initializeFilters = () => {
   if (!filterOptions || !localForm.value) return
   localForm.value.name = filterOptions.name || ''
   ;['cookTime', 'prepTime', 'servings', 'ingredients', 'instructions'].forEach((field) => {
+    // @ts-expect-error shut up ts
     localForm.value[field] = filterOptions[field]
-      ? { ...filterOptions[field] }
+      ? // @ts-expect-error shut up ts
+        { ...filterOptions[field] }
       : { operator: 'gt', value: null }
   })
 
+  // Ensure date is properly formatted
   localForm.value.date = filterOptions.date
-    ? { ...filterOptions.date }
-    : { type: 'any', start: null, end: null }
+    ? {
+        type: filterOptions.date.type || 'any',
+        start: filterOptions.date.start
+          ? new Date(filterOptions.date.start).toISOString().split('T')[0]
+          : '',
+        end: filterOptions.date.end
+          ? new Date(filterOptions.date.end).toISOString().split('T')[0]
+          : '',
+      }
+    : { type: 'any', start: '', end: '' }
+
+  localForm.value.tags = {
+    value: filterOptions.tags?.tags ? [...filterOptions.tags.tags] : [],
+    and: filterOptions.tags?.and ?? false, // Default to OR filter if not specified
+  }
+
+  localForm.value.sort = {
+    method: filterOptions.sort?.method ?? 'date',
+    order: filterOptions.sort?.order ?? 'desc',
+  }
 }
 
 const getFilters = () => {
@@ -38,6 +61,7 @@ const getFilters = () => {
   // Numerical filters
   ;['cookTime', 'prepTime', 'servings', 'ingredients', 'instructions'].forEach((field) => {
     if (localForm.value[field].value !== null && localForm.value[field].value !== '') {
+      // @ts-expect-error shut up ts
       newFilters[field] = {
         operator: localForm.value[field].operator,
         value: Number(localForm.value[field].value),
@@ -55,11 +79,29 @@ const getFilters = () => {
 
     if (start && end) {
       newFilters.date = {
+        type: localForm.value.date.type,
         start: start.toISOString().split('T')[0],
         end: end.toISOString().split('T')[0],
       }
     }
   }
+
+  // Tags filter
+  if (localForm.value.tags.value.length > 0) {
+    newFilters.tags = {
+      tags: localForm.value.tags.value,
+      and: localForm.value.tags.and,
+    }
+  }
+
+  // Sort filter
+  if (localForm.value.sort.method && localForm.value.sort.order) {
+    newFilters.sort = {
+      method: localForm.value.sort.method,
+      order: localForm.value.sort.order,
+    }
+  }
+
   return newFilters
 }
 
@@ -101,6 +143,20 @@ const getDateRange = (type: string, customStart?: string, customEnd?: string) =>
 
   return { start, end }
 }
+
+onMounted(() => {
+  initializeFilters()
+})
+
+watch(
+  () => filterOptions,
+  (newVal) => {
+    if (newVal) {
+      initializeFilters()
+    }
+  },
+  { deep: true, immediate: true },
+)
 
 defineExpose({
   initializeFilters,

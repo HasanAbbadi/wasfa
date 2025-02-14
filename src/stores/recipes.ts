@@ -5,11 +5,16 @@ import type { recipeType } from '@/types/index'
 
 export const useRecipesStore = defineStore('recipes', () => {
   const recipes = ref<recipeType[]>(JSON.parse(localStorage.getItem('recipes') || '[]'))
+  const tags = ref<string[]>(JSON.parse(localStorage.getItem('tags') || '[]'))
+
+  computeTags()
 
   watch(
     recipes,
     () => {
       localStorage.setItem('recipes', JSON.stringify(recipes.value))
+      computeTags()
+      localStorage.setItem('tags', JSON.stringify(tags.value))
     },
     { deep: true },
   )
@@ -39,5 +44,29 @@ export const useRecipesStore = defineStore('recipes', () => {
     return recipes.value.find((r) => r.id === id)
   }
 
-  return { recipes, addRecipe, updateRecipe, deleteRecipe, setRecipes, getRecipeById }
+  function computeTags() {
+    tags.value = recipes.value.reduce((acc, r) => {
+      return acc.concat(r.tags || [])
+    }, [] as string[])
+  }
+
+  function addTag(tag: string) {
+    tags.value.push(tag)
+  }
+
+  function removeTag(tag: string) {
+    tags.value = tags.value.filter((t) => t !== tag)
+  }
+
+  return {
+    recipes,
+    tags,
+    addRecipe,
+    updateRecipe,
+    deleteRecipe,
+    setRecipes,
+    getRecipeById,
+    addTag,
+    removeTag,
+  }
 })

@@ -8,16 +8,23 @@ import FiltersForm from '@/components/FiltersForm.vue'
 import IconDown from './icons/IconDown.vue'
 import IconUp from './icons/IconUp.vue'
 import { useFilterStore } from '@/stores/filter'
+import { storeToRefs } from 'pinia'
+import { useRecipesStore } from '@/stores/recipes'
 
 const filterStore = useFilterStore()
+const recipeStore = useRecipesStore()
 const isFiltered = computed(() => Object.keys(filterStore.filterOptions).length > 0)
 
 const modal = ref()
 const filtersForm = ref()
 const selectedTab = ref(0)
 
-const filterOptions = ref({})
-const tagsOptions = ref(['chicken', 'curry', 'vegetables', 'stir-fry'])
+const { filterOptions } = storeToRefs(filterStore)
+const allTags = computed(() => recipeStore.tags)
+// tagsOptions is all the tags minus the ones already selected in the filter
+const tagsOptions = computed(() =>
+  allTags.value.filter((tag) => !filterOptions.value?.tags?.tags?.includes(tag)),
+)
 const sortOptions = ref([
   {
     name: 'Name',
@@ -63,7 +70,7 @@ const localForm = reactive({
   date: { type: 'any', start: null, end: null },
   tags: {
     and: false,
-    value: [],
+    tags: [],
   },
   sort: {
     method: 'date',
@@ -73,8 +80,6 @@ const localForm = reactive({
 
 const openModal = () => {
   // Initialize form with current filters
-  filtersForm.value?.initializeFilters()
-
   modal.value.open()
 }
 
@@ -91,6 +96,17 @@ const applyFilters = () => {
 const resetFilters = () => {
   filterStore.resetFilters()
   closeModal()
+}
+
+const clearFilters = () => {
+  localForm.name = ''
+  ;['cookTime', 'prepTime', 'servings', 'ingredients', 'instructions'].forEach((field) => {
+    // @ts-expect-error shut up ts
+    localForm[field] = { operator: 'gt', value: null }
+  })
+  localForm.date = { type: 'any', start: null, end: null }
+  localForm.tags = { and: false, tags: [] }
+  localForm.sort = { method: 'date', order: 'desc' }
 }
 
 // @ts-expect-error shut up ts
@@ -113,23 +129,26 @@ const onSortOptionClick = (option) => {
 
     <ModalComponent ref="modal">
       <template #modal-header>
-        <div class="tabs-header">
-          <button
-            class="tab-button"
-            :class="{ active: selectedTab === 0 }"
-            @click="selectedTab = 0"
-          >
-            Filter
-          </button>
-          <button
-            class="tab-button"
-            :class="{ active: selectedTab === 1 }"
-            @click="selectedTab = 1"
-          >
-            Sort
-          </button>
+        <div class="top">
+          <div class="tabs-header">
+            <button
+              class="tab-button"
+              :class="{ active: selectedTab === 0 }"
+              @click="selectedTab = 0"
+            >
+              Filter
+            </button>
+            <button
+              class="tab-button"
+              :class="{ active: selectedTab === 1 }"
+              @click="selectedTab = 1"
+            >
+              Sort
+            </button>
+          </div>
+          <button class="secondary reset" @click="clearFilters">Clear</button>
+          <button class="secondary reset" @click="resetFilters">Reset</button>
         </div>
-        <button class="secondary reset" @click="resetFilters">Reset</button>
       </template>
       <template #modal-body>
         <div class="inner" :style="{ transform: `translateX(-${(selectedTab * 100) / 2}%)` }">
@@ -172,11 +191,18 @@ const onSortOptionClick = (option) => {
   color: #ecae00;
 }
 
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .tabs-header {
   display: flex;
   justify-content: center;
   gap: 1rem;
   border-bottom: 1px solid var(--color-border);
+  flex: 1;
 }
 
 .tab-button {
