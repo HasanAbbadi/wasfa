@@ -2,24 +2,12 @@
 import IconAdd from '@/components/icons/IconAdd.vue'
 import IconRecipes from '@/components/icons/IconRecipes.vue'
 import IconSettings from '@/components/icons/IconSettings.vue'
-import IconDoubleRightArrow from '@/components/icons/IconDoubleRightArrow.vue'
-import IconDoubleLeftArrow from '@/components/icons/IconDoubleLeftArrow.vue'
 
 import { RouterLink } from 'vue-router'
-import { ref, watch, onMounted } from 'vue'
-
-const isExpanded = ref(true)
-
-watch(isExpanded, (value) => {
-  localStorage.setItem('nav-expanded', value.toString())
-})
-
-onMounted(() => {
-  const storedValue = localStorage.getItem('nav-expanded')
-  if (storedValue) {
-    isExpanded.value = storedValue === 'true'
-  }
-})
+import { storeToRefs } from 'pinia'
+import { useNavStore } from '@/stores/nav'
+const navStore = useNavStore()
+const { isExpanded } = storeToRefs(navStore)
 </script>
 
 <template>
@@ -36,10 +24,6 @@ onMounted(() => {
       <IconSettings />
       <span v-if="isExpanded">Settings</span>
     </RouterLink>
-    <div class="expand-nav" @click="isExpanded = !isExpanded">
-      <IconDoubleLeftArrow v-if="isExpanded" />
-      <IconDoubleRightArrow v-else />
-    </div>
   </nav>
 </template>
 
@@ -84,21 +68,6 @@ nav a:hover:not(.router-link-exact-active) {
 nav a.router-link-exact-active {
   background-color: var(--color-accent);
 }
-
-.expand-nav {
-  display: none;
-  align-self: flex-end;
-  margin-top: auto;
-  cursor: pointer;
-  margin-inline-end: 1em;
-  opacity: 0.7;
-}
-
-.expand-nav svg {
-  width: 1.5em;
-  height: 1.5em;
-}
-
 @media (max-width: 1024px) {
   nav {
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
@@ -123,10 +92,6 @@ nav a.router-link-exact-active {
     width: 100%;
     justify-content: flex-start;
     padding: 1rem;
-  }
-
-  .expand-nav {
-    display: block;
   }
 }
 </style>

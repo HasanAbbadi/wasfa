@@ -1,22 +1,26 @@
 <script setup lang="ts">
-import DarkThemeIcon from '@/components/icons/IconDarkTheme.vue'
-import LightThemeIcon from '@/components/icons/IconLightTheme.vue'
-import { useThemeStore } from '@/stores/theme'
+import IconMenu from '@/components/icons/IconList.vue'
+import { useNavStore } from '@/stores/nav'
 
 defineProps<{
   title: string
 }>()
 
-const themeStore = useThemeStore()
+const navStore = useNavStore()
+const toggleNav = () => {
+  navStore.toggleNav()
+}
 </script>
 
 <template>
   <header>
-    <h1>{{ title }}</h1>
-    <button @click="themeStore.toggleTheme()" class="toggle-theme">
-      <DarkThemeIcon v-if="themeStore.isDark" />
-      <LightThemeIcon v-else />
-    </button>
+    <div class="left">
+      <button class="secondary menu-btn" @click="toggleNav"><IconMenu /></button>
+      <h1>{{ title }}</h1>
+    </div>
+    <div class="right">
+      <slot name="right"></slot>
+    </div>
   </header>
 </template>
 
@@ -39,17 +43,36 @@ header h1 {
   font-weight: var(--font-weight-bold);
 }
 
-.toggle-theme {
-  border: none;
-  background-color: transparent;
-  color: var(--color-text);
-  cursor: pointer;
-  box-shadow: none;
+.left,
+.right {
+  display: flex;
+  align-items: center;
+}
+
+.left {
+  gap: 1rem;
+}
+
+.left .menu-btn,
+.right button {
+  padding: 0.5rem;
+  border-radius: 50%;
+  --color-secondary: var(--color-text);
+}
+
+.menu-btn svg,
+.right button svg {
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 @media (max-width: 1024px) {
   header {
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .menu-btn {
+    display: none;
   }
 }
 </style>

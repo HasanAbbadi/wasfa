@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, onMounted, nextTick } from 'vue'
 import IconDoubleLeftArrow from '@/components/icons/IconDoubleLeftArrow.vue'
 import IconDoubleRightArrow from '@/components/icons/IconDoubleRightArrow.vue'
 import BottomSheet from './BottomSheet.vue'
@@ -7,27 +7,36 @@ import { usePanelStore } from '@/stores/panel'
 import { storeToRefs } from 'pinia'
 
 const panelStore = usePanelStore()
-const { isExpanded } = storeToRefs(panelStore)
+const { isExpanded, isMobile } = storeToRefs(panelStore)
 const sheet = ref()
-
-const isMobile = ref(false)
+// Flag to track if the state change is due to the sheet's close event
+const isInternalUpdate = ref(false)
 
 const expand = () => {
   panelStore.expand()
-  console.log(isExpanded.value)
-  console.log(isMobile.value)
   if (isMobile.value) sheet.value.open()
 }
 
 const collapse = () => {
-  panelStore.collapse()
+  if (isMobile.value) sheet.value.close()
 }
 
+// Handle sheet close event
+const onSheetClose = () => {
+  isInternalUpdate.value = true
+  panelStore.collapse()
+  // Reset the flag after the state change has been processed
+  nextTick(() => {
+    isInternalUpdate.value = false
+  })
+}
+
+// Watch for store changes, skip if triggered by internal update
 watch(isExpanded, (value) => {
+  if (isInternalUpdate.value) return
   if (value) expand()
   else collapse()
 })
-
 onMounted(() => {
   isMobile.value = window.innerWidth < 768
 
@@ -38,7 +47,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <BottomSheet v-if="isMobile" class="panel" ref="sheet" @close="collapse" :snapPoints="[0.6, 1]">
+  <BottomSheet v-if="isMobile" class="panel" ref="sheet" @close="onSheetClose" :snapPoints="[1]">
     <div class="content">
       <slot />
     </div>
