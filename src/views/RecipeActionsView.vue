@@ -26,7 +26,6 @@ const onDelete = () => {
 
 <template>
   <div class="recipe-actions">
-    <h4>Recipe Actions</h4>
     <button class="secondary">Print</button>
     <button class="secondary">Edit</button>
     <button class="secondary danger" @click="onOpen">Delete</button>

@@ -24,6 +24,11 @@ const router = createRouter({
       name: 'Full Recipe',
       component: () => import('../views/FullRecipeView.vue'),
     },
+    {
+      path: '/:notFound',
+      name: 'Not Found',
+      component: () => import('../views/NotFound.vue'),
+    },
   ],
 })
 

@@ -7,6 +7,7 @@ import IconList from '@/components/icons/IconList.vue'
 // import { useRecipesStore } from '@/stores/recipes'
 import { useFilterStore } from '@/stores/filter'
 import { onMounted, onUnmounted, ref, shallowRef, watch } from 'vue'
+import NoRecipesView from '@/views/NoRecipesView.vue'
 
 const emit = defineEmits(['viewRecipe'])
 const viewMode = ref<'grid' | 'list'>('grid')
@@ -58,46 +59,51 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="header">
-    <h1>Recipes</h1>
-    <div>
-      <FilterRecipes />
-      <SegmentedButtons v-model="segmentedButtons" />
+  <template v-if="filterStore.filteredRecipes.length > 0">
+    <div class="header">
+      <h1>Recipes</h1>
+      <div>
+        <FilterRecipes />
+        <SegmentedButtons v-model="segmentedButtons" />
+      </div>
     </div>
-  </div>
 
-  <div v-if="viewMode === 'list'" class="recipe-list body">
-    <div class="list-item">
-      <span class="name">Name</span>
-      <span class="prep-time">Prep Time</span>
-      <span class="cook-time">Cook Time</span>
-      <span class="servings">Servings</span>
-      <span class="ingredients-num">Ingredients</span>
-      <span class="date-created">Date</span>
+    <div v-if="viewMode === 'list'" class="recipe-list body">
+      <div class="list-item">
+        <span class="name">Name</span>
+        <span class="prep-time">Prep Time</span>
+        <span class="cook-time">Cook Time</span>
+        <span class="servings">Servings</span>
+        <span class="ingredients-num">Ingredients</span>
+        <span class="date-created">Date</span>
+      </div>
+      <div
+        class="list-item"
+        v-for="recipe in filterStore.finalRecipes"
+        :key="recipe.id"
+        @click="emit('viewRecipe', recipe.id)"
+      >
+        <span class="name">{{ recipe.name }}</span>
+        <span class="prep-time">{{ recipe.prepTime }}</span>
+        <span class="cook-time">{{ recipe.cookTime }}</span>
+        <span class="servings">{{ recipe.servings }}</span>
+        <span class="ingredients-num">{{ recipe.ingredients?.length }}</span>
+        <span class="date-created">{{ new Date().toLocaleDateString() }}</span>
+      </div>
     </div>
-    <div
-      class="list-item"
-      v-for="recipe in filterStore.finalRecipes"
-      :key="recipe.id"
-      @click="emit('viewRecipe', recipe.id)"
-    >
-      <span class="name">{{ recipe.name }}</span>
-      <span class="prep-time">{{ recipe.prepTime }}</span>
-      <span class="cook-time">{{ recipe.cookTime }}</span>
-      <span class="servings">{{ recipe.servings }}</span>
-      <span class="ingredients-num">{{ recipe.ingredients?.length }}</span>
-      <span class="date-created">{{ new Date().toLocaleDateString() }}</span>
-    </div>
-  </div>
 
-  <div v-if="viewMode === 'grid'" class="recipe-grid body">
-    <RecipeCard
-      v-for="recipe in filterStore.finalRecipes"
-      :key="recipe.id"
-      :recipe="recipe"
-      @click="emit('viewRecipe', recipe.id)"
-    />
-  </div>
+    <div v-if="viewMode === 'grid'" class="recipe-grid body">
+      <RecipeCard
+        v-for="recipe in filterStore.finalRecipes"
+        :key="recipe.id"
+        :recipe="recipe"
+        @click="emit('viewRecipe', recipe.id)"
+      />
+    </div>
+  </template>
+  <template v-else>
+    <NoRecipesView />
+  </template>
 </template>
 
 <style>
