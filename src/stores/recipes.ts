@@ -2,8 +2,11 @@
 import { defineStore } from 'pinia'
 import { ref, watch } from 'vue'
 import type { recipeType } from '@/types/index'
+import { useSnackbarStore } from '@/stores/snackbar'
 
 export const useRecipesStore = defineStore('recipes', () => {
+  const snackbarStore = useSnackbarStore()
+
   const recipes = ref<recipeType[]>(JSON.parse(localStorage.getItem('recipes') || '[]'))
   const tags = ref<string[]>(JSON.parse(localStorage.getItem('tags') || '[]'))
 
@@ -33,7 +36,8 @@ export const useRecipesStore = defineStore('recipes', () => {
   }
 
   function deleteRecipe(id: number) {
-    recipes.value = recipes.value.filter((r) => r.id !== id)
+    snackbarStore.show('Recipe deleted')
+    // recipes.value = recipes.value.filter((r) => r.id !== id)
   }
 
   function setRecipes(newRecipes: recipeType[]) {

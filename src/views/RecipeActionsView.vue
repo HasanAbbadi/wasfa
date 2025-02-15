@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import ModalComponent from '@/components/ModalComponent.vue'
-import SnackBar from '@/components/SnackBar.vue'
 import { defineProps, ref } from 'vue'
 
 const modal = ref()
-const snackbar = ref()
+
+const emit = defineEmits(['deleteRecipe'])
 
 defineProps<{
   id: number
@@ -20,7 +20,7 @@ const onClose = () => {
 
 const onDelete = () => {
   modal.value?.close()
-  snackbar.value?.show()
+  emit('deleteRecipe')
 }
 </script>
 
@@ -30,7 +30,6 @@ const onDelete = () => {
     <button class="secondary">Edit</button>
     <button class="secondary danger" @click="onOpen">Delete</button>
   </div>
-  <SnackBar message="Recipe Deleted Sucessfully!" ref="snackbar" />
   <ModalComponent @close="onClose" ref="modal">
     <template #modal-body>
       <h3>Are you sure?</h3>

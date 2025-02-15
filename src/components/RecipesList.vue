@@ -15,7 +15,9 @@
           {{ filterStore.finalRecipes.length }} of {{ recipesStore.recipes.length }} Shown
         </span>
 
-        <button v-if="selectedRecipes.length > 0" class="secondary danger">Delete</button>
+        <button v-if="selectedRecipes.length > 0" class="secondary danger" @click="deleteRecipes">
+          Delete
+        </button>
       </div>
     </div>
     <div class="list-item">
@@ -53,10 +55,12 @@
 <script setup lang="ts">
 import { useFilterStore } from '@/stores/filter'
 import { useRecipesStore } from '@/stores/recipes'
+import { useSnackbarStore } from '@/stores/snackbar'
 import { computed, defineEmits, ref } from 'vue'
 
 const filterStore = useFilterStore()
 const recipesStore = useRecipesStore()
+const snackbarStore = useSnackbarStore()
 
 const emit = defineEmits(['viewRecipe'])
 
@@ -96,6 +100,12 @@ const onSelectAll = (event: Event) => {
       }
     }
   }
+}
+
+const deleteRecipes = () => {
+  snackbarStore.show(`${selectedRecipes.value.length} recipes were deleted successfully`)
+  // selectedRecipes.value.forEach((id) => recipesStore.deleteRecipe(id))
+  selectedRecipes.value = []
 }
 </script>
 

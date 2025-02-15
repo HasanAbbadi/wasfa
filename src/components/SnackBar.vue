@@ -1,20 +1,21 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { useSnackbarStore } from '@/stores/snackbar'
+import { storeToRefs } from 'pinia'
+
+const store = useSnackbarStore()
+const { message, isOpen } = storeToRefs(store)
+
 const isClosed = ref(true)
 const snackbar = ref()
 
-const props = defineProps({
-  message: {
-    type: String,
-    required: true,
-  },
-})
+let timeout: ReturnType<typeof setTimeout>
 
 const show = () => {
   isClosed.value = false
   snackbar.value?.classList.remove('fade')
 
-  setTimeout(() => {
+  timeout = setTimeout(() => {
     close()
   }, 5000)
 }
@@ -22,18 +23,22 @@ const show = () => {
 const close = () => {
   snackbar.value?.classList.add('fade')
   setTimeout(() => {
+    clearTimeout(timeout)
     isClosed.value = true
+    store.close()
   }, 200)
 }
 
-defineExpose({
-  show,
+watch(isOpen, (newVal) => {
+  if (newVal) {
+    show()
+  }
 })
 </script>
 
 <template>
   <div v-if="!isClosed" class="snackbar" ref="snackbar">
-    <p class="message">{{ props.message }}</p>
+    <p class="message">{{ message }}</p>
     <button class="close secondary" @click="close">Close</button>
   </div>
 </template>
@@ -52,6 +57,7 @@ defineExpose({
   color: var(--color-background);
   border-radius: var(--radius-small);
   box-shadow: var(--box-shadow);
+  z-index: 100;
 }
 
 .snackbar .message {

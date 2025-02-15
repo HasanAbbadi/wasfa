@@ -5,18 +5,23 @@ import NavigationBar from '@/components/NavigationBar.vue'
 import SidePanel from '@/components/SidePanel.vue'
 import { onMounted, ref, watch } from 'vue'
 import { useThemeStore } from '@/stores/theme'
+import { usePanelStore } from '@/stores/panel'
+import { useSnackbarStore } from '@/stores/snackbar'
+import { useRecipesStore } from '@/stores/recipes'
 import RecipeView from './views/RecipeView.vue'
 import AboutView from './views/AboutView.vue'
 import type { recipeType } from './types'
 import RecipeActionsView from './views/RecipeActionsView.vue'
-import { usePanelStore } from '@/stores/panel'
 import IconMore from './components/icons/IconMore.vue'
 import IconInfo from './components/icons/IconInfo.vue'
 import IconSideNav from './components/icons/IconSideNav.vue'
 import IconSheet from './components/icons/IconSheet.vue'
+import SnackBar from './components/SnackBar.vue'
 
 const themeStore = useThemeStore()
 const panelStore = usePanelStore()
+const snackbarStore = useSnackbarStore()
+const recipesStore = useRecipesStore()
 
 onMounted(() => {
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -61,6 +66,14 @@ const viewRecipeActions = (id: number | null) => {
   recipeActions.value = id
 }
 
+const deleteRecipe = () => {
+  // recipesStore.deleteRecipe(id)
+  const name =
+    (recipeActions.value && recipesStore.getRecipeById(recipeActions.value)?.name) || 'Recipe'
+  snackbarStore.show(`${name} was deleted successfully`)
+  // recipeActions.value = null
+}
+
 const toggleSidePanel = () => {
   panelStore.toggle()
 }
@@ -95,8 +108,9 @@ const toggleSidePanel = () => {
         <RecipeView v-if="recipeId" :id="recipeId" />
         <AboutView v-if="isAbout" />
         <RecipeView v-if="draftRecipe" :recipe-data="draftRecipe" />
-        <RecipeActionsView v-if="recipeActions" :id="recipeActions" />
+        <RecipeActionsView v-if="recipeActions" :id="recipeActions" @deleteRecipe="deleteRecipe" />
       </SidePanel>
+      <SnackBar />
     </main>
   </div>
 </template>

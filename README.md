@@ -15,4 +15,5 @@ This template should help get you started developing with Vue 3 in Vite.
 - [ ] Implement recipe editing
 - [ ] Implement recipe deletion
 - [ ] Switch to disable side panel recipe preview
-- [ ] Snackbar store?
+- [x] Snackbar store?
+- [ ] Organize components in folders
