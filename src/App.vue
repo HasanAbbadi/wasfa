@@ -3,14 +3,13 @@ import { RouterView } from 'vue-router'
 import HeaderBar from '@/components/HeaderBar.vue'
 import NavigationBar from '@/components/NavigationBar.vue'
 import SidePanel from '@/components/SidePanel.vue'
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, reactive } from 'vue'
 import { useThemeStore } from '@/stores/theme'
 import { usePanelStore } from '@/stores/panel'
 import { useSnackbarStore } from '@/stores/snackbar'
 import { useRecipesStore } from '@/stores/recipes'
 import RecipeView from './views/RecipeView.vue'
 import AboutView from './views/AboutView.vue'
-import type { recipeType } from './types'
 import RecipeActionsView from './views/RecipeActionsView.vue'
 import IconMore from './components/icons/IconMore.vue'
 import IconInfo from './components/icons/IconInfo.vue'
@@ -29,43 +28,24 @@ onMounted(() => {
   themeStore.setTheme(theme)
 })
 
-const recipeId = ref<number | null>(null)
-const isAbout = ref(false)
-const draftRecipe = ref<recipeType | null>(null)
-const recipeActions = ref<number | null>(null)
+const panelContent = reactive<{ source: string; value: any }>({ source: '', value: null })
 
-watch([recipeId, isAbout, draftRecipe, recipeActions], () => {
-  if (recipeId.value != null) {
+const onPanelContent = (content: { source: string; value: any }) => {
+  Object.assign(panelContent, content)
+  if (panelContent.source === 'recipe') {
     panelStore.expand()
   } else if (panelStore.isMobile) {
     panelStore.collapse()
-  } else if (recipeActions.value != null) {
+  } else if (panelContent.source === 'recipeActions') {
     panelStore.collapse()
   } else {
     panelStore.expand()
   }
-})
-
-const viewRecipe = (id: number) => {
-  recipeId.value = id
-}
-
-const viewAbout = (bool: boolean) => {
-  isAbout.value = bool
-}
-
-const viewDraft = (recipe: recipeType | null) => {
-  draftRecipe.value = recipe
-}
-
-const viewRecipeActions = (id: number | null) => {
-  recipeActions.value = id
 }
 
 const deleteRecipe = () => {
   // recipesStore.deleteRecipe(id)
-  const recipeCopy =
-    (recipeActions.value && { ...recipesStore.getRecipeById(recipeActions.value) }) || {}
+  const recipeCopy = { ...recipesStore.getRecipeById(panelContent?.value) }
   const name = recipeCopy?.name || 'Recipe'
   snackbarStore.show(`${name} was deleted successfully`, 'Undo', () => {
     // if (recipeCopy) recipesStore.addRecipe(recipeCopy)
@@ -83,8 +63,8 @@ const toggleSidePanel = () => {
     <HeaderBar title="Wasfati">
       <template #right>
         <button class="secondary" @click="toggleSidePanel">
-          <IconInfo v-if="isAbout" />
-          <IconMore v-else-if="recipeActions" />
+          <IconInfo v-if="panelContent.source === 'settings'" />
+          <IconMore v-else-if="panelContent.source === 'recipeActions'" />
           <IconSheet v-else-if="panelStore.isMobile" />
           <IconSideNav v-else />
         </button>
@@ -95,19 +75,18 @@ const toggleSidePanel = () => {
       <NavigationBar />
 
       <div id="view">
-        <RouterView
-          @viewRecipe="viewRecipe"
-          @viewAbout="viewAbout"
-          @viewDraft="viewDraft"
-          @viewRecipeActions="viewRecipeActions"
-        />
+        <RouterView @panelContent="onPanelContent" />
       </div>
 
       <SidePanel>
-        <RecipeView v-if="recipeId" :id="recipeId" />
-        <AboutView v-if="isAbout" />
-        <RecipeView v-if="draftRecipe" :recipe-data="draftRecipe" />
-        <RecipeActionsView v-if="recipeActions" :id="recipeActions" @deleteRecipe="deleteRecipe" />
+        <RecipeView v-if="panelContent.source === 'recipe'" :id="panelContent.value" />
+        <AboutView v-if="panelContent.source === 'settings'" />
+        <RecipeView v-if="panelContent.source === 'addRecipe'" :recipe-data="panelContent.value" />
+        <RecipeActionsView
+          v-if="panelContent.source === 'recipeActions'"
+          :id="panelContent.value"
+          @deleteRecipe="deleteRecipe"
+        />
       </SidePanel>
       <SnackBar />
     </main>

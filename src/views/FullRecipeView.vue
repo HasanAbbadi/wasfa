@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted } from 'vue'
 import { useRecipesStore } from '@/stores/recipes'
-import { useRoute } from 'vue-router'
 import type { recipeType } from '@/types'
+import { computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 
-const emit = defineEmits(['viewRecipe', 'viewAbout', 'viewRecipeActions'])
+const emit = defineEmits(['panelContent'])
 
 const route = useRoute()
 const recipesStore = useRecipesStore()
@@ -15,11 +15,7 @@ const recipe = computed<recipeType | undefined>(() => {
 })
 
 onMounted(() => {
-  emit('viewRecipeActions', recipe.value?.id)
-})
-
-onUnmounted(() => {
-  emit('viewRecipeActions', null)
+  emit('panelContent', { source: 'recipeActions', value: recipe.value?.id })
 })
 </script>
 <template>

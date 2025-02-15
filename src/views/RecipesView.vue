@@ -6,16 +6,12 @@ import IconGrid from '@/components/icons/IconGrid.vue'
 import IconList from '@/components/icons/IconList.vue'
 // import { useRecipesStore } from '@/stores/recipes'
 import { useFilterStore } from '@/stores/filter'
-import { onMounted, onUnmounted, ref, shallowRef, watch } from 'vue'
+import { onMounted, ref, shallowRef, watch } from 'vue'
 import NoRecipesView from '@/views/NoRecipesView.vue'
 import RecipesList from '@/components/RecipesList.vue'
 
-const emit = defineEmits(['viewRecipe'])
+const emit = defineEmits(['panelContent'])
 const viewMode = ref<'grid' | 'list'>('grid')
-
-onUnmounted(() => {
-  emit('viewRecipe', null)
-})
 
 // const recipesStore = useRecipesStore()
 const filterStore = useFilterStore()
@@ -54,6 +50,7 @@ onMounted(() => {
   if (storedValue) {
     viewMode.value = storedValue as 'grid' | 'list'
   }
+  emit('panelContent', { source: '', value: null })
 })
 </script>
 
@@ -67,14 +64,17 @@ onMounted(() => {
       </div>
     </div>
 
-    <RecipesList v-if="viewMode === 'list'" @viewRecipe="emit('viewRecipe', $event)" />
+    <RecipesList
+      v-if="viewMode === 'list'"
+      @viewRecipe="emit('panelContent', { source: 'recipe', value: $event })"
+    />
 
     <div v-if="viewMode === 'grid'" class="recipe-grid body">
       <RecipeCard
         v-for="recipe in filterStore.finalRecipes"
         :key="recipe.id"
         :recipe="recipe"
-        @click="emit('viewRecipe', recipe.id)"
+        @click="emit('panelContent', { source: 'recipe', value: recipe.id })"
       />
     </div>
   </template>

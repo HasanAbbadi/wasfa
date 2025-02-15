@@ -4,15 +4,12 @@ import IconLightTheme from '@/components/icons/IconLightTheme.vue'
 import ImportExportButtons from '@/components/ImportExportButtons.vue'
 import SwitchComponent from '@/components/SwitchComponent.vue'
 import { useThemeStore } from '@/stores/theme'
-import { onMounted, onUnmounted, defineEmits } from 'vue'
+import { onMounted, defineEmits } from 'vue'
 
-const emit = defineEmits(['viewRecipe', 'viewAbout'])
+const emit = defineEmits(['panelContent'])
 
 onMounted(() => {
-  emit('viewAbout', true)
-})
-onUnmounted(() => {
-  emit('viewAbout', false)
+  emit('panelContent', { source: 'settings', value: true })
 })
 
 const themeStore = useThemeStore()

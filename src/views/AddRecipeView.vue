@@ -6,7 +6,7 @@ import AddIngredients from '@/components/AddIngredients.vue'
 import { onMounted, ref, watch, onUnmounted } from 'vue'
 import type { recipeType } from '@/types'
 
-const emit = defineEmits(['viewRecipe', 'viewAbout', 'viewDraft'])
+const emit = defineEmits(['panelContent'])
 
 const recipesStore = useRecipesStore()
 
@@ -37,11 +37,7 @@ onMounted(() => {
     notes.value = draft.notes || []
   }
 
-  emit('viewDraft', draft)
-})
-
-onUnmounted(() => {
-  emit('viewDraft', null)
+  emit('panelContent', { source: 'addRecipe', value: draft })
 })
 
 // Watch for changes and save to localStorage
