@@ -6,7 +6,6 @@ const modal = ref()
 const open = () => {
   isClosed.value = false
   modal.value?.classList.remove('closed')
-  console.log('Opened')
 }
 
 const close = () => {

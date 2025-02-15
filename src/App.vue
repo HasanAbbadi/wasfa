@@ -37,16 +37,12 @@ const recipeActions = ref<number | null>(null)
 watch([recipeId, isAbout, draftRecipe, recipeActions], () => {
   if (recipeId.value != null) {
     panelStore.expand()
-    console.log('Recipe ID detected, expanding')
   } else if (panelStore.isMobile) {
     panelStore.collapse()
-    console.log('Mobile detected, collapsing')
   } else if (recipeActions.value != null) {
     panelStore.collapse()
-    console.log('Recipe actions detected, collapsing')
   } else {
     panelStore.expand()
-    console.log('No conditions detected, expanding')
   }
 })
 

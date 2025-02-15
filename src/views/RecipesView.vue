@@ -54,8 +54,6 @@ onMounted(() => {
   if (storedValue) {
     viewMode.value = storedValue as 'grid' | 'list'
   }
-
-  console.log(filterStore.filterOptions)
 })
 </script>
 
