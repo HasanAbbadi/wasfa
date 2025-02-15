@@ -120,6 +120,18 @@ input[type='checkbox']::before {
   transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Indeterminate dash */
+input[type='checkbox']:indeterminate::after {
+  content: '';
+  width: 10px;
+  height: 2px;
+  background-color: var(--color-secondary);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 /* Reveal checkmark when checked */
 input[type='checkbox']:checked::before {
   transform: scale(1);

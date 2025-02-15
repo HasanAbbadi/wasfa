@@ -8,6 +8,7 @@ import IconList from '@/components/icons/IconList.vue'
 import { useFilterStore } from '@/stores/filter'
 import { onMounted, onUnmounted, ref, shallowRef, watch } from 'vue'
 import NoRecipesView from '@/views/NoRecipesView.vue'
+import RecipesList from '@/components/RecipesList.vue'
 
 const emit = defineEmits(['viewRecipe'])
 const viewMode = ref<'grid' | 'list'>('grid')
@@ -68,29 +69,7 @@ onMounted(() => {
       </div>
     </div>
 
-    <div v-if="viewMode === 'list'" class="recipe-list body">
-      <div class="list-item">
-        <span class="name">Name</span>
-        <span class="prep-time">Prep Time</span>
-        <span class="cook-time">Cook Time</span>
-        <span class="servings">Servings</span>
-        <span class="ingredients-num">Ingredients</span>
-        <span class="date-created">Date</span>
-      </div>
-      <div
-        class="list-item"
-        v-for="recipe in filterStore.finalRecipes"
-        :key="recipe.id"
-        @click="emit('viewRecipe', recipe.id)"
-      >
-        <span class="name">{{ recipe.name }}</span>
-        <span class="prep-time">{{ recipe.prepTime }}</span>
-        <span class="cook-time">{{ recipe.cookTime }}</span>
-        <span class="servings">{{ recipe.servings }}</span>
-        <span class="ingredients-num">{{ recipe.ingredients?.length }}</span>
-        <span class="date-created">{{ new Date().toLocaleDateString() }}</span>
-      </div>
-    </div>
+    <RecipesList v-if="viewMode === 'list'" @viewRecipe="emit('viewRecipe', $event)" />
 
     <div v-if="viewMode === 'grid'" class="recipe-grid body">
       <RecipeCard
@@ -126,69 +105,5 @@ onMounted(() => {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 2em;
-}
-
-.recipe-list.body {
-  font-family: 'Roboto', Arial, sans-serif;
-  font-size: 14px;
-  border-radius: 8px;
-  overflow: auto;
-}
-
-.list-item {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
-  align-items: center;
-  padding: 12px 24px;
-  border-bottom: 1px solid var(--color-border);
-  min-width: 800px; /* Minimum width for smaller screens */
-  user-select: none;
-}
-
-.list-item:first-child * {
-  color: var(--color-heading);
-}
-
-.list-item:first-child {
-  border-bottom: 1px solid var(--color-border);
-}
-
-.list-item:not(:first-child):hover {
-  background-color: var(--color-background-mute);
-  cursor: pointer;
-}
-
-/* Column specific styling */
-.name {
-  font-weight: 500;
-  color: var(--color-secondary);
-}
-
-.prep-time,
-.cook-time,
-.servings,
-.ingredients-num,
-.date-created {
-  color: var(--color-text);
-}
-
-/* Right-align numeric and date columns */
-.prep-time,
-.cook-time,
-.servings,
-.ingredients-num,
-.date-created {
-  text-align: right;
-}
-
-/* Header specific styling */
-.list-item:first-child .name {
-  color: inherit;
-  font-weight: 500;
-}
-
-/* Responsive container */
-.recipe-list {
-  overflow-x: auto;
 }
 </style>
