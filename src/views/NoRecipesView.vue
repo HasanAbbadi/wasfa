@@ -41,7 +41,7 @@
       <p>
         You can try <RouterLink to="/add">creating a new recipe</RouterLink><br />or
         <RouterLink to="/settings">importing recipes</RouterLink> from a file<br />
-        Otherwise, you can <a href="#">use mock data</a>
+        Otherwise, you can <a href="#" @click.prevent="useMockData">use mock data</a>
       </p>
     </div>
   </div>
@@ -72,3 +72,238 @@ a {
   opacity: 0.6;
 }
 </style>
+
+<script setup lang="ts">
+import { useRecipesStore } from '@/stores/recipes'
+import type { recipeType } from '@/types'
+
+const recipesStore = useRecipesStore()
+
+const useMockData = () => {
+  recipesStore.setRecipes(mockData)
+}
+
+const mockData: recipeType[] = [
+  {
+    id: 1,
+    name: 'Spaghetti Carbonara',
+    tags: ['Italian', 'Pasta', 'Quick'],
+    description: 'A classic Italian pasta dish with eggs, cheese, pancetta, and pepper.',
+    ingredients: [
+      { quantity: 200, unit: 'g', name: 'spaghetti' },
+      { quantity: 100, unit: 'g', name: 'pancetta' },
+      { quantity: 2, name: 'eggs' },
+      { quantity: 50, unit: 'g', name: 'Parmesan cheese' },
+      { name: 'black pepper' },
+    ],
+    instructions: [
+      'Cook the spaghetti in salted boiling water.',
+      'Fry the pancetta until crispy.',
+      'Mix eggs, cheese, and pepper in a bowl.',
+      'Combine pasta with pancetta and egg mixture off heat.',
+      'Serve immediately.',
+    ],
+    prepTime: 10,
+    cookTime: 15,
+    servings: 2,
+    previewImage:
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Espaguetis_carbonara.jpg/320px-Espaguetis_carbonara.jpg',
+    image:
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Espaguetis_carbonara.jpg/1280px-Espaguetis_carbonara.jpg',
+    dateCreated: '2024-02-15',
+  },
+  {
+    id: 2,
+    name: 'Chicken Tikka Masala',
+    tags: ['Indian', 'Curry', 'Spicy'],
+    description: 'A flavorful Indian curry with grilled chicken pieces in a creamy tomato sauce.',
+    ingredients: [
+      { quantity: 500, unit: 'g', name: 'chicken breast' },
+      { quantity: 200, unit: 'ml', name: 'heavy cream' },
+      { quantity: 1, name: 'onion' },
+      { quantity: 2, name: 'garlic cloves' },
+      { quantity: 1, unit: 'tbsp', name: 'garam masala' },
+      { quantity: 1, unit: 'tsp', name: 'cumin' },
+      { quantity: 400, unit: 'g', name: 'canned tomatoes' },
+    ],
+    instructions: [
+      'Marinate chicken in spices and yogurt for at least 1 hour.',
+      'Grill the chicken until cooked through.',
+      'Prepare sauce by sautéing onions, garlic, and spices.',
+      'Add tomatoes and simmer, then blend into a smooth sauce.',
+      'Add cream and grilled chicken, cook until combined.',
+      'Serve with rice or naan.',
+    ],
+    prepTime: 20,
+    cookTime: 30,
+    servings: 4,
+    previewImage:
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Chicken_tikka_masala.jpg/160px-Chicken_tikka_masala.jpg',
+    image:
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Chicken_tikka_masala.jpg/682px-Chicken_tikka_masala.jpg',
+    dateCreated: '2024-02-15',
+  },
+  {
+    id: 3,
+    name: 'Classic Pancakes',
+    tags: ['Breakfast', 'Sweet'],
+    description: 'Fluffy pancakes perfect for a morning treat.',
+    ingredients: [
+      { quantity: 200, unit: 'g', name: 'flour' },
+      { quantity: 2, name: 'eggs' },
+      { quantity: 300, unit: 'ml', name: 'milk' },
+      { quantity: 1, unit: 'tbsp', name: 'sugar' },
+      { quantity: 1, unit: 'tsp', name: 'baking powder' },
+    ],
+    instructions: [
+      'Mix all ingredients into a smooth batter.',
+      'Heat a pan and cook pancakes on both sides until golden brown.',
+      'Serve with syrup or fruits.',
+    ],
+    prepTime: 10,
+    cookTime: 15,
+    servings: 4,
+    previewImage:
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Banana_on_pancake.jpg/245px-Banana_on_pancake.jpg',
+    image:
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Banana_on_pancake.jpg/1044px-Banana_on_pancake.jpg',
+    dateCreated: '2024-02-15',
+  },
+  {
+    id: 4,
+    name: 'Caesar Salad',
+    tags: ['Salad', 'Healthy', 'Quick'],
+    description: 'A crisp and creamy Caesar salad with croutons and parmesan.',
+    ingredients: [
+      { quantity: 1, name: 'romaine lettuce' },
+      { quantity: 50, unit: 'g', name: 'Parmesan cheese' },
+      { quantity: 1, unit: 'tbsp', name: 'Caesar dressing' },
+      { quantity: 100, unit: 'g', name: 'croutons' },
+    ],
+    instructions: [
+      'Chop lettuce and place in a bowl.',
+      'Add Parmesan cheese and croutons.',
+      'Drizzle with Caesar dressing and toss.',
+      'Serve immediately.',
+    ],
+    prepTime: 5,
+    cookTime: 0,
+    servings: 2,
+    previewImage:
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Caesar_Salad_-_Purezza_2023-11-22.jpg/320px-Caesar_Salad_-_Purezza_2023-11-22.jpg',
+    image:
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Caesar_Salad_-_Purezza_2023-11-22.jpg/1280px-Caesar_Salad_-_Purezza_2023-11-22.jpg',
+    dateCreated: '2024-02-15',
+  },
+  {
+    id: 5,
+    name: 'Beef Tacos',
+    tags: ['Mexican', 'Street Food'],
+    description: 'Tasty beef tacos with fresh toppings.',
+    ingredients: [
+      { quantity: 300, unit: 'g', name: 'ground beef' },
+      { quantity: 1, name: 'onion' },
+      { quantity: 1, unit: 'tsp', name: 'cumin' },
+      { quantity: 6, name: 'taco shells' },
+      { quantity: 1, name: 'tomato' },
+      { quantity: 50, unit: 'g', name: 'cheese' },
+    ],
+    instructions: [
+      'Cook beef with onions and spices.',
+      'Assemble tacos with beef, cheese, and tomato.',
+      'Serve with lime and salsa.',
+    ],
+    prepTime: 10,
+    cookTime: 15,
+    servings: 3,
+    previewImage:
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Beef-Tacos-from-Los_Latinos-2011.jpg/320px-Beef-Tacos-from-Los_Latinos-2011.jpg',
+    image:
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Beef-Tacos-from-Los_Latinos-2011.jpg/1024px-Beef-Tacos-from-Los_Latinos-2011.jpg',
+    dateCreated: '2024-02-15',
+  },
+  {
+    id: 6,
+    name: 'Mushroom Risotto',
+    tags: ['Italian', 'Vegetarian', 'Comfort Food'],
+    description: 'A creamy risotto with earthy mushrooms and parmesan.',
+    ingredients: [
+      { quantity: 200, unit: 'g', name: 'Arborio rice' },
+      { quantity: 500, unit: 'ml', name: 'vegetable broth' },
+      { quantity: 1, name: 'onion' },
+      { quantity: 2, name: 'garlic cloves' },
+      { quantity: 200, unit: 'g', name: 'mushrooms' },
+      { quantity: 50, unit: 'g', name: 'Parmesan cheese' },
+      { quantity: 2, unit: 'tbsp', name: 'butter' },
+    ],
+    instructions: [
+      'Sauté onions and garlic in butter.',
+      'Add mushrooms and cook until softened.',
+      'Stir in rice and gradually add broth, stirring frequently.',
+      'When creamy, add Parmesan and season to taste.',
+      'Serve hot.',
+    ],
+    prepTime: 10,
+    cookTime: 30,
+    servings: 2,
+    previewImage:
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Mushroom_Risotto_%284789415965%29.jpg/320px-Mushroom_Risotto_%284789415965%29.jpg',
+    image:
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Mushroom_Risotto_%284789415965%29.jpg/1024px-Mushroom_Risotto_%284789415965%29.jpg',
+    dateCreated: '2024-02-15',
+  },
+  {
+    id: 7,
+    name: 'Grilled Salmon with Lemon Butter',
+    tags: ['Seafood', 'Healthy', 'Quick'],
+    description: 'A delicious grilled salmon dish with a lemon butter sauce.',
+    ingredients: [
+      { quantity: 2, unit: 'fillets', name: 'salmon' },
+      { quantity: 1, unit: 'lemon', name: 'lemon juice' },
+      { quantity: 2, unit: 'tbsp', name: 'butter' },
+      { quantity: 1, unit: 'tsp', name: 'garlic powder' },
+      { name: 'salt and pepper' },
+    ],
+    instructions: [
+      'Season salmon with salt, pepper, and garlic powder.',
+      'Grill for about 5 minutes per side.',
+      'Melt butter with lemon juice and drizzle over salmon.',
+      'Serve immediately.',
+    ],
+    prepTime: 5,
+    cookTime: 10,
+    servings: 2,
+    previewImage:
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Grilled_salmon.jpg/320px-Grilled_salmon.jpg',
+    image:
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Grilled_salmon.jpg/1024px-Grilled_salmon.jpg',
+    dateCreated: '2024-02-15',
+  },
+  {
+    id: 8,
+    name: 'Chocolate Lava Cake',
+    tags: ['Dessert', 'Chocolate', 'Decadent'],
+    description: 'A rich and gooey chocolate cake with a molten center.',
+    ingredients: [
+      { quantity: 100, unit: 'g', name: 'dark chocolate' },
+      { quantity: 100, unit: 'g', name: 'butter' },
+      { quantity: 2, name: 'eggs' },
+      { quantity: 50, unit: 'g', name: 'sugar' },
+      { quantity: 30, unit: 'g', name: 'flour' },
+    ],
+    instructions: [
+      'Melt chocolate and butter together.',
+      'Whisk eggs and sugar until fluffy.',
+      'Fold in melted chocolate and flour.',
+      'Pour into ramekins and bake for 10 minutes at 200°C.',
+      'Serve warm.',
+    ],
+    prepTime: 10,
+    cookTime: 10,
+    servings: 2,
+    image:
+      'https://upload.wikimedia.org/wikipedia/commons/8/86/Chocolate_Lava_Cake-2_%2829044642816%29.jpg',
+    dateCreated: '2024-02-15',
+  },
+]
+</script>
