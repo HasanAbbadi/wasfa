@@ -101,7 +101,8 @@ p {
 }
 
 .switch {
-  border: 1px solid var(--color-border);
+  --border-color: #444746;
+  border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
   width: var(--width);
   height: var(--height);
@@ -111,30 +112,40 @@ p {
   align-items: center;
   padding-inline: var(--padding);
   transition: all var(--duration) ease;
+  opacity: 0.8;
+}
+
+.switch:hover {
+  opacity: 1;
 }
 
 .checked {
-  background-color: var(--color-accent);
+  background-color: var(--color-secondary);
 }
 
 .switch-handle {
   width: var(--radius);
   aspect-ratio: 1;
   border-radius: 50%;
-  background-color: var(--color-text);
+  background-color: var(--border-color);
   transition: all var(--duration) ease;
   display: grid;
   place-items: center;
 }
 
 .checked .switch-handle {
-  transform: translateX(calc(var(--width) - var(--radius) - var(--padding) * 2));
+  --scale: 1.2;
+  --percentage: calc((var(--scale) - 1) * 100%);
+  transform: translateX(calc(var(--width) - var(--radius) - var(--padding) * 2 - var(--percentage)))
+    scale(var(--scale));
+  background-color: var(--color-accent);
 }
 
 .switch-handle svg {
   width: calc(var(--radius) - 2px);
   height: calc(var(--radius) - 2px);
-  color: var(--color-background);
+  color: var(--color-text);
+  opacity: 0;
 }
 
 .ripple {
