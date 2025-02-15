@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineModel } from 'vue'
-import RippleComponent from '@/components/RippleComponent.vue'
+import RippleComponent from '@/components/common/RippleComponent.vue'
 
 const state = defineModel<boolean>()
 

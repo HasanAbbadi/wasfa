@@ -3,7 +3,7 @@
 <template>
   <div class="about-container">
     <div class="about-header">
-      <img class="app-logo" src="../assets/logo-no-bg.svg" alt="Wasfati logo" />
+      <img class="app-logo" src="../../assets/logo-no-bg.svg" alt="Wasfati logo" />
       <p class="app-description">An amazing application that simplifies recipe management.</p>
 
       <div class="features">

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { filterOptionsType } from '@/types'
-import MultiSelect from './MultiSelect.vue'
-import SwitchComponent from './SwitchComponent.vue'
+import MultiSelect from '@/components/common/MultiSelect.vue'
+import SwitchComponent from '@/components/common/SwitchComponent.vue'
 import { useFilterStore } from '@/stores/filter'
 import { onMounted, watch } from 'vue'
 defineProps<{

@@ -1,12 +1,12 @@
 <!-- RecipeFilters.vue -->
 <script setup lang="ts">
-import ModalComponent from './ModalComponent.vue'
+import ModalComponent from '@/components/common/ModalComponent.vue'
 import { ref, reactive, computed } from 'vue'
 
 import IconFilter from '@/components/icons/IconFilter.vue'
-import FiltersForm from '@/components/FiltersForm.vue'
-import IconDown from './icons/IconDown.vue'
-import IconUp from './icons/IconUp.vue'
+import FiltersForm from '@/components/recipes/FiltersForm.vue'
+import IconDown from '@/components/icons/IconDown.vue'
+import IconUp from '@/components/icons/IconUp.vue'
 import { useFilterStore } from '@/stores/filter'
 import { storeToRefs } from 'pinia'
 import { useRecipesStore } from '@/stores/recipes'

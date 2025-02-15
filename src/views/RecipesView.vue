@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import RecipeCard from '@/components/RecipeCard.vue'
-import SegmentedButtons from '@/components/SegmentedButtons.vue'
-import FilterRecipes from '@/components/FilterRecipes.vue'
+import RecipeCard from '@/components/recipes/RecipeCard.vue'
+import SegmentedButtons from '@/components/common/SegmentedButtons.vue'
+import FilterRecipes from '@/components/recipes/FilterRecipes.vue'
 import IconGrid from '@/components/icons/IconGrid.vue'
 import IconList from '@/components/icons/IconList.vue'
 // import { useRecipesStore } from '@/stores/recipes'
 import { useFilterStore } from '@/stores/filter'
 import { onMounted, ref, shallowRef, watch } from 'vue'
 import NoRecipesView from '@/views/NoRecipesView.vue'
-import RecipesList from '@/components/RecipesList.vue'
+import RecipesList from '@/components/recipes/RecipesList.vue'
 
 const emit = defineEmits(['panelContent'])
 const viewMode = ref<'grid' | 'list'>('grid')

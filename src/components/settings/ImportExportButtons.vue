@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRecipesStore } from '@/stores/recipes'
-import ModalComponent from './ModalComponent.vue'
+import ModalComponent from '@/components/common/ModalComponent.vue'
 import { ref } from 'vue'
 import type { recipeType } from '@/types'
 

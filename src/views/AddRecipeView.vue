@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useRecipesStore } from '@/stores/recipes'
-import MultiSelect from '@/components/MultiSelect.vue'
-import AddOrderedInputs from '@/components/AddOrderedInputs.vue'
-import AddIngredients from '@/components/AddIngredients.vue'
+import MultiSelect from '@/components/common/MultiSelect.vue'
+import AddOrderedInputs from '@/components/recipes/AddOrderedInputs.vue'
+import AddIngredients from '@/components/recipes/AddIngredients.vue'
 import { onMounted, ref, watch, onUnmounted } from 'vue'
 import type { recipeType } from '@/types'
 

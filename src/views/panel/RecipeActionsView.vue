@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ModalComponent from '@/components/ModalComponent.vue'
+import ModalComponent from '@/components/common/ModalComponent.vue'
 import { defineProps, ref } from 'vue'
 
 const modal = ref()

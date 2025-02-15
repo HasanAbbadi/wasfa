@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import IconDarkTheme from '@/components/icons/IconDarkTheme.vue'
 import IconLightTheme from '@/components/icons/IconLightTheme.vue'
-import ImportExportButtons from '@/components/ImportExportButtons.vue'
-import SwitchComponent from '@/components/SwitchComponent.vue'
+import ImportExportButtons from '@/components/settings/ImportExportButtons.vue'
+import SwitchComponent from '@/components/common/SwitchComponent.vue'
 import { useThemeStore } from '@/stores/theme'
 import { onMounted, defineEmits } from 'vue'
 

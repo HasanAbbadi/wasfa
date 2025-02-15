@@ -4,6 +4,7 @@
       <input
         type="checkbox"
         class="selection"
+        :checked="isAllSelected"
         :indeterminate="isIndeterminate"
         @click="onSelectAll($event)"
       />
@@ -69,6 +70,12 @@ const isIndeterminate = computed(
   () =>
     selectedRecipes.value.length > 0 &&
     selectedRecipes.value.length < filterStore.finalRecipes.length,
+)
+
+const isAllSelected = computed(
+  () =>
+    selectedRecipes.value.length > 0 &&
+    selectedRecipes.value.length === filterStore.finalRecipes.length,
 )
 
 const onItemClick = (id: number) => {

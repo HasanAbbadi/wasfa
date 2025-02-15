@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import IconMenu from '@/components/icons/IconList.vue'
 import { useNavStore } from '@/stores/nav'
-import MyButton from './MyButton.vue'
+import MyButton from '@/components/common/MyButton.vue'
 
 defineProps<{
   title: string

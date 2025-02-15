@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, onMounted, nextTick } from 'vue'
-import BottomSheet from './BottomSheet.vue'
+import BottomSheet from '@/components/layout/BottomSheet.vue'
 import { usePanelStore } from '@/stores/panel'
 import { storeToRefs } from 'pinia'
 
