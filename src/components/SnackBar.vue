@@ -39,7 +39,16 @@ watch(isOpen, (newVal) => {
 <template>
   <div v-if="!isClosed" class="snackbar" ref="snackbar">
     <p class="message">{{ message }}</p>
-    <button class="close secondary" @click="close">Close</button>
+    <div class="snackbar-actions">
+      <button
+        v-if="store.extraButtonText"
+        class="close secondary"
+        @click="() => store.extraButtonAction && store.extraButtonAction()"
+      >
+        {{ store.extraButtonText }}
+      </button>
+      <button class="close secondary" @click="close">Close</button>
+    </div>
   </div>
 </template>
 
@@ -51,7 +60,7 @@ watch(isOpen, (newVal) => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 1.5rem;
   padding: 0.75rem 1.25rem;
   background-color: var(--color-background-opposite);
   color: var(--color-background);
@@ -67,7 +76,17 @@ watch(isOpen, (newVal) => {
   opacity: 0.9;
 }
 
-.snackbar .close {
+.snackbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.snackbar-actions button {
+  padding: 15px 5px;
+}
+
+.snackbar-actions .close {
   color: var(--color-accent);
   margin: 0;
 }

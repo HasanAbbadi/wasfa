@@ -23,8 +23,11 @@ export const useRecipesStore = defineStore('recipes', () => {
   )
 
   function addRecipe(recipe: recipeType) {
-    const lastId = recipes.value.length > 0 ? recipes.value[recipes.value.length - 1].id : 0
-    recipe.id = lastId + 1
+    if (!recipe) return
+    if (!recipe.id) {
+      const lastId = recipes.value.length > 0 ? recipes.value[recipes.value.length - 1].id : 0
+      recipe.id = lastId + 1
+    }
     recipes.value.push(recipe)
   }
 

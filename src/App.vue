@@ -68,9 +68,12 @@ const viewRecipeActions = (id: number | null) => {
 
 const deleteRecipe = () => {
   // recipesStore.deleteRecipe(id)
-  const name =
-    (recipeActions.value && recipesStore.getRecipeById(recipeActions.value)?.name) || 'Recipe'
-  snackbarStore.show(`${name} was deleted successfully`)
+  const recipeCopy =
+    (recipeActions.value && { ...recipesStore.getRecipeById(recipeActions.value) }) || {}
+  const name = recipeCopy?.name || 'Recipe'
+  snackbarStore.show(`${name} was deleted successfully`, 'Undo', () => {
+    // if (recipeCopy) recipesStore.addRecipe(recipeCopy)
+  })
   // recipeActions.value = null
 }
 
