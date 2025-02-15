@@ -31,6 +31,12 @@
   --c-red-dark: #b71c1c;
   --c-red-light: #fddbd6;
 
+  --c-green-dark: #1b5e20;
+  --c-green-light: #c8e6c9;
+
+  --c-yellow-dark: #f57f17;
+  --c-yellow-light: #fff3e0;
+
   /* Divider Colors */
   --c-divider-light-1: rgba(150, 150, 150, 0.3);
   --c-divider-light-2: rgba(150, 150, 150, 0.15);
@@ -89,6 +95,9 @@
   --color-secondary: var(--c-indigo-dark);
 
   --color-danger: var(--c-red-dark);
+  --color-success: var(--c-green-dark);
+  --color-warning: var(--c-yellow-dark);
+  --color-info: var(--c-blue-dark);
 
   --box-shadow: var(--c-shadow-1);
   --border-radius: var(--radius-large);
@@ -110,6 +119,9 @@
   --color-secondary: var(--c-indigo);
 
   --color-danger: var(--c-red-dark);
+  --color-success: var(--c-green-dark);
+  --color-warning: var(--c-yellow-dark);
+  --color-info: var(--c-blue-dark);
 
   --box-shadow: var(--c-shadow-2);
   --border-radius: var(--radius-large);

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import IconMenu from '@/components/icons/IconList.vue'
 import { useNavStore } from '@/stores/nav'
+import MyButton from './MyButton.vue'
 
 defineProps<{
   title: string
@@ -15,7 +16,7 @@ const toggleNav = () => {
 <template>
   <header>
     <div class="left">
-      <button class="secondary menu-btn" @click="toggleNav"><IconMenu /></button>
+      <MyButton class="simple menu-btn" @click="toggleNav"><IconMenu /></MyButton>
       <h1>{{ title }}</h1>
     </div>
     <div class="right">

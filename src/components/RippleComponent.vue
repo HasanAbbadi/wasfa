@@ -64,7 +64,6 @@ const stopRipple = () => {
 <style>
 .ripple-wrapper {
   position: relative;
-  width: 100%;
 }
 
 .ripple {

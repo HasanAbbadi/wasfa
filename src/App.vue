@@ -16,6 +16,7 @@ import IconInfo from './components/icons/IconInfo.vue'
 import IconSideNav from './components/icons/IconSideNav.vue'
 import IconSheet from './components/icons/IconSheet.vue'
 import SnackBar from './components/SnackBar.vue'
+import MyButton from './components/MyButton.vue'
 
 const themeStore = useThemeStore()
 const panelStore = usePanelStore()
@@ -62,12 +63,12 @@ const toggleSidePanel = () => {
   <div id="wrapper">
     <HeaderBar title="Wasfati">
       <template #right>
-        <button class="secondary" @click="toggleSidePanel">
+        <MyButton class="simple" @click="toggleSidePanel">
           <IconInfo v-if="panelContent.source === 'settings'" />
           <IconMore v-else-if="panelContent.source === 'recipeActions'" />
           <IconSheet v-else-if="panelStore.isMobile" />
           <IconSideNav v-else />
-        </button>
+        </MyButton>
       </template>
     </HeaderBar>
 
