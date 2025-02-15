@@ -20,7 +20,7 @@ const ingredients = ref([{}])
 const instructions = ref([''])
 const notes = ref([''])
 
-const tagsOptions = ref(['chicken', 'curry', 'vegetables', 'stir-fry'])
+const tagsOptions = recipesStore.tags
 
 // Load draft from localStorage
 onMounted(() => {

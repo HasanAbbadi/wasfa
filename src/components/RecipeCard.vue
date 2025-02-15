@@ -20,8 +20,9 @@ defineProps<{
           <span v-for="tag in recipe.tags" :key="tag">{{ tag }}</span>
         </div>
       </div>
-      <div v-if="recipe.image" class="right">
-        <img :src="recipe.image" :alt="recipe.name" />
+      <div v-if="recipe.previewImage || recipe.image" class="right">
+        <img v-if="recipe.previewImage" :src="recipe.previewImage" :alt="recipe.name" />
+        <img v-else :src="recipe.image" :alt="recipe.name" />
       </div>
     </div>
     <p v-if="recipe.description">{{ recipe.description }}</p>

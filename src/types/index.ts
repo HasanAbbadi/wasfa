@@ -3,19 +3,22 @@ type recipeType = {
   name: string
   tags?: string[]
   description?: string
-  ingredients?: ingredientType[]
-  instructions?: string[]
+  ingredients: ingredientType[]
+  instructions: string[]
   prepTime?: number
   cookTime?: number
   servings?: number
+  previewImage?: string
   image?: string
   notes?: string[]
+  dateCreated?: string
+  dateModified?: string
 }
 
 type ingredientType = {
   quantity?: number
   unit?: string
-  name?: string
+  name: string
 }
 
 type filterOptionsType = {

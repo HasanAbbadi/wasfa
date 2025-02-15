@@ -118,7 +118,7 @@ onUnmounted(() => {
 
 .full-recipe-view .recipe-header {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 0.5fr 1fr;
   gap: 2rem;
   margin-bottom: 3rem;
 }

@@ -93,7 +93,7 @@ defineExpose({
   border-radius: var(--border-radius);
   max-height: 80%;
   /* width: 400px; */
-  max-width: 80%;
+  max-width: min(80%, 900px);
   display: flex;
   flex-direction: column;
   gap: 2rem;

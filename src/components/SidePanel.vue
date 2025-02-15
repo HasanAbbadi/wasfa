@@ -109,6 +109,7 @@ onMounted(() => {
   margin: auto;
   margin-top: 1.5em;
   width: 100%;
+  overflow-y: auto;
 }
 
 @media (max-width: 1024px) {

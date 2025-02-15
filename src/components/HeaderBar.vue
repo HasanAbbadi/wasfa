@@ -30,7 +30,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2.5em;
+  padding: 2.5em 2em;
   line-height: 1rem;
   position: sticky;
   top: 0;
@@ -43,25 +43,29 @@ header h1 {
   font-weight: var(--font-weight-bold);
 }
 
-.left,
-.right {
+header .left,
+header .right {
   display: flex;
   align-items: center;
 }
 
-.left {
-  gap: 1rem;
+header .left {
+  gap: 2em;
 }
 
-.left .menu-btn,
-.right button {
+header .left .menu-btn,
+header .right button {
   padding: 0.5rem;
   border-radius: 50%;
   --color-secondary: var(--color-text);
 }
 
+header .right {
+  margin-inline-end: 1.5em;
+}
+
 .menu-btn svg,
-.right button svg {
+header .right button svg {
   width: 1.5rem;
   height: 1.5rem;
 }

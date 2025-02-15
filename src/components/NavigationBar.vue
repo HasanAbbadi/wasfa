@@ -35,7 +35,7 @@ nav {
   justify-content: space-around;
   background-color: var(--color-background-soft);
   padding: 10px;
-  z-index: 99;
+  z-index: 80;
   user-select: none;
 }
 
