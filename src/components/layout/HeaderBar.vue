@@ -74,7 +74,9 @@ header .right button svg {
 
 @media (max-width: 1024px) {
   header {
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* padding-block: 3em 1.75em !important; */
+    height: 80px !important;
   }
 
   .menu-btn {

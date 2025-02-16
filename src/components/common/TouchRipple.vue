@@ -6,7 +6,7 @@
     ref="element"
     @mousedown="handleMouseDown"
     @mouseup="handleMouseUp"
-    @mouseleave="handleMouseUp"
+    @mouseleave="handleMouseLeave"
   >
     <slot></slot>
     <TransitionGroup
@@ -253,6 +253,13 @@ export default defineComponent({
       }
     }
 
+    const handleMouseLeave = () => {
+      state.active = false
+      if (state.cleanWhenMouseUp) {
+        clearRipples()
+      }
+    }
+
     const handleRippleStart = (id: number) => {
       emit('start', id)
     }
@@ -292,6 +299,7 @@ export default defineComponent({
       config,
       handleMouseDown,
       handleMouseUp,
+      handleMouseLeave,
       handleRippleStart,
       handleRippleEnd,
       onBeforeEnter,

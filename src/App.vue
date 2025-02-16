@@ -121,12 +121,13 @@ main {
 #view > .header:has(*) {
   padding: var(--header-padding);
   height: var(--header-height);
+  z-index: 20;
 }
 
 #view > .body {
   overflow-y: auto;
   flex: 1;
-  padding-inline: 0.5rem;
+  padding-inline: 0.8rem;
   padding-bottom: 5rem;
   padding-top: 8px;
 }
@@ -147,6 +148,7 @@ main {
 
   #view > .header {
     background-color: var(--color-background-soft);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 }
 </style>
