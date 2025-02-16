@@ -25,6 +25,11 @@ const router = createRouter({
       component: () => import('../views/FullRecipeView.vue'),
     },
     {
+      path: '/edit/:id',
+      name: 'Edit Recipe',
+      component: () => import('../views/EditRecipeView.vue'),
+    },
+    {
       path: '/:notFound',
       name: 'Not Found',
       component: () => import('../views/NotFound.vue'),

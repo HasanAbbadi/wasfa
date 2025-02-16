@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import IconClose from '@/components/icons/IconClose.vue'
-import { defineProps, defineModel, ref } from 'vue'
+import { defineProps, defineModel, computed } from 'vue'
 
 const props = defineProps<{
   options: string[]
@@ -9,7 +9,10 @@ const props = defineProps<{
 const selected = defineModel<string[]>({
   default: () => [],
 })
-const clonedOptions = ref(props.options || [])
+const clonedOptions = computed(() => {
+  // if there are selected options, clone the options array and remove the selected options
+  return props.options?.slice().filter((option) => !selected.value.includes(option)) || []
+})
 
 const onSelect = (selection: string) => {
   selected.value.push(selection)

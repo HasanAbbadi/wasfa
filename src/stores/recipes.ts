@@ -52,9 +52,9 @@ export const useRecipesStore = defineStore('recipes', () => {
   }
 
   function computeTags() {
-    tags.value = recipes.value.reduce((acc, r) => {
-      return acc.concat(r.tags || [])
-    }, [] as string[])
+    tags.value = Array.from(
+      new Set(recipes.value.reduce((acc, r) => acc.concat(r.tags || []), [] as string[])),
+    )
   }
 
   function addTag(tag: string) {
