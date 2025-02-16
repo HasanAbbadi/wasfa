@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { recipeType } from '@/types/index'
+import TouchRipple from '@/components/common/TouchRipple.vue'
 import IconClock from '@/components/icons/IconClock.vue'
 import IconFire from '@/components/icons/IconFire.vue'
 import IconPeople from '@/components/icons/IconPeople.vue'
@@ -12,7 +13,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="recipe-card">
+  <touch-ripple class="recipe-card" :opacity="0.6">
     <div class="recipe-header">
       <div class="left">
         <h2>{{ recipe.name }}</h2>
@@ -48,7 +49,7 @@ defineProps<{
         {{ recipe.instructions.length }}
       </div>
     </div>
-  </div>
+  </touch-ripple>
 </template>
 
 <style>

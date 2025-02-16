@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ModalComponent from '@/components/common/ModalComponent.vue'
+import MyButton from '@/components/common/MyButton.vue'
 import { defineProps, ref } from 'vue'
 
 const modal = ref()
@@ -26,9 +27,9 @@ const onDelete = () => {
 
 <template>
   <div class="recipe-actions">
-    <button class="secondary">Print</button>
-    <button class="secondary">Edit</button>
-    <button class="secondary danger" @click="onOpen">Delete</button>
+    <my-button class="secondary">Print</my-button>
+    <my-button class="secondary">Edit</my-button>
+    <my-button class="secondary danger" @click="onOpen">Delete</my-button>
   </div>
   <ModalComponent @close="onClose" ref="modal">
     <template #modal-body>
@@ -36,8 +37,8 @@ const onDelete = () => {
       <p>Once deleted, there is no going back.</p>
     </template>
     <template #modal-footer>
-      <button class="secondary" type="button" @click="onClose">Cancel</button>
-      <button class="secondary danger" type="button" @click="onDelete">Delete</button>
+      <my-button class="secondary" type="button" @click="onClose">Cancel</my-button>
+      <my-button class="secondary danger" type="button" @click="onDelete">Delete</my-button>
     </template>
   </ModalComponent>
 </template>
@@ -54,7 +55,10 @@ const onDelete = () => {
   flex: 1;
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-large);
-  padding: 1em 0.5em;
   border: 1px solid var(--color-secondary);
+}
+
+.recipe-actions .m3-button-content {
+  padding: 1em 0.5em;
 }
 </style>

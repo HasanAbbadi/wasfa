@@ -30,7 +30,8 @@
       <span class="ingredients-num">Ingredients</span>
       <span class="date-created">Date</span>
     </div>
-    <div
+    <touch-ripple
+      :opacity="0.5"
       class="list-item"
       :class="{ selected: selectedRecipes.includes(recipe.id) }"
       v-for="recipe in filterStore.finalRecipes"
@@ -49,7 +50,7 @@
       <span class="servings">{{ recipe.servings }}</span>
       <span class="ingredients-num">{{ recipe.ingredients?.length }}</span>
       <span class="date-created">{{ recipe.dateCreated }}</span>
-    </div>
+    </touch-ripple>
   </div>
 </template>
 
@@ -58,6 +59,7 @@ import { useFilterStore } from '@/stores/filter'
 import { useRecipesStore } from '@/stores/recipes'
 import { useSnackbarStore } from '@/stores/snackbar'
 import { computed, defineEmits, ref } from 'vue'
+import TouchRipple from '@/components/common/TouchRipple.vue'
 
 const filterStore = useFilterStore()
 const recipesStore = useRecipesStore()

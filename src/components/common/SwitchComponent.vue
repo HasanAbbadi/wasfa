@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineModel } from 'vue'
-import RippleComponent from '@/components/common/RippleComponent.vue'
+import TouchRipple from '@/components/common/TouchRipple.vue'
 
 const state = defineModel<boolean>()
 
@@ -10,7 +10,7 @@ const updateState = () => {
 </script>
 
 <template>
-  <RippleComponent>
+  <touch-ripple>
     <div class="switch-component" @click.stop="updateState">
       <div class="body">
         <slot name="body-content" />
@@ -21,7 +21,7 @@ const updateState = () => {
         </div>
       </div>
     </div>
-  </RippleComponent>
+  </touch-ripple>
 </template>
 
 <style>
