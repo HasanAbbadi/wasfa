@@ -145,6 +145,11 @@
   font-weight: normal;
 }
 
+html {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
 body {
   min-height: 100vh;
   font-family: var(--font-family);

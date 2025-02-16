@@ -45,7 +45,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <BottomSheet v-if="isMobile" class="panel" ref="sheet" @close="onSheetClose" :snapPoints="[1]">
+  <BottomSheet
+    v-if="isMobile"
+    class="panel"
+    ref="sheet"
+    @close="onSheetClose"
+    :snapPoints="[0.8, 1]"
+    :startPointIndex="1"
+  >
     <div class="content">
       <slot />
     </div>

@@ -11,12 +11,14 @@
         top: 'auto',
         transition: `bottom ${isDragging ? '0s' : '0.3s'} cubic-bezier(0.2, 0, 0, 1)`,
       }"
+      @mousedown="startDrag"
+      @touchstart.passive="handleTouchStart"
     >
       <div class="handle-area" @mousedown="startDrag" @touchstart.prevent="startDrag">
         <div class="handle"></div>
       </div>
 
-      <div class="content">
+      <div class="content" ref="content">
         <slot></slot>
       </div>
     </div>
@@ -31,6 +33,10 @@ const props = defineProps({
     type: Array,
     default: () => [0.3, 0.6, 1],
   },
+  startPointIndex: {
+    type: Number,
+    default: 0,
+  },
 })
 
 const emit = defineEmits(['open', 'close'])
@@ -41,9 +47,12 @@ const currentPosition = ref(0)
 const startY = ref(0)
 const startPosition = ref(0)
 const sheet = ref(null)
+const content = ref(null)
 const touchIdentifier = ref(null)
+const isContentScrolled = ref(false)
 
 const maxHeight = computed(() => window.innerHeight)
+const minSnapPoint = computed(() => Math.min(...props.snapPoints))
 
 const closestSnapPoint = (position: number) => {
   return props.snapPoints.reduce((prev: number, curr: number) => {
@@ -51,7 +60,28 @@ const closestSnapPoint = (position: number) => {
   })
 }
 
+const handleTouchStart = (e: TouchEvent) => {
+  if (content.value.scrollTop > 0) {
+    isContentScrolled.value = true
+    return // Allow native scrolling
+  }
+  isContentScrolled.value = false
+  startDrag(e)
+}
+
+// const handleMouseDown = (e: MouseEvent) => {
+//   if (content.value.scrollTop > 0) return
+//   startDrag(e)
+// }
+
 const startDrag = (e) => {
+  const isHandleArea = (e.target as HTMLElement).closest('.handle-area') !== null
+
+  // For mouse events, check content scroll position
+  if (!isHandleArea && e.type !== 'touchstart' && content.value?.scrollTop > 0) {
+    return
+  }
+
   isDragging.value = true
   startY.value = e.touches ? e.touches[0].clientY : e.clientY
   startPosition.value = currentPosition.value
@@ -79,17 +109,19 @@ const onDrag = (e: TouchEvent | MouseEvent) => {
   let newPosition = startPosition.value + delta
 
   // Constrain between 0 and 1
-  newPosition = Math.min(Math.max(newPosition, 0), 1)
+  newPosition = Math.min(Math.max(newPosition, minSnapPoint.value - 0.1), 1)
   currentPosition.value = newPosition
 }
 
 const endDrag = () => {
   isDragging.value = false
-  currentPosition.value = closestSnapPoint(currentPosition.value)
+  const snapPosition = closestSnapPoint(currentPosition.value)
 
-  // Close sheet if dragged below lowest snap point
-  if (currentPosition.value === 0) {
+  // Close if dragged below lowest snap point threshold
+  if (currentPosition.value < minSnapPoint.value) {
     close()
+  } else {
+    currentPosition.value = snapPosition
   }
 
   document.removeEventListener('mousemove', onDrag)
@@ -98,15 +130,19 @@ const endDrag = () => {
   document.removeEventListener('touchend', endDrag)
 }
 
-const open = (snapIndex = 0) => {
+const open = (snapIndex: number) => {
+  if (!snapIndex) snapIndex = props.startPointIndex
+
   isOpen.value = true
   currentPosition.value = props.snapPoints[snapIndex]
+  window.location.hash = '#bottom-sheet'
   emit('open')
 }
 
 const close = () => {
   isOpen.value = false
   currentPosition.value = 0
+  window.location.hash = ''
   emit('close')
 }
 
@@ -115,17 +151,26 @@ const handleResize = () => {
   currentPosition.value = closestSnapPoint(currentPosition.value)
 }
 
+const handleEscape = (event: KeyboardEvent) => {
+  if (event.key === 'Escape') {
+    close()
+  }
+}
+
+const handleBackGesture = (event: HashChangeEvent) => {
+  if (event.oldURL.includes('#bottom-sheet')) close()
+}
+
 onMounted(() => {
   window.addEventListener('resize', handleResize)
-  window.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') {
-      close()
-    }
-  })
+  window.addEventListener('keydown', handleEscape)
+  window.addEventListener('hashchange', handleBackGesture)
 })
 
 onUnmounted(() => {
   window.removeEventListener('resize', handleResize)
+  window.removeEventListener('keydown', handleEscape)
+  window.removeEventListener('hashchange', handleBackGesture)
 })
 
 defineExpose({
@@ -179,6 +224,8 @@ defineExpose({
 
 .content {
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
+  touch-action: pan-y;
   max-height: calc(90vh - 60px);
   padding: 0 16px 16px;
 }
