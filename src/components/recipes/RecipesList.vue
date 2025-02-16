@@ -36,14 +36,16 @@
       :class="{ selected: selectedRecipes.includes(recipe.id) }"
       v-for="recipe in filterStore.finalRecipes"
       :key="recipe.id"
-      @click="onItemClick(recipe.id)"
+      @click="onItemClick(recipe.id, $event)"
     >
-      <input
-        type="checkbox"
-        v-model="selectedRecipes"
-        :value="recipe.id"
-        @click.stop="onSelectRecipe(recipe.id)"
-      />
+      <label>
+        <!-- Removed @click.stop handler -->
+        <input
+          type="checkbox"
+          :checked="selectedRecipes.includes(recipe.id)"
+          @change.stop="onSelectRecipe(recipe.id)"
+        />
+      </label>
       <span class="name">{{ recipe.name }}</span>
       <span class="prep-time">{{ recipe.prepTime }}</span>
       <span class="cook-time">{{ recipe.cookTime }}</span>
@@ -80,7 +82,13 @@ const isAllSelected = computed(
     selectedRecipes.value.length === filterStore.finalRecipes.length,
 )
 
-const onItemClick = (id: number) => {
+const onItemClick = (id: number, event: Event) => {
+  // Check if the click is on the checkbox or label
+  const target = event.target as HTMLElement
+  if (target.closest('label') || target.tagName === 'INPUT') {
+    return
+  }
+
   if (selectedRecipes.value.length > 0) {
     onSelectRecipe(id)
   } else {
@@ -160,7 +168,7 @@ const deleteRecipes = () => {
 
 .list-item {
   display: grid;
-  grid-template-columns: 0.25fr 2fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 35px 2fr 1fr 1fr 1fr 1fr 1fr;
   align-items: center;
   padding: 12px 24px;
   border-bottom: 1px solid var(--color-border);
@@ -196,6 +204,14 @@ const deleteRecipes = () => {
 
 .list-item.selected .name {
   color: var(--color-heading);
+}
+
+.list-item label {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
 }
 
 .recipe-list input[type='checkbox'] {
