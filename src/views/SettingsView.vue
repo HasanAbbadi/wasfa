@@ -16,9 +16,7 @@ const themeStore = useThemeStore()
 </script>
 
 <template>
-  <div class="header">
-    <h1>Settings</h1>
-  </div>
+  <div class="header" />
 
   <div class="settings body">
     <SwitchComponent v-model="themeStore.isDark">

@@ -43,8 +43,8 @@ a {
 }
 
 form {
-  background-color: var(--color-background-soft); /* Softer background for the form */
-  padding: 32px; /* Increased padding */
+  background-color: var(--color-background-mute);
+  padding: var(--form-padding);
   border-radius: var(--border-radius);
 }
 

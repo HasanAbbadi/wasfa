@@ -73,9 +73,19 @@
 
   /* Component Specific */
   --header-height: 64px;
+  --header-padding: 2.5em 2em;
   --sidenav-width: 240px;
   --button-padding: 10px 16px;
   --input-padding: 8px 12px;
+  --form-padding: 32px;
+}
+
+@media (max-width: 1028px) {
+  :root {
+    --header-height: 53px;
+    --header-padding: 0em 2em;
+    --form-padding: 8px;
+  }
 }
 
 /* Light Theme */

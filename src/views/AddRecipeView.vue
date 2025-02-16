@@ -16,8 +16,6 @@ const handleChange = (draft: recipeType) => {
 </script>
 
 <template>
-  <div class="header">
-    <h1>Add Recipe</h1>
-  </div>
+  <div class="header"></div>
   <RecipeForm @submit="handleSubmit" @change="handleChange" />
 </template>

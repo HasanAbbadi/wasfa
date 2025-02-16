@@ -5,6 +5,7 @@ import AddOrderedInputs from '@/components/recipes/AddOrderedInputs.vue'
 import AddIngredients from '@/components/recipes/AddIngredients.vue'
 import type { ingredientType, recipeType } from '@/types'
 import { useRecipesStore } from '@/stores/recipes'
+import MyButton from '../common/MyButton.vue'
 
 const props = defineProps({
   initialRecipe: {
@@ -142,7 +143,7 @@ const onSubmit = () => {
       <label for="notes">Notes</label>
       <AddOrderedInputs v-model="notes" />
 
-      <button type="submit">Submit</button>
+      <MyButton type="submit">Submit</MyButton>
     </form>
   </div>
 </template>

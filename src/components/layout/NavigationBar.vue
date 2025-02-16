@@ -71,6 +71,11 @@ nav a.router-link-exact-active {
 @media (max-width: 1024px) {
   nav {
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+    height: var(--header-height);
+  }
+
+  nav a span {
+    display: none;
   }
 }
 

@@ -22,9 +22,7 @@ const handleChange = (draft: recipeType) => {
 </script>
 
 <template>
-  <div class="header">
-    <h1>Edit Recipe</h1>
-  </div>
+  <div class="header"></div>
   <RecipeForm
     v-if="initialRecipe"
     :initialRecipe="initialRecipe"

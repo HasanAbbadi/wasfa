@@ -57,11 +57,8 @@ onMounted(() => {
 <template>
   <template v-if="recipesStore.recipes.length > 0">
     <div class="header">
-      <h1>Recipes</h1>
-      <div>
-        <FilterRecipes />
-        <SegmentedButtons v-model="segmentedButtons" />
-      </div>
+      <FilterRecipes />
+      <SegmentedButtons v-model="segmentedButtons" />
     </div>
 
     <RecipesList

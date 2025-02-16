@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
+import { RouterView, useRoute } from 'vue-router'
 import HeaderBar from '@/components/layout/HeaderBar.vue'
 import NavigationBar from '@/components/layout/NavigationBar.vue'
 import SidePanel from '@/components/layout/SidePanel.vue'
@@ -18,6 +18,7 @@ import IconSheet from './components/icons/IconSheet.vue'
 import SnackBar from './components/layout/SnackBar.vue'
 import MyButton from './components/common/MyButton.vue'
 
+const route = useRoute()
 const themeStore = useThemeStore()
 const panelStore = usePanelStore()
 const snackbarStore = useSnackbarStore()
@@ -61,7 +62,7 @@ const toggleSidePanel = () => {
 
 <template>
   <div id="wrapper">
-    <HeaderBar title="Wasfati">
+    <HeaderBar :title="route.name">
       <template #right>
         <MyButton class="simple" @click="toggleSidePanel">
           <IconInfo v-if="panelContent.source === 'settings'" />
@@ -117,15 +118,17 @@ main {
   border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
 
-#view .header {
-  margin: 1em 0.7em;
-  margin-top: 0.5em;
+#view > .header:has(*) {
+  padding: var(--header-padding);
+  height: var(--header-height);
 }
 
-#view .body {
+#view > .body {
   overflow-y: auto;
   flex: 1;
   padding-inline: 0.5rem;
+  padding-bottom: 5rem;
+  padding-top: 8px;
 }
 
 @media (max-width: 1024px) {
@@ -140,8 +143,10 @@ main {
   #view {
     padding: 0;
     border-radius: 0;
-    padding-bottom: 5rem;
-    padding-inline: 1em;
+  }
+
+  #view > .header {
+    background-color: var(--color-background-soft);
   }
 }
 </style>

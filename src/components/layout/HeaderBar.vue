@@ -31,7 +31,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2.5em 2em;
+  padding: var(--header-padding);
   line-height: 1rem;
   position: sticky;
   top: 0;
@@ -42,6 +42,7 @@ header {
 
 header h1 {
   font-weight: var(--font-weight-bold);
+  text-wrap: nowrap;
 }
 
 header .left,
@@ -78,6 +79,10 @@ header .right button svg {
 
   .menu-btn {
     display: none;
+  }
+
+  header .right {
+    margin-inline-end: 0em;
   }
 }
 </style>

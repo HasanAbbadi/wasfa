@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, type PropType } from 'vue'
+
+defineProps({
+  type: {
+    type: String as PropType<'button' | 'submit' | 'reset'>,
+    default: 'button',
+  },
+})
 
 const isPointerDown = ref<boolean>(false)
 const ripple = ref<HTMLElement | null>(null)
@@ -47,6 +54,7 @@ const stopRipple = () => {
 <template>
   <button
     class="m3-button"
+    :type="type"
     @click.stop="onClick"
     @pointerdown="startRipple"
     @pointerup="stopRipple"
