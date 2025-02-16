@@ -2,6 +2,7 @@ import { ref, watch, computed } from 'vue'
 import { defineStore } from 'pinia'
 import type { filterOptionsType, recipeType } from '@/types'
 import { useRecipesStore } from './recipes'
+import { useRecipeFilter } from '@/composables/useRecipeFilters' // Adjust the import path as needed
 
 const STORAGE_KEY = 'filterOptions'
 
@@ -12,6 +13,12 @@ export const useFilterStore = defineStore('filter', () => {
   const filterOptions = ref<filterOptionsType>(savedFilters ? JSON.parse(savedFilters) : {})
 
   const filteredRecipes = ref<recipeType[] | null>(null)
+
+  // Use the composable to filter recipes
+  const { filteredRecipes: computedFilteredRecipes } = useRecipeFilter(
+    computed(() => recipesStore.recipes), // Pass the recipes as a computed ref
+    filterOptions, // Pass the filterOptions ref directly
+  )
 
   const finalRecipes = computed(() => {
     return filteredRecipes.value !== null ? filteredRecipes.value : recipesStore.recipes
@@ -33,11 +40,11 @@ export const useFilterStore = defineStore('filter', () => {
       return
     }
 
-    // TODO: Implement actual filtering logic
-    filteredRecipes.value = recipesStore.recipes.filter(() => {
-      return true
-    })
+    // Use the filtered recipes from the composable
+    filteredRecipes.value = computedFilteredRecipes.value
   }
+
+  applyFilters()
 
   watch(
     filterOptions,

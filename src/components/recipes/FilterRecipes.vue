@@ -56,8 +56,8 @@ const sortOptions = ref([
   },
 ])
 const sortMethod = reactive({
-  method: 'name',
-  order: 'asc',
+  method: 'date',
+  order: 'desc',
 })
 
 const localForm = reactive({
@@ -81,10 +81,12 @@ const localForm = reactive({
 const openModal = () => {
   // Initialize form with current filters
   modal.value.open()
+  window.addEventListener('keydown', applyOnEnter)
 }
 
 const closeModal = () => {
   modal.value.close()
+  window.removeEventListener('keydown', applyOnEnter)
 }
 
 const applyFilters = () => {
@@ -118,6 +120,13 @@ const onSortOptionClick = (option) => {
   }
 
   sortMethod.method = option.value
+}
+
+// apply filters on submit (press Enter)
+const applyOnEnter = (event: KeyboardEvent) => {
+  if (event.key === 'Enter') {
+    applyFilters()
+  }
 }
 </script>
 

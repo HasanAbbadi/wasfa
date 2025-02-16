@@ -50,8 +50,25 @@ type tagsType = {
 }
 
 type sortType = {
-  method: 'name' | 'cookTime' | 'prepTime' | 'servings' | 'date'
+  method:
+    | 'name'
+    | 'cookTime'
+    | 'prepTime'
+    | 'servings'
+    | 'ingredients'
+    | 'instructions'
+    | 'date'
+    | 'dateCreated'
+    | 'dateModified'
   order: 'asc' | 'desc'
 }
 
-export type { recipeType, ingredientType, filterOptionsType }
+export type {
+  recipeType,
+  ingredientType,
+  filterOptionsType,
+  numericalFilterType,
+  dateFilterType,
+  tagsType,
+  sortType,
+}

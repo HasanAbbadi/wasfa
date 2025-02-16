@@ -4,7 +4,7 @@ import SegmentedButtons from '@/components/common/SegmentedButtons.vue'
 import FilterRecipes from '@/components/recipes/FilterRecipes.vue'
 import IconGrid from '@/components/icons/IconGrid.vue'
 import IconList from '@/components/icons/IconList.vue'
-// import { useRecipesStore } from '@/stores/recipes'
+import { useRecipesStore } from '@/stores/recipes'
 import { useFilterStore } from '@/stores/filter'
 import { onMounted, ref, shallowRef, watch } from 'vue'
 import NoRecipesView from '@/views/NoRecipesView.vue'
@@ -13,7 +13,7 @@ import RecipesList from '@/components/recipes/RecipesList.vue'
 const emit = defineEmits(['panelContent'])
 const viewMode = ref<'grid' | 'list'>('grid')
 
-// const recipesStore = useRecipesStore()
+const recipesStore = useRecipesStore()
 const filterStore = useFilterStore()
 
 const segmentedButtons = ref([
@@ -55,7 +55,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <template v-if="filterStore.finalRecipes.length > 0">
+  <template v-if="recipesStore.recipes.length > 0">
     <div class="header">
       <h1>Recipes</h1>
       <div>
