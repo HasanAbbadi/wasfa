@@ -1,13 +1,22 @@
 <script setup lang="ts">
 import ModalComponent from '@/components/common/ModalComponent.vue'
 import MyButton from '@/components/common/MyButton.vue'
+import DropdownButton from '@/components/common/DropdownButton.vue'
 import { defineProps, ref } from 'vue'
+import IconDown from '@/components/icons/IconDown.vue'
+import { useRecipesStore } from '@/stores/recipes'
+import { useSnackbarStore } from '@/stores/snackbar'
+import { usePanelStore } from '@/stores/panel'
+import type { ingredientType } from '@/types'
 
 const modal = ref()
 
 const emit = defineEmits(['deleteRecipe'])
+const recipesStore = useRecipesStore()
+const snackbarStore = useSnackbarStore()
+const panelStore = usePanelStore()
 
-defineProps<{
+const props = defineProps<{
   id: number
 }>()
 
@@ -19,15 +28,72 @@ const onClose = () => {
   modal.value?.close()
 }
 
+const arrayToMarkdown = (array: string[]) => {
+  return array.map((item, index) => `${index + 1}. ${item}`).join('\n')
+}
+
+const ingredientsToMarkdown = (array: ingredientType[]) => {
+  return array.map((item) => `- ${item.quantity} ${item.unit} ${item.name}`).join('\n')
+}
+
+const onPrint = () => {
+  window.open(`/print/${props?.id}`, '_blank')
+}
+
+const onCopy = (method: 'md' | 'md+format' | 'json' | 'image' = 'md') => {
+  const recipe = recipesStore.getRecipeById(props?.id)
+  if (!recipe) return
+  let output = ''
+  switch (method) {
+    case 'md':
+      output = `
+![image](${recipe.previewImage})
+
+# ${recipe.name}
+${recipe.description}
+
+## Ingredients
+${ingredientsToMarkdown(recipe.ingredients || [])}
+
+## Instructions
+${arrayToMarkdown(recipe.instructions || [])}
+
+## Notes
+${arrayToMarkdown(recipe.notes || [])}
+      `
+      break
+    case 'json':
+      output = JSON.stringify(recipe)
+      break
+    case 'image':
+      break
+  }
+
+  navigator.clipboard.writeText(output)
+  if (panelStore.isMobile) panelStore.collapse()
+  snackbarStore.show('Recipe was copied to clipboard!')
+}
+
 const onDelete = () => {
   modal.value?.close()
-  emit('deleteRecipe')
+  emit('deleteRecipe', props?.id)
 }
 </script>
 
 <template>
   <div class="recipe-actions">
-    <my-button class="secondary">Print</my-button>
+    <dropdown-button class="dropdown-btn">
+      <template #main-button>
+        <my-button class="secondary" @click="onCopy('md')">Copy</my-button>
+      </template>
+      <template #icon>
+        <IconDown />
+      </template>
+      <template #dropdown-content>
+        <my-button class="info" @click="onCopy('json')">Copy as JSON</my-button>
+      </template>
+    </dropdown-button>
+    <my-button class="secondary" @click="onPrint">Print</my-button>
     <my-button class="secondary">Edit</my-button>
     <my-button class="secondary danger" @click="onOpen">Delete</my-button>
   </div>
@@ -60,5 +126,14 @@ const onDelete = () => {
 
 .recipe-actions .m3-button-content {
   padding: 1em 0.5em;
+}
+
+.recipe-actions .dropdown-btn {
+  border: 1px solid var(--color-secondary);
+  border-radius: var(--border-radius);
+}
+.recipe-actions .dropdown-btn .main-btn-container button {
+  border: none;
+  border-right: 1px solid var(--color-secondary);
 }
 </style>

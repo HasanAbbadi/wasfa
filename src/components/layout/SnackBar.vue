@@ -43,7 +43,12 @@ watch(isOpen, (newVal) => {
       <button
         v-if="store.extraButtonText"
         class="close secondary"
-        @click="() => store.extraButtonAction && store.extraButtonAction()"
+        @click="
+          () => {
+            store.extraButtonAction && store.extraButtonAction()
+            close()
+          }
+        "
       >
         {{ store.extraButtonText }}
       </button>

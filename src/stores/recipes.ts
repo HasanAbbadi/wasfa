@@ -39,8 +39,23 @@ export const useRecipesStore = defineStore('recipes', () => {
   }
 
   function deleteRecipe(id: number) {
-    snackbarStore.show('Recipe deleted')
-    // recipes.value = recipes.value.filter((r) => r.id !== id)
+    const backupRecipe = getRecipeById(id)
+    const name = backupRecipe?.name || 'Recipe'
+
+    recipes.value = recipes.value.filter((r) => r.id !== id)
+    snackbarStore.show(name + ' was deleted sucessfully', 'Undo', () => {
+      addRecipe(backupRecipe!)
+    })
+  }
+
+  function deleteRecipes(ids: number[]) {
+    const backupRecipes = recipes.value.filter((r) => ids.includes(r.id!))
+    recipes.value = recipes.value.filter((r) => !ids.includes(r.id!))
+    snackbarStore.show(`${ids.length} recipes were deleted successfully`, 'Undo', () => {
+      backupRecipes.forEach((r) => {
+        addRecipe(r)
+      })
+    })
   }
 
   function setRecipes(newRecipes: recipeType[]) {
@@ -71,6 +86,7 @@ export const useRecipesStore = defineStore('recipes', () => {
     addRecipe,
     updateRecipe,
     deleteRecipe,
+    deleteRecipes,
     setRecipes,
     getRecipeById,
     addTag,

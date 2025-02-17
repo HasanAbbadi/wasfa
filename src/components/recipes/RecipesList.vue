@@ -54,18 +54,30 @@
       <span class="date-created">{{ recipe.dateCreated }}</span>
     </touch-ripple>
   </div>
+  <ModalComponent ref="modal">
+    <template #modal-header>
+      <h2>Are you sure?</h2>
+    </template>
+    <template #modal-body>
+      <p>Once the recipes are deleted, they're gone forever.</p>
+    </template>
+    <template #modal-footer>
+      <my-button class="secondary" @click="modal.close()">Close</my-button>
+      <my-button class="secondary danger" @click="onDelete">Delete</my-button>
+    </template>
+  </ModalComponent>
 </template>
 
 <script setup lang="ts">
 import { useFilterStore } from '@/stores/filter'
 import { useRecipesStore } from '@/stores/recipes'
-import { useSnackbarStore } from '@/stores/snackbar'
 import { computed, defineEmits, ref } from 'vue'
 import TouchRipple from '@/components/common/TouchRipple.vue'
+import ModalComponent from '@/components/common/ModalComponent.vue'
+import MyButton from '@/components/common/MyButton.vue'
 
 const filterStore = useFilterStore()
 const recipesStore = useRecipesStore()
-const snackbarStore = useSnackbarStore()
 
 const emit = defineEmits(['viewRecipe'])
 
@@ -119,10 +131,15 @@ const onSelectAll = (event: Event) => {
   }
 }
 
+const modal = ref()
 const deleteRecipes = () => {
-  snackbarStore.show(`${selectedRecipes.value.length} recipes were deleted successfully`)
-  // selectedRecipes.value.forEach((id) => recipesStore.deleteRecipe(id))
+  modal.value?.open()
+}
+
+const onDelete = () => {
+  if (selectedRecipes.value?.length > 0) recipesStore.deleteRecipes(selectedRecipes.value)
   selectedRecipes.value = []
+  modal.value?.close()
 }
 </script>
 
