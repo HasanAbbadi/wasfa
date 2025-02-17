@@ -60,6 +60,11 @@ const router = createRouter({
         },
       ],
     },
+    {
+      path: '/welcome',
+      name: 'welcome',
+      component: () => import('../layouts/WelcomeLayout.vue'),
+    },
   ],
 })
 

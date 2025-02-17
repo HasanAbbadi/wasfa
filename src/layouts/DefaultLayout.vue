@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterView, useRoute, useRouter } from 'vue-router'
-import { onMounted, reactive } from 'vue'
+import { reactive } from 'vue'
 
 import HeaderBar from '@/components/layout/HeaderBar.vue'
 import NavigationBar from '@/components/layout/NavigationBar.vue'
@@ -18,19 +18,11 @@ import IconInfo from '@/components/icons/IconInfo.vue'
 import IconSideNav from '@/components/icons/IconSideNav.vue'
 import IconSheet from '@/components/icons/IconSheet.vue'
 
-import { useThemeStore } from '@/stores/theme'
 import { usePanelStore } from '@/stores/panel'
 import { useRecipesStore } from '@/stores/recipes'
 import { useSettingsStore } from '@/stores/settings'
 
 const route = useRoute()
-
-const themeStore = useThemeStore()
-onMounted(() => {
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-  const theme = localStorage.getItem('theme') || (prefersDark ? 'dark' : 'light')
-  themeStore.setTheme(theme)
-})
 
 const panelContent = reactive<{ source: string; value: any }>({ source: '', value: null })
 const panelStore = usePanelStore()
@@ -91,7 +83,7 @@ const toggleSidePanel = () => {
       <NavigationBar />
 
       <div id="view">
-        <RouterView @panelContent="onPanelContent" />
+        <router-view @panelContent="onPanelContent" />
       </div>
 
       <SidePanel>
@@ -114,6 +106,24 @@ const toggleSidePanel = () => {
   display: flex;
   flex-direction: column;
   height: 100dvh;
+}
+
+.fade-enter-active {
+  animation: fade 0.25s;
+}
+
+.fade-leave-active {
+  animation: fade 0.25s reverse;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0%;
+  }
+
+  to {
+    opacity: 100%;
+  }
 }
 
 main {

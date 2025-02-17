@@ -96,12 +96,13 @@ span:hover {
   border-radius: var(--radius) 0 0 var(--radius);
   height: 100%;
   cursor: pointer;
-  border-right: 2px solid var(--color-border);
+  border-inline-end: 2px solid var(--color-border);
   transition: all 0.3s ease;
 }
 
 .main-btn-container button .m3-button-content {
-  margin-inline-start: var(--icon-width);
+  /* margin-inline-start: var(--icon-width); */
+  width: calc(100% + var(--icon-width));
 }
 
 .dropdown-container {

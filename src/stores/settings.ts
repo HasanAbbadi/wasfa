@@ -2,12 +2,14 @@ import { defineStore } from 'pinia'
 import { ref, watch } from 'vue'
 
 interface UserSettings {
+  firstVisit: boolean
   language: string
   fontSize: number
   recipePreview: boolean
 }
 
 const defaultSettings: UserSettings = {
+  firstVisit: true,
   language: 'en',
   fontSize: 16,
   recipePreview: true,

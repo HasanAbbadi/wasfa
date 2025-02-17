@@ -1,27 +1,42 @@
 // stores/themeStore.ts
 import { defineStore } from 'pinia'
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted, onUnmounted } from 'vue'
 
 export const useThemeStore = defineStore('theme', () => {
-  const theme = ref(localStorage.getItem('theme') || 'light') // Default to 'light' if not set
-  const isDark = ref(theme.value === 'dark')
+  // @ts-expect-error - localStorage is not typed
+  const theme = ref<'light' | 'dark' | 'system'>(localStorage.getItem('theme') || 'system') // Default to 'system' if not set
+  const isDark = ref(false)
+  const systemTheme = ref<'dark' | 'light'>('dark')
 
-  watch(isDark, (newIsDark) => {
-    theme.value = newIsDark ? 'dark' : 'light'
+  onMounted(() => {
+    systemTheme.value = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
     setTheme(theme.value)
   })
 
-  function setTheme(newTheme: string) {
+  watch(isDark, (newIsDark) => {
+    document.body.setAttribute('data-theme', newIsDark ? 'dark' : 'light')
+  })
+
+  function setTheme(newTheme: 'light' | 'dark' | 'system') {
     localStorage.setItem('theme', newTheme)
     theme.value = newTheme
-    isDark.value = newTheme === 'dark'
-    document.body.setAttribute('data-theme', newTheme)
+
+    if (newTheme === 'system') {
+      isDark.value = systemTheme.value === 'dark'
+    } else {
+      isDark.value = newTheme === 'dark'
+    }
   }
 
   function toggleTheme() {
-    theme.value = theme.value === 'light' ? 'dark' : 'light'
-    setTheme(theme.value)
+    const themes: ('light' | 'dark' | 'system')[] = ['light', 'dark', 'system']
+    const currentIndex = themes.indexOf(theme.value)
+    const nextIndex = (currentIndex + 1) % themes.length
+    setTheme(themes[nextIndex])
   }
+
+  // Initialize the theme
+  setTheme(theme.value as 'light' | 'dark' | 'system')
 
   return { theme, isDark, toggleTheme, setTheme }
 })

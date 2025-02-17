@@ -153,6 +153,14 @@ const onDelete = () => {
 
 .recipe-actions .m3-button-content {
   padding: 1em 0.5em;
+  padding: 1em 0.5em;
+  display: grid;
+  grid-template-columns: 1fr 20px minmax(80px, 0.25fr) 1fr;
+  align-items: center;
+}
+.recipe-actions .m3-button-content svg {
+  grid-column: 2;
+  justify-self: end;
 }
 
 .recipe-actions .dropdown-btn {
@@ -162,5 +170,6 @@ const onDelete = () => {
 .recipe-actions .dropdown-btn .main-btn-container button {
   border: none;
   border-right: 1px solid var(--color-secondary);
+  border-radius: 0;
 }
 </style>
