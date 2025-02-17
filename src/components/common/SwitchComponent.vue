@@ -34,9 +34,9 @@ const updateState = () => {
 }
 
 .switch-component {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 50px;
   align-items: center;
-  justify-content: space-between;
   width: 100%;
   flex: 1;
   gap: 1em;
