@@ -11,8 +11,11 @@ const sheet = ref()
 const isInternalUpdate = ref(false)
 
 const expand = () => {
+  if (isMobile.value) {
+    sheet.value.open()
+    return
+  }
   panelStore.expand()
-  if (isMobile.value) sheet.value.open()
 }
 
 const collapse = () => {
@@ -34,13 +37,6 @@ watch(isExpanded, (value) => {
   if (isInternalUpdate.value) return
   if (value) expand()
   else collapse()
-})
-onMounted(() => {
-  isMobile.value = window.innerWidth < 768
-
-  window.addEventListener('resize', () => {
-    isMobile.value = window.innerWidth < 768
-  })
 })
 </script>
 

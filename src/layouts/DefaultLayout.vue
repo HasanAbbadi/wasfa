@@ -49,7 +49,12 @@ const onPanelContent = (content: { source: string; value: any }) => {
   }
 
   if (panelContent.source === 'recipe') {
-    panelStore.expand()
+    // idk; some spaghetti code requires this
+    if (panelStore.isMobile) {
+      panelStore.toggle()
+    } else {
+      panelStore.expand()
+    }
   } else if (panelStore.isMobile) {
     panelStore.collapse()
   } else if (panelContent.source === 'recipeActions') {
