@@ -8,6 +8,11 @@ import { useRecipesStore } from '@/stores/recipes'
 import { useSnackbarStore } from '@/stores/snackbar'
 import { usePanelStore } from '@/stores/panel'
 import type { ingredientType } from '@/types'
+import IconPrint from '@/components/icons/IconPrint.vue'
+import IconCopy from '@/components/icons/IconCopy.vue'
+import IconDelete from '@/components/icons/IconDelete.vue'
+import IconEdit from '@/components/icons/IconEdit.vue'
+import { useRouter } from 'vue-router'
 
 const modal = ref()
 
@@ -38,6 +43,16 @@ const ingredientsToMarkdown = (array: ingredientType[]) => {
 
 const onPrint = () => {
   window.open(`/print/${props?.id}`, '_blank')
+}
+
+const Router = useRouter()
+const onEdit = () => {
+  Router.push({
+    name: 'edit-recipe',
+    params: {
+      id: props?.id,
+    },
+  })
 }
 
 const onCopy = (method: 'md' | 'md+format' | 'json' | 'image' = 'md') => {
@@ -84,7 +99,10 @@ const onDelete = () => {
   <div class="recipe-actions">
     <dropdown-button class="dropdown-btn">
       <template #main-button>
-        <my-button class="secondary" @click="onCopy('md')">Copy</my-button>
+        <my-button class="secondary" @click="onCopy('md')">
+          <template #icon><IconCopy /> </template>
+          Copy</my-button
+        >
       </template>
       <template #icon>
         <IconDown />
@@ -93,9 +111,18 @@ const onDelete = () => {
         <my-button class="info" @click="onCopy('json')">Copy as JSON</my-button>
       </template>
     </dropdown-button>
-    <my-button class="secondary" @click="onPrint">Print</my-button>
-    <my-button class="secondary">Edit</my-button>
-    <my-button class="secondary danger" @click="onOpen">Delete</my-button>
+    <my-button class="secondary" @click="onPrint">
+      <template #icon><IconPrint /> </template>
+      Print
+    </my-button>
+    <my-button class="secondary" @click="onEdit">
+      <template #icon><IconEdit /> </template>
+      Edit</my-button
+    >
+    <my-button class="secondary danger" @click="onOpen">
+      <template #icon><IconDelete /> </template>
+      Delete</my-button
+    >
   </div>
   <ModalComponent @close="onClose" ref="modal">
     <template #modal-body>

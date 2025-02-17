@@ -5,7 +5,10 @@ import TouchRipple from '@/components/common/TouchRipple.vue'
 <template>
   <button class="m3-button">
     <touch-ripple class="m3-ripple-container" :keep-last-ripple="true">
-      <div class="m3-button-content"><slot>Button</slot></div>
+      <div class="m3-button-content">
+        <slot name="icon"></slot>
+        <slot>Button</slot>
+      </div>
     </touch-ripple>
   </button>
 </template>
