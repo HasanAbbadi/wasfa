@@ -5,6 +5,7 @@ import ImportExportButtons from '@/components/settings/ImportExportButtons.vue'
 import SwitchComponent from '@/components/common/SwitchComponent.vue'
 import { useThemeStore } from '@/stores/theme'
 import { onMounted, defineEmits } from 'vue'
+import { useSettingsStore } from '@/stores/settings'
 
 const emit = defineEmits(['panelContent'])
 
@@ -13,6 +14,7 @@ onMounted(() => {
 })
 
 const themeStore = useThemeStore()
+const settingsStore = useSettingsStore()
 </script>
 
 <template>
@@ -27,6 +29,13 @@ const themeStore = useThemeStore()
       <template #body-content>
         <span>Dark Mode</span>
         <p>Toggle the dark mode</p>
+      </template>
+    </SwitchComponent>
+
+    <SwitchComponent v-model="settingsStore.settings.recipePreview">
+      <template #body-content>
+        <span>Open recipe in preview</span>
+        <p>Opens the recipe in a side-panel or bottom sheet.</p>
       </template>
     </SwitchComponent>
 

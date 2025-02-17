@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RouterView, useRoute } from 'vue-router'
+import { RouterView, useRoute, useRouter } from 'vue-router'
 import { onMounted, reactive } from 'vue'
 
 import HeaderBar from '@/components/layout/HeaderBar.vue'
@@ -21,6 +21,7 @@ import IconSheet from '@/components/icons/IconSheet.vue'
 import { useThemeStore } from '@/stores/theme'
 import { usePanelStore } from '@/stores/panel'
 import { useRecipesStore } from '@/stores/recipes'
+import { useSettingsStore } from '@/stores/settings'
 
 const route = useRoute()
 
@@ -33,8 +34,20 @@ onMounted(() => {
 
 const panelContent = reactive<{ source: string; value: any }>({ source: '', value: null })
 const panelStore = usePanelStore()
+const settingsStore = useSettingsStore()
+const settings = settingsStore.settings
+const Router = useRouter()
 const onPanelContent = (content: { source: string; value: any }) => {
   Object.assign(panelContent, content)
+
+  if (!settings.recipePreview && panelContent.source === 'recipe') {
+    Router.push({
+      name: 'full-recipe',
+      params: { id: panelContent.value },
+    })
+    return
+  }
+
   if (panelContent.source === 'recipe') {
     panelStore.expand()
   } else if (panelStore.isMobile) {
