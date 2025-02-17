@@ -98,12 +98,20 @@ onMounted(() => {
       </div>
     </div>
   </div>
+  <div v-else class="not-found">
+    <h3>Recipe not found!</h3>
+    <p>It appears that you're looking in the wrong place :O</p>
+  </div>
 </template>
 
 <style>
 /* #side-panel.expanded:has(.content *) {
   width: 250px;
 } */
+
+.not-found {
+  text-align: center;
+}
 
 .full-recipe-view {
   padding: 2rem;
