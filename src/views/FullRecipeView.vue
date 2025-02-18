@@ -28,7 +28,7 @@ onMounted(() => {
         :aria-label="`Image for ${recipe.name}`"
       ></div>
       <div class="recipe-meta">
-        <h1 class="recipe-title">{{ recipe.name }}</h1>
+        <h2 class="recipe-title">{{ recipe.name }}</h2>
         <p class="recipe-description">{{ recipe.description }}</p>
         <div v-if="recipe.tags" class="recipe-tags">
           <span v-for="tag in recipe.tags" :key="tag" class="tag">
@@ -56,7 +56,7 @@ onMounted(() => {
     <div class="recipe-body">
       <div class="recipe-columns">
         <section v-if="recipe.ingredients" class="ingredients-section">
-          <h2 class="section-title">Ingredients</h2>
+          <h3 class="section-title">Ingredients</h3>
           <ul class="ingredient-list">
             <li
               v-for="(ingredient, index) in recipe.ingredients"
@@ -75,7 +75,7 @@ onMounted(() => {
         </section>
 
         <section v-if="recipe.instructions" class="instructions-section">
-          <h2 class="section-title">Instructions</h2>
+          <h3 class="section-title">Instructions</h3>
           <ol class="instruction-list">
             <li
               v-for="(instruction, index) in recipe.instructions"
@@ -144,7 +144,6 @@ onMounted(() => {
 .full-recipe-view .recipe-title {
   margin: 0 !important;
   color: var(--color-heading);
-  font-size: 2.5rem;
 }
 
 .full-recipe-view .recipe-tags {
@@ -157,7 +156,6 @@ onMounted(() => {
   background-color: var(--color-accent);
   padding: 0.25rem 0.75rem;
   border-radius: var(--border-radius);
-  font-size: 0.9rem;
 }
 
 .time-info {
@@ -175,13 +173,12 @@ onMounted(() => {
 
 .time-label {
   display: block;
-  font-size: 0.9rem;
   color: var(--color-text);
 }
 
 .time-value {
   display: block;
-  font-size: 1.2rem;
+  font-size: var(--fs-300);
   font-weight: bold;
   color: var(--color-heading);
 }

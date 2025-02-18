@@ -69,7 +69,7 @@ watch(isExpanded, (value) => {
   background-color: var(--color-background-soft);
   border-radius: var(--border-radius) var(--border-radius) 0 0;
   padding: 10px;
-  z-index: 90;
+  z-index: 10;
   user-select: none;
   transition: width 0.3s ease;
   /* TODO: Fix overflow hides the psuedo curve */

@@ -3,6 +3,8 @@ import IconDarkTheme from '@/components/icons/IconDarkTheme.vue'
 import IconLightTheme from '@/components/icons/IconLightTheme.vue'
 import ImportExportButtons from '@/components/settings/ImportExportButtons.vue'
 import SwitchComponent from '@/components/common/SwitchComponent.vue'
+import AccordionGroup from '@/components/common/AccordionGroup.vue'
+import AccordionItem from '@/components/common/AccordionItem.vue'
 import { useThemeStore } from '@/stores/theme'
 import { onMounted, defineEmits } from 'vue'
 import { useSettingsStore } from '@/stores/settings'
@@ -42,6 +44,37 @@ const settingsStore = useSettingsStore()
     <hr />
 
     <ImportExportButtons />
+
+    <hr />
+    <accordion-group :multiple="false">
+      <accordion-item>
+        <template #header>
+          <span>First Item</span>
+        </template>
+        <p>
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Obcaecati iure similique
+          doloribus nesciunt quaerat neque necessitatibus molestiae laborum quidem commodi!
+        </p>
+      </accordion-item>
+      <accordion-item>
+        <template #header>
+          <span>Second Item</span>
+        </template>
+        <p>
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Obcaecati iure similique
+          doloribus nesciunt quaerat neque necessitatibus molestiae laborum quidem commodi!
+        </p>
+      </accordion-item>
+      <accordion-item>
+        <template #header>
+          <span>Third Item</span>
+        </template>
+        <p>
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Obcaecati iure similique
+          doloribus nesciunt quaerat neque necessitatibus molestiae laborum quidem commodi!
+        </p>
+      </accordion-item>
+    </accordion-group>
   </div>
 </template>
 

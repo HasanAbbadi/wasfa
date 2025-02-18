@@ -16,7 +16,7 @@ defineProps<{
   <touch-ripple class="recipe-card" :opacity="0.6">
     <div class="recipe-header">
       <div class="left">
-        <h2>{{ recipe.name }}</h2>
+        <h4>{{ recipe.name }}</h4>
         <div class="recipe-tags">
           <span v-for="tag in recipe.tags" :key="tag">{{ tag }}</span>
         </div>

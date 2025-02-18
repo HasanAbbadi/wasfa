@@ -147,7 +147,7 @@ const onDelete = () => {
 .recipe-actions button {
   flex: 1;
   font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-large);
+  font-size: var(--font-size-medium);
   border: 1px solid var(--color-secondary);
 }
 

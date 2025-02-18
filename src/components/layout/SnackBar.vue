@@ -125,7 +125,7 @@ watch(isOpen, (newVal) => {
 @media (max-width: 768px) {
   .snackbar {
     width: 90%;
-    bottom: 15%;
+    bottom: 10%;
     inset-inline-start: 5%;
   }
 }

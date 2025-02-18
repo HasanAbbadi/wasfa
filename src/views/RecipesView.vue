@@ -99,6 +99,6 @@ onMounted(() => {
 .recipe-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 2em;
+  gap: 1em;
 }
 </style>

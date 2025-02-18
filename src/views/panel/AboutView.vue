@@ -7,7 +7,7 @@
       <p class="app-description">An amazing application that simplifies recipe management.</p>
 
       <div class="features">
-        <h2>Key Features</h2>
+        <h4>Key Features</h4>
         <ul>
           <li>✔ Recipe Management</li>
           <li>✔ Simple User Interface</li>
@@ -17,7 +17,7 @@
     </div>
 
     <div class="social-links">
-      <h2>Connect with me:</h2>
+      <h5>Connect with me:</h5>
       <ul>
         <li><a href="https://twitter.com/author" target="_blank">Twitter</a></li>
         <li><a href="https://github.com/author" target="_blank">GitHub</a></li>
@@ -75,7 +75,6 @@
 
 .app-description {
   margin: 1rem 0;
-  font-size: 1.2rem;
   color: var(--color-text);
 }
 
@@ -85,8 +84,7 @@
   display: inline-block;
 }
 
-.features h2 {
-  font-size: 1.5rem;
+.features h4 {
   color: var(--color-text);
   text-align: center;
   margin-bottom: 0.75em;
@@ -98,7 +96,6 @@
 }
 
 .features li {
-  font-size: 1.1rem;
   margin: 5px 0;
 }
 

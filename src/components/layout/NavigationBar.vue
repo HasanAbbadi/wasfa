@@ -35,7 +35,7 @@ nav {
   justify-content: space-around;
   background-color: var(--color-background-soft);
   padding: 10px;
-  z-index: 80;
+  z-index: 10;
   user-select: none;
 }
 
@@ -59,6 +59,10 @@ nav a {
   text-align: center;
   user-select: none;
   white-space: nowrap;
+}
+
+nav a svg {
+  width: var(--fs-500);
 }
 
 nav a:hover:not(.router-link-exact-active) {
@@ -89,14 +93,14 @@ nav a.router-link-exact-active {
     top: 0;
     height: 100%;
     gap: 1rem;
-    padding-inline: 1.2rem;
+    padding-inline: 1rem;
   }
   nav a {
     flex-direction: row;
-    gap: 0.8em;
+    gap: 0.5rem;
     width: 100%;
     justify-content: flex-start;
-    padding: 1rem;
+    padding: 0.8rem;
   }
 }
 </style>

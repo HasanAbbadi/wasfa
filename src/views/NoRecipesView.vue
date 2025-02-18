@@ -37,7 +37,7 @@
           </g>
         </g>
       </svg>
-      <h1>It's drier than a wasteland!</h1>
+      <h3>It's drier than a wasteland!</h3>
       <p>
         You can try <RouterLink to="/add">creating a new recipe</RouterLink><br />or
         <RouterLink to="/settings">importing recipes</RouterLink> from a file<br />
@@ -61,9 +61,9 @@ a {
   text-align: center;
 }
 
-.not-found p {
+/* .not-found p {
   font-size: var(--font-size-medium);
-}
+} */
 
 .not-found svg {
   width: 128px;

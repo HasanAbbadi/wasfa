@@ -169,7 +169,7 @@ defineExpose({
   <AccordionGroup>
     <AccordionItem>
       <template #header>
-        <h3>Basic Filters</h3>
+        <h4>Basic Filters</h4>
       </template>
       <div class="top-filters">
         <div class="filter-group">
@@ -203,7 +203,7 @@ defineExpose({
 
     <AccordionItem>
       <template #header>
-        <h3>Numerical Filters</h3>
+        <h4>Numerical Filters</h4>
       </template>
       <div class="filter-section">
         <div class="filter-group" v-for="field in ['cookTime', 'prepTime']" :key="field">
@@ -234,7 +234,7 @@ defineExpose({
 
     <AccordionItem>
       <template #header>
-        <h3>Tag Filters</h3>
+        <h4>Tag Filters</h4>
       </template>
       <SwitchComponent v-model="localForm.tags.and">
         <template #body-content>
@@ -259,7 +259,7 @@ label {
   color: var(--color-text);
 }
 
-h3 {
+h4 {
   margin: 0;
 }
 

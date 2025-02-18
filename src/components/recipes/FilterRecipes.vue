@@ -314,7 +314,7 @@ const applyOnEnter = (event: KeyboardEvent) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 24px;
+  padding: 0.25em 0.5em;
   border-bottom: 1px solid var(--color-border);
   user-select: none;
   flex: 1;

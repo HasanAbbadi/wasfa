@@ -76,7 +76,7 @@ header .right button svg {
   header {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     /* padding-block: 3em 1.75em !important; */
-    height: 80px !important;
+    height: calc(var(--header-height) + 15px) !important;
   }
 
   .menu-btn {

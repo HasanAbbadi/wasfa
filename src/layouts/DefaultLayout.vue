@@ -59,6 +59,7 @@ const onPanelContent = (content: { source: string; value: any }) => {
 const recipesStore = useRecipesStore()
 const deleteRecipe = (id: number) => {
   recipesStore.deleteRecipe(id)
+  panelStore.collapse()
 }
 
 const toggleSidePanel = () => {
