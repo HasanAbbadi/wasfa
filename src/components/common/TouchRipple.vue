@@ -1,6 +1,7 @@
 <!-- Rewritten in vue 3 from: https://github.surmon.me/vue-touch-ripple -->
 
 <template>
+  <!-- @ts-expect-error - pls -->
   <div
     class="v-touch-ripple"
     ref="element"
@@ -8,6 +9,7 @@
     @mouseup="handleMouseUp"
     @mouseleave="handleMouseLeave"
     @touchstart="handleMouseDown"
+    @touchend="handleMouseUp"
     @touchcancel="handleMouseLeave"
     @touchmove="handleTouchMove"
   >

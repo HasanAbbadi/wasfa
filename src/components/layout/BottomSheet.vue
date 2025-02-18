@@ -7,9 +7,9 @@
       class="bottom-sheet"
       :class="{ dragging: isDragging }"
       :style="{
-        bottom: `${currentPosition * 100 - 100}%`,
-        top: 'auto',
-        transition: `bottom ${isDragging ? '0s' : '0.3s'} cubic-bezier(0.2, 0, 0, 1)`,
+        transform: `translateY(${100 - currentPosition * 100}%)`,
+        bottom: '0',
+        transition: `transform ${isDragging ? '0s' : '0.3s'} cubic-bezier(0.2, 0, 0, 1)`,
       }"
       @mousedown="startDrag"
       @touchstart.passive="handleTouchStart"
