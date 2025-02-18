@@ -10,6 +10,7 @@ import IconUp from '@/components/icons/IconUp.vue'
 import { useFilterStore } from '@/stores/filter'
 import { storeToRefs } from 'pinia'
 import { useRecipesStore } from '@/stores/recipes'
+import BottomSheet from '../layout/BottomSheet.vue'
 
 const filterStore = useFilterStore()
 const recipeStore = useRecipesStore()
@@ -18,7 +19,12 @@ const isFiltered = computed(() => Object.keys(filterStore.filterOptions).length 
 const modal = ref()
 const filtersForm = ref()
 const selectedTab = ref(0)
+const isMobile = ref(window.innerWidth < 768)
 
+// Update isMobile when window is resized
+window.addEventListener('resize', () => {
+  isMobile.value = window.innerWidth < 768
+})
 const { filterOptions } = storeToRefs(filterStore)
 const allTags = computed(() => recipeStore.tags)
 // tagsOptions is all the tags minus the ones already selected in the filter
@@ -136,9 +142,11 @@ const applyOnEnter = (event: KeyboardEvent) => {
       <IconFilter /> Filters
     </button>
 
-    <ModalComponent ref="modal">
+    <ModalComponent v-if="!isMobile" ref="modal">
       <template #modal-header>
         <div class="top">
+          <button class="secondary reset" @click="clearFilters">Clear</button>
+
           <div class="tabs-header">
             <button
               class="tab-button"
@@ -155,7 +163,6 @@ const applyOnEnter = (event: KeyboardEvent) => {
               Sort
             </button>
           </div>
-          <button class="secondary reset" @click="clearFilters">Clear</button>
           <button class="secondary reset" @click="resetFilters">Reset</button>
         </div>
       </template>
@@ -192,6 +199,57 @@ const applyOnEnter = (event: KeyboardEvent) => {
         <button @click="applyFilters">Apply Filters</button>
       </template>
     </ModalComponent>
+
+    <BottomSheet v-else ref="modal" :snap-points="[0.7, 1]" :start-point-index="1">
+      <div class="top">
+        <button class="secondary reset" @click="clearFilters">Clear</button>
+
+        <div class="tabs-header">
+          <button
+            class="tab-button"
+            :class="{ active: selectedTab === 0 }"
+            @click="selectedTab = 0"
+          >
+            Filter
+          </button>
+          <button
+            class="tab-button"
+            :class="{ active: selectedTab === 1 }"
+            @click="selectedTab = 1"
+          >
+            Sort
+          </button>
+        </div>
+        <button class="secondary reset" @click="resetFilters">Reset</button>
+        <!-- <button class="secondary" @click="closeModal">Cancel</button>
+        <button @click="applyFilters">Apply Filters</button> -->
+      </div>
+      <div class="inner mobile" :style="{ transform: `translateX(-${(selectedTab * 100) / 2}%)` }">
+        <div>
+          <FiltersForm
+            ref="filtersForm"
+            v-model="localForm"
+            :tagsOptions="tagsOptions"
+            :filterOptions="filterOptions"
+          />
+        </div>
+        <div class="sort-form">
+          <label>Sort By:</label>
+          <div
+            v-for="option in sortOptions"
+            :key="option.value"
+            class="option-container"
+            @click="onSortOptionClick(option)"
+          >
+            <span>{{ option.name }}</span>
+            <div class="option-icon" :class="{ active: sortMethod.method === option.value }">
+              <IconDown v-if="sortMethod.order === 'asc'" />
+              <IconUp v-else />
+            </div>
+          </div>
+        </div>
+      </div>
+    </BottomSheet>
   </div>
 </template>
 
@@ -236,8 +294,20 @@ const applyOnEnter = (event: KeyboardEvent) => {
   transition: transform 0.3s ease-in-out;
 }
 
+.inner.mobile {
+  margin-top: 1rem;
+}
+
 .inner > div {
   width: 100%;
+}
+
+.inner > div:first-child {
+  padding-inline-end: 1rem;
+}
+
+.inner > div:last-child {
+  padding-inline-start: 1rem;
 }
 
 .option-container {

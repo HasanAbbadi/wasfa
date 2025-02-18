@@ -2,6 +2,8 @@
 import type { filterOptionsType } from '@/types'
 import MultiSelect from '@/components/common/MultiSelect.vue'
 import SwitchComponent from '@/components/common/SwitchComponent.vue'
+import AccordionGroup from '@/components/common/AccordionGroup.vue'
+import AccordionItem from '@/components/common/AccordionItem.vue'
 import { useFilterStore } from '@/stores/filter'
 import { onMounted, watch } from 'vue'
 defineProps<{
@@ -163,79 +165,88 @@ defineExpose({
   getFilters,
 })
 </script>
-
 <template>
-  <h3>Recipe Filters</h3>
-  <hr />
-  <div class="top-filters">
-    <div class="filter-group">
-      <label>Recipe Name Contains:</label>
-      <input type="text" v-model="localForm.name" />
-    </div>
-
-    <div class="filter-group">
-      <label>Date Created:</label>
-      <select v-model="localForm.date.type">
-        <option value="any">Any</option>
-        <option value="today">Today</option>
-        <option value="lastWeek">Last Week</option>
-        <option value="lastMonth">Last Month</option>
-        <option value="lastYear">Last Year</option>
-        <option value="custom">Custom Range</option>
-      </select>
-      <div v-if="localForm.date.type === 'custom'" class="custom-date">
-        <div>
-          <span>From:</span>
-          <input type="date" v-model="localForm.date.start" />
+  <AccordionGroup>
+    <AccordionItem>
+      <template #header>
+        <h3>Basic Filters</h3>
+      </template>
+      <div class="top-filters">
+        <div class="filter-group">
+          <label>Recipe Name Contains:</label>
+          <input type="text" v-model="localForm.name" />
         </div>
-        <div>
-          <span>To:</span>
-          <input type="date" v-model="localForm.date.end" />
+
+        <div class="filter-group">
+          <label>Date Created:</label>
+          <select v-model="localForm.date.type">
+            <option value="any">Any</option>
+            <option value="today">Today</option>
+            <option value="lastWeek">Last Week</option>
+            <option value="lastMonth">Last Month</option>
+            <option value="lastYear">Last Year</option>
+            <option value="custom">Custom Range</option>
+          </select>
+          <div v-if="localForm.date.type === 'custom'" class="custom-date">
+            <div>
+              <span>From:</span>
+              <input type="date" v-model="localForm.date.start" />
+            </div>
+            <div>
+              <span>To:</span>
+              <input type="date" v-model="localForm.date.end" />
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-  <h3>Numerical Filters</h3>
-  <hr />
+    </AccordionItem>
 
-  <div class="filter-section">
-    <div class="filter-group" v-for="field in ['cookTime', 'prepTime']" :key="field">
-      <label>{{ field === 'cookTime' ? 'Cook Time (min)' : 'Prep Time (min)' }}:</label>
-      <select v-model="localForm[field].operator">
-        <option value="gt">&gt;</option>
-        <option value="lt">&lt;</option>
-        <option value="eq">=</option>
-      </select>
-      <input type="number" min="0" v-model="localForm[field].value" />
-    </div>
+    <AccordionItem>
+      <template #header>
+        <h3>Numerical Filters</h3>
+      </template>
+      <div class="filter-section">
+        <div class="filter-group" v-for="field in ['cookTime', 'prepTime']" :key="field">
+          <label>{{ field === 'cookTime' ? 'Cook Time (min)' : 'Prep Time (min)' }}:</label>
+          <select v-model="localForm[field].operator">
+            <option value="gt">&gt;</option>
+            <option value="lt">&lt;</option>
+            <option value="eq">=</option>
+          </select>
+          <input type="number" min="0" v-model="localForm[field].value" />
+        </div>
 
-    <div
-      class="filter-group"
-      v-for="field in ['servings', 'ingredients', 'instructions']"
-      :key="field"
-    >
-      <label>{{ field.charAt(0).toUpperCase() + field.slice(1) }}:</label>
-      <select v-model="localForm[field].operator">
-        <option value="gt">&gt;</option>
-        <option value="lt">&lt;</option>
-        <option value="eq">=</option>
-      </select>
-      <input type="number" min="0" v-model="localForm[field].value" />
-    </div>
-  </div>
-  <h3>Tag Filters</h3>
-  <hr />
+        <div
+          class="filter-group"
+          v-for="field in ['servings', 'ingredients', 'instructions']"
+          :key="field"
+        >
+          <label>{{ field.charAt(0).toUpperCase() + field.slice(1) }}:</label>
+          <select v-model="localForm[field].operator">
+            <option value="gt">&gt;</option>
+            <option value="lt">&lt;</option>
+            <option value="eq">=</option>
+          </select>
+          <input type="number" min="0" v-model="localForm[field].value" />
+        </div>
+      </div>
+    </AccordionItem>
 
-  <SwitchComponent v-model="localForm.tags.and">
-    <template #body-content>
-      <h4>Tag Filter Method: {{ localForm.tags.and ? 'AND' : 'OR' }}</h4>
-      <p>
-        {{ localForm.tags.and ? 'All tags must match' : 'At least one tag must match' }}
-      </p>
-    </template>
-  </SwitchComponent>
-  <MultiSelect :options="tagsOptions" v-model="localForm.tags.value" />
-  <hr />
+    <AccordionItem>
+      <template #header>
+        <h3>Tag Filters</h3>
+      </template>
+      <SwitchComponent v-model="localForm.tags.and">
+        <template #body-content>
+          <h4>Tag Filter Method: {{ localForm.tags.and ? 'AND' : 'OR' }}</h4>
+          <p>
+            {{ localForm.tags.and ? 'All tags must match' : 'At least one tag must match' }}
+          </p>
+        </template>
+      </SwitchComponent>
+      <MultiSelect :options="tagsOptions" v-model="localForm.tags.value" />
+    </AccordionItem>
+  </AccordionGroup>
 </template>
 
 <style scoped>
@@ -249,11 +260,11 @@ label {
 }
 
 h3 {
-  margin-top: 0.5rem;
+  margin: 0;
 }
 
-hr {
-  margin: 1rem 0;
+.accordion-content-inner {
+  padding: 1rem;
 }
 
 .top-filters {
