@@ -7,6 +7,9 @@
     @mousedown="handleMouseDown"
     @mouseup="handleMouseUp"
     @mouseleave="handleMouseLeave"
+    @touchstart="handleMouseDown"
+    @touchcancel="handleMouseLeave"
+    @touchmove="handleTouchMove"
   >
     <slot></slot>
     <TransitionGroup
@@ -225,22 +228,32 @@ export default defineComponent({
       return { left, top, size: Math.ceil(size) }
     }
 
-    const handleMouseDown = (event: MouseEvent) => {
-      if (event.button === 0) {
-        state.active = true
-        const { top: innerY, left: innerX } = element.value!.getBoundingClientRect()
-        const { clientX: layerX, clientY: layerY } = event
-        const positionX = layerX - innerX
-        const positionY = layerY - innerY
-        const { size, left, top } = getRippleSize(positionX, positionY)
-        ripples.push({
-          id: (lastRippleID.value += 1),
-          size,
-          left,
-          top,
-        })
-        emit('touch', event)
+    const handleMouseDown = (event: MouseEvent | TouchEvent) => {
+      if ('button' in event && event.button !== 0) return
+
+      state.active = true
+      const { top: innerY, left: innerX } = element.value!.getBoundingClientRect()
+
+      let positionX: number
+      let positionY: number
+
+      if (event instanceof TouchEvent) {
+        const touch = event.touches[0]
+        positionX = touch.clientX - innerX
+        positionY = touch.clientY - innerY
+      } else {
+        positionX = event.clientX - innerX
+        positionY = event.clientY - innerY
       }
+
+      const { size, left, top } = getRippleSize(positionX, positionY)
+      ripples.push({
+        id: (lastRippleID.value += 1),
+        size,
+        left,
+        top,
+      })
+      emit('touch', event)
     }
 
     const handleMouseUp = (event: MouseEvent) => {
@@ -257,6 +270,21 @@ export default defineComponent({
       state.active = false
       if (state.cleanWhenMouseUp) {
         clearRipples()
+      }
+    }
+
+    // detects when the touch leaves the element then runs handleMouseLeave
+    const handleTouchMove = (event: TouchEvent) => {
+      const touch = event.touches[0]
+      const elementRect = element.value!.getBoundingClientRect()
+
+      if (
+        touch.clientX < elementRect.left ||
+        touch.clientX > elementRect.right ||
+        touch.clientY < elementRect.top ||
+        touch.clientY > elementRect.bottom
+      ) {
+        handleMouseLeave()
       }
     }
 
@@ -300,6 +328,7 @@ export default defineComponent({
       handleMouseDown,
       handleMouseUp,
       handleMouseLeave,
+      handleTouchMove,
       handleRippleStart,
       handleRippleEnd,
       onBeforeEnter,
@@ -346,5 +375,11 @@ export default defineComponent({
 
 .v-touch-ripple > .ripples > .ripple-item.ripple-leave-to {
   opacity: 0 !important;
+}
+
+@media (max-width: 1028px) {
+  .v-touch-ripple {
+    user-select: none;
+  }
 }
 </style>
