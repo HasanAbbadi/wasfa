@@ -72,6 +72,7 @@ const onClose = (selection: string) => {
   align-items: center;
   gap: 4px;
   padding: 6px 10px;
+  font-size: var(--fs-200);
   border-radius: var(--radius-medium);
   cursor: pointer;
   transition:
@@ -133,7 +134,6 @@ const onClose = (selection: string) => {
   .selection,
   .chip {
     padding: 4px 8px;
-    font-size: 0.875rem;
   }
 }
 </style>

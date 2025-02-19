@@ -20,13 +20,13 @@ defineProps<{
         <div class="recipe-tags">
           <span v-for="tag in recipe.tags" :key="tag">{{ tag }}</span>
         </div>
+        <p v-if="recipe.description">{{ recipe.description }}</p>
       </div>
       <div v-if="recipe.previewImage || recipe.image" class="right">
         <img v-if="recipe.previewImage" :src="recipe.previewImage" :alt="recipe.name" />
         <img v-else :src="recipe.image" :alt="recipe.name" />
       </div>
     </div>
-    <p v-if="recipe.description">{{ recipe.description }}</p>
     <div class="recipe-details">
       <div class="detail" v-if="recipe.prepTime">
         <IconClock />
@@ -54,11 +54,9 @@ defineProps<{
 
 <style>
 .recipe-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 0.5rem;
-  border: 1px solid var(--color-border);
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 2;
   border-radius: var(--radius-medium);
   background-color: var(--color-background-mute);
   padding: 1.5em;

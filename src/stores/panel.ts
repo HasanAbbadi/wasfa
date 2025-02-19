@@ -33,6 +33,7 @@ export const usePanelStore = defineStore('panel', () => {
   return {
     isExpanded,
     isMobile,
+    savedState,
     expand,
     collapse,
     toggle,

@@ -34,6 +34,23 @@ const ingredients = ref<ingredientType[]>([{ name: '' }])
 const instructions = ref([''])
 const notes = ref([''])
 
+// Progress tracking
+const progress = computed(() => {
+  let total = 4
+  let completed = 0
+
+  completed = activeSection.value == 'basic' ? 0 : completed
+  completed = activeSection.value == 'tags' ? 1 : completed
+  completed = activeSection.value == 'ingredients' ? 2 : completed
+  completed = activeSection.value == 'instructions' ? 3 : completed
+  completed = activeSection.value == 'notes' ? 4 : completed
+
+  return Math.round((completed / total) * 100)
+})
+
+// Active section tracking
+const activeSection = ref('basic') // basic, tags, ingredients, instructions, notes
+
 // Initialize form
 const initializeForm = () => {
   const draft = JSON.parse(localStorage.getItem(props.draftKey) || '{}')
@@ -102,79 +119,307 @@ const onSubmit = () => {
   emit('submit', recipe)
   localStorage.removeItem(props.draftKey)
 }
+
+// Section navigation
+const nextSection = () => {
+  switch (activeSection.value) {
+    case 'basic':
+      activeSection.value = 'tags'
+      break
+    case 'tags':
+      activeSection.value = 'ingredients'
+      break
+    case 'ingredients':
+      activeSection.value = 'instructions'
+      break
+    case 'instructions':
+      activeSection.value = 'notes'
+      break
+  }
+}
+
+const prevSection = () => {
+  switch (activeSection.value) {
+    case 'notes':
+      activeSection.value = 'instructions'
+      break
+    case 'instructions':
+      activeSection.value = 'ingredients'
+      break
+    case 'ingredients':
+      activeSection.value = 'tags'
+      break
+    case 'tags':
+      activeSection.value = 'basic'
+      break
+  }
+}
 </script>
 
 <template>
-  <div class="form body">
-    <form @submit.prevent="onSubmit">
-      <label for="name">Name</label>
-      <input type="text" name="name" id="name" required v-model="name" />
+  <div class="form-container body">
+    <div class="progress-bar">
+      <div class="progress-fill" :style="{ width: `${progress}%` }"></div>
+      <span class="progress-text">{{ progress }}% Complete</span>
+    </div>
 
-      <label for="description">Description</label>
-      <textarea name="description" id="description" v-model="description"></textarea>
+    <form @submit.prevent="onSubmit" class="recipe-form">
+      <!-- Basic Information Section -->
+      <div v-show="activeSection === 'basic'" class="form-section">
+        <h2 class="section-title">Let's Start with the Basics! 🌟</h2>
 
-      <div class="number-input-group">
-        <div>
-          <label for="prepTime">Prep Time</label>
-          <input type="number" name="prepTime" id="prepTime" v-model="prepTime" />
+        <div class="input-group">
+          <label for="name">What's your recipe called?</label>
+          <input
+            type="text"
+            name="name"
+            id="name"
+            required
+            v-model="name"
+            placeholder="Something delicious..."
+            class="fancy-input"
+          />
         </div>
-        <div>
-          <label for="cookTime">Cook Time</label>
-          <input type="number" name="cookTime" id="cookTime" v-model="cookTime" />
+
+        <div class="input-group">
+          <label for="description">Tell us about your creation!</label>
+          <textarea
+            name="description"
+            id="description"
+            v-model="description"
+            placeholder="What makes this recipe special?"
+            class="fancy-input"
+          ></textarea>
         </div>
-        <div>
-          <label for="servings">Servings</label>
-          <input type="number" name="servings" id="servings" v-model="servings" />
+
+        <div class="number-input-group">
+          <div class="time-input">
+            <label for="prepTime">Prep Time (mins)</label>
+            <input
+              type="number"
+              name="prepTime"
+              id="prepTime"
+              v-model="prepTime"
+              class="fancy-input"
+              min="0"
+            />
+          </div>
+          <div class="time-input">
+            <label for="cookTime">Cook Time (mins)</label>
+            <input
+              type="number"
+              name="cookTime"
+              id="cookTime"
+              v-model="cookTime"
+              class="fancy-input"
+              min="0"
+            />
+          </div>
+          <div class="servings-input">
+            <label for="servings">Servings</label>
+            <input
+              type="number"
+              name="servings"
+              id="servings"
+              v-model="servings"
+              class="fancy-input"
+              min="1"
+            />
+          </div>
         </div>
       </div>
 
-      <label for="image">Image</label>
-      <input type="file" name="image" id="image" />
+      <!-- Tags Section -->
+      <div v-show="activeSection === 'tags'" class="form-section">
+        <h2 class="section-title">Categorize Your Recipe 🏷️</h2>
+        <div class="input-group">
+          <label for="tags">Add tags to organize your recipe</label>
+          <MultiSelect v-model="tagsSelected" :options="tagsOptions" class="fancy-select" />
+        </div>
+      </div>
 
-      <label for="tags">Tags</label>
-      <MultiSelect v-model="tagsSelected" :options="tagsOptions" />
+      <!-- Ingredients Section -->
+      <div v-show="activeSection === 'ingredients'" class="form-section">
+        <h2 class="section-title">What Goes Into It? 🥗</h2>
+        <AddIngredients v-model="ingredients" class="ingredients-list" />
+      </div>
 
-      <label for="ingredients">Ingredients</label>
-      <AddIngredients v-model="ingredients" />
+      <!-- Instructions Section -->
+      <div v-show="activeSection === 'instructions'" class="form-section">
+        <h2 class="section-title">How Do We Make It? 👩‍🍳</h2>
+        <AddOrderedInputs v-model="instructions" class="instructions-list" />
+      </div>
 
-      <label for="instructions">Instructions</label>
-      <AddOrderedInputs v-model="instructions" />
+      <!-- Notes Section -->
+      <div v-show="activeSection === 'notes'" class="form-section">
+        <h2 class="section-title">Any Special Tips? 💡</h2>
+        <AddOrderedInputs v-model="notes" class="notes-list" />
+      </div>
 
-      <label for="notes">Notes</label>
-      <AddOrderedInputs v-model="notes" />
+      <!-- Navigation Buttons -->
+      <div class="form-navigation">
+        <MyButton
+          type="button"
+          @click="prevSection"
+          v-if="activeSection !== 'basic'"
+          class="nav-button prev secondary"
+        >
+          ← Previous
+        </MyButton>
 
-      <MyButton type="submit">Submit</MyButton>
+        <MyButton
+          type="button"
+          @click="nextSection"
+          v-if="activeSection !== 'notes'"
+          class="nav-button next secondary"
+        >
+          Next →
+        </MyButton>
+
+        <MyButton type="submit" v-if="activeSection === 'notes'" class="submit-button">
+          Save Recipe 🎉
+        </MyButton>
+      </div>
     </form>
   </div>
 </template>
 
 <style scoped>
-form {
-  max-width: 600px;
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-  margin: auto;
+.form-container {
+  max-width: 800px;
+  margin-top: 2rem;
+  margin-inline: auto;
+  padding: 2rem;
+  border-radius: 1rem;
+  overflow-y: hidden !important;
+  width: 80%;
+  height: 90%;
+
+  @media (width < 768px) {
+    width: 90%;
+    padding-inline: 0;
+    margin-bottom: 1.25rem;
+  }
 }
 
-input,
-textarea {
-  margin: 0;
+.progress-bar {
+  position: relative;
+  height: 8px;
+  background: var(--color-border);
+  border-radius: 4px;
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+
+.progress-fill {
+  position: absolute;
+  height: 100%;
+  background: var(--color-secondary);
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  position: absolute;
+  right: 0;
+  top: -1.5rem;
+  font-size: 0.9rem;
+  color: var(--color-text);
+}
+
+.recipe-form {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.recipe-section {
+  overflow-y: auto;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  color: var(--color-heading);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  position: sticky;
+  top: 5px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.fancy-input {
+  padding: 0.8rem 1rem;
+  border: 2px solid var(--color-border);
+  border-radius: 0.5rem;
+  background: var(--color-background);
+  transition: all 0.3s ease;
+}
+
+.fancy-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.2);
+  outline: none;
+}
+
+.number-input-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.time-input,
+.servings-input {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.ingredients-list,
+.instructions-list,
+.notes-list {
+  margin-top: 1rem;
+}
+
+.form-navigation {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.form-navigation button:only-child {
+  flex: 1;
+}
+
+.nav-button {
+  min-width: 120px;
+}
+
+.form-section {
+  animation: fadeIn 0.5s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
 label {
   margin: 0;
-  margin-inline-start: 1em;
 }
 
-.number-input-group {
-  display: flex;
-  gap: 1em;
-}
-
-button {
-  margin-top: 1em;
-  font-size: var(--font-size-large);
-  width: 100%;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>

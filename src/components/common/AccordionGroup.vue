@@ -40,7 +40,6 @@ provide('accordionGroup', {
 <style scoped>
 .accordion-group {
   width: 100%;
-  border: 1px solid var(--color-border);
   border-radius: 0.5rem;
 }
 </style>

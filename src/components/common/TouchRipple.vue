@@ -71,7 +71,7 @@ const DEFAULT_CONFIG: Required<Props> = {
   opacity: 1,
   duration: 400,
   transition: 'cubic-bezier(0.4, 0, 0.2, 1)',
-  keepLastRipple: true,
+  keepLastRipple: false,
 }
 
 const RippleItem = defineComponent({

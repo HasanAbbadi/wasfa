@@ -52,7 +52,8 @@ const onPanelContent = (content: { source: string; value: any }) => {
   } else if (panelContent.source === 'recipeActions') {
     panelStore.collapse()
   } else {
-    panelStore.expand()
+    // check local storage first to respect users desicion
+    if (panelStore.savedState) panelStore.expand()
   }
 }
 
@@ -138,9 +139,9 @@ main {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 2em;
+  margin-bottom: 1em;
   background-color: var(--color-background);
-  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  border-radius: var(--border-radius);
 }
 
 #view > .header:has(*) {

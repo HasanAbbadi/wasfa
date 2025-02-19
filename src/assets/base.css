@@ -1,16 +1,16 @@
 :root {
   /* Neutral Colors */
-  --c-white: rgba(248, 248, 250, 1);
-  --c-white-soft: #f6f6f6;
-  --c-white-mute: #f0f4f9;
+  --c-white: #ffffff;
+  --c-white-soft: #e9eef6;
+  --c-white-mute: #f8fafd;
 
-  --c-black: #1b1c1d;
-  --c-black-soft: #282a2c;
-  --c-black-mute: #202123;
+  --c-black: #131314;
+  --c-black-soft: #1b1b1b;
+  --c-black-mute: #1e1f20;
 
   /* Pastel Colors */
-  --c-indigo: #a3b8ff; /* Pastel Indigo */
-  --c-indigo-dark: #6f7efb;
+  --c-indigo: #004a77; /* Pastel Indigo */
+  --c-indigo-dark: #c2e7ff;
   --c-indigo-rgb: 163, 184, 255;
   --c-indigo-dark-rgb: 111, 126, 251;
   --c-accent: #ffb6c1; /* Soft Pink */
@@ -25,8 +25,8 @@
   --c-dark-indigo: #3c3746; /* Dark Indigo */
 
   /* Google Colors (Material Design 3 Inspired) */
-  --c-blue-dark: #1f3760;
-  --c-blue-light: #d3e3fd;
+  --c-blue-dark: #004a77;
+  --c-blue-light: #c2e7ff;
 
   --c-red-dark: #b71c1c;
   --c-red-light: #fddbd6;
@@ -38,16 +38,16 @@
   --c-yellow-light: #fff3e0;
 
   /* Divider Colors */
-  --c-divider-light-1: rgba(150, 150, 150, 0.3);
+  --c-divider-light-1: rgba(32, 33, 36, 0.059);
   --c-divider-light-2: rgba(150, 150, 150, 0.15);
-  --c-divider-dark-1: rgba(200, 200, 200, 0.6);
+  --c-divider-dark-1: rgba(95, 99, 104, 0.25);
   --c-divider-dark-2: rgba(74, 80, 80, 0.45);
 
   /* Text Colors */
   --c-text-light-1: var(--c-black);
-  --c-text-light-2: rgba(0, 0, 0, 0.54);
+  --c-text-light-2: rgb(31, 31, 31);
   --c-text-dark-1: var(--c-white);
-  --c-text-dark-2: rgba(255, 255, 255, 0.7);
+  --c-text-dark-2: rgb(227, 227, 227);
 
   /* Elevation & Shadows */
   --c-shadow-1: 0px 2px 4px rgba(0, 0, 0, 0.1);
@@ -113,7 +113,7 @@
   --color-text: var(--c-text-light-2);
 
   --color-accent: var(--c-blue-light);
-  --color-secondary: var(--c-indigo-dark);
+  --color-secondary: var(--c-indigo);
 
   --color-danger: var(--c-red-dark);
   --color-success: var(--c-green-dark);
@@ -137,7 +137,7 @@
   --color-text: var(--c-text-dark-2);
 
   --color-accent: var(--c-blue-dark);
-  --color-secondary: var(--c-indigo);
+  --color-secondary: var(--c-indigo-dark);
 
   --color-danger: var(--c-red-dark);
   --color-success: var(--c-green-dark);

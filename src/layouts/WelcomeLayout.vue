@@ -224,14 +224,12 @@ onBeforeUnmount(() => {
 }
 
 .slide h1 {
-  font-size: 32px;
   margin-bottom: 1rem;
   color: var(--color-heading);
   text-decoration: underline;
 }
 
 .slide p {
-  font-size: var(--font-size-large);
   color: var(--color-text);
   max-width: 600px;
   margin: 0 auto;
@@ -273,7 +271,6 @@ onBeforeUnmount(() => {
 
 .navigation button {
   font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-large);
   padding: 0.5em 1em;
 }
 
@@ -284,7 +281,6 @@ onBeforeUnmount(() => {
 }
 
 .navigation .back-btn {
-  font-size: 16px;
   opacity: 0.6;
 }
 

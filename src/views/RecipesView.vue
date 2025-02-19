@@ -20,7 +20,7 @@ const segmentedButtons = ref([
   {
     // label: 'Grid',
     value: 'grid',
-    checked: localStorage.getItem('view-mode') === 'grid' || false,
+    checked: localStorage.getItem('view-mode') === 'grid' || true,
     icon: shallowRef(IconGrid),
   },
   {
@@ -98,7 +98,8 @@ onMounted(() => {
 
 .recipe-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));
+  grid-template-rows: 120px auto;
   gap: 1em;
 }
 </style>

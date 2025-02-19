@@ -18,7 +18,7 @@ const { isExpanded } = storeToRefs(navStore)
     </RouterLink>
     <RouterLink to="/add">
       <IconAdd />
-      <span v-if="isExpanded">Add Recipe</span>
+      <span v-if="isExpanded">New</span>
     </RouterLink>
     <RouterLink to="/settings">
       <IconSettings />
@@ -48,9 +48,9 @@ nav {
 nav a {
   color: var(--color-text);
   text-decoration: none;
-  transition: 0.4s;
+  /* transition: 0.4s; */
   padding: 0.2rem 1rem;
-  border-radius: var(--border-radius);
+  border-radius: var(--radius-medium);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -67,10 +67,12 @@ nav a svg {
 
 nav a:hover:not(.router-link-exact-active) {
   background-color: var(--color-border-hover);
+  opacity: 1;
 }
 
 nav a.router-link-exact-active {
   background-color: var(--color-accent);
+  color: var(--color-secondary);
 }
 @media (max-width: 1024px) {
   nav {
@@ -92,15 +94,41 @@ nav a.router-link-exact-active {
     align-items: flex-start;
     top: 0;
     height: 100%;
-    gap: 1rem;
+    gap: 0.35rem;
     padding-inline: 1rem;
   }
   nav a {
     flex-direction: row;
     gap: 0.5rem;
-    width: 100%;
+
     justify-content: flex-start;
+    padding: 0.35rem 0.8rem;
+  }
+
+  nav a:not(:nth-child(2)) span {
+    width: 100px;
+    text-align: start;
+  }
+
+  nav a:nth-child(2) {
+    order: 1;
     padding: 0.8rem;
+    background-color: var(--color-border);
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
+    margin-bottom: 0.5em;
+    width: auto;
+  }
+
+  nav a:nth-child(2):hover {
+    background-color: var(--color-border-hover);
+  }
+
+  nav a:nth-child(1) {
+    order: 2;
+  }
+  nav a:nth-child(3) {
+    order: 3;
   }
 }
 </style>
