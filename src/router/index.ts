@@ -4,7 +4,7 @@ import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import PrintLayout from '@/layouts/PrintLayout.vue'
 
 const router = createRouter({
-  history: createWebHistory('/wasfa/'),
+  history: createWebHistory(),
   routes: [
     {
       path: '/',
