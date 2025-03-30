@@ -24,7 +24,7 @@ recipe.value = computed(() => props.recipeData || recipesStore.getRecipeById(pro
 
 <template>
   <div class="recipe-wrapper">
-    <RouterLink v-if="recipe.value.id" :to="'/recipe/' + recipe.value.id">
+    <RouterLink v-if="recipe.value.id" :to="'/recipes/' + recipe.value.id">
       <IconExpand />
     </RouterLink>
     <h1>{{ recipe.value.name }}</h1>
