@@ -2,7 +2,7 @@
 import { computed, ref, watch } from 'vue'
 import type { folderType } from '@/types'
 import { useFoldersStore } from '@/stores/folders'
-import FolderCard from '@/components/folders/FolderCard.vue'
+import FolderCard from '@/components/home/FolderCard.vue'
 import ContextMenu from '@/components/common/ContextMenu.vue'
 
 const foldersStore = useFoldersStore()
