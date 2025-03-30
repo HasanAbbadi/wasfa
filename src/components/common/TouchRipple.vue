@@ -1,7 +1,6 @@
 <!-- Rewritten in vue 3 from: https://github.surmon.me/vue-touch-ripple -->
 
 <template>
-  <!-- @ts-expect-error - pls -->
   <div
     class="v-touch-ripple"
     ref="element"
@@ -229,32 +228,22 @@ export default defineComponent({
 
       return { left, top, size: Math.ceil(size) }
     }
-
-    const handleMouseDown = (event: MouseEvent | TouchEvent) => {
-      if ('button' in event && event.button !== 0) return
-
-      state.active = true
-      const { top: innerY, left: innerX } = element.value!.getBoundingClientRect()
-
-      let positionX: number
-      let positionY: number
-
-      if (event instanceof TouchEvent) {
-        const touch = event.touches[0]
-        positionX = touch.clientX - innerX
-        positionY = touch.clientY - innerY
-      } else {
-        positionX = event.clientX - innerX
-        positionY = event.clientY - innerY
+    const handleMouseDown = (event: MouseEvent) => {
+      if (event.button === 0) {
+        state.active = true
+        const { top: innerY, left: innerX } = element.value!.getBoundingClientRect()
+        const { clientX: layerX, clientY: layerY } = event
+        const positionX = layerX - innerX
+        const positionY = layerY - innerY
+        const { size, left, top } = getRippleSize(positionX, positionY)
+        ripples.push({
+          id: (lastRippleID.value += 1),
+          size,
+          left,
+          top,
+        })
+        emit('touch', event)
       }
-
-      const { size, left, top } = getRippleSize(positionX, positionY)
-      ripples.push({
-        id: (lastRippleID.value += 1),
-        size,
-        left,
-        top,
-      })
       emit('touch', event)
     }
 
@@ -340,7 +329,7 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
+<style>
 .v-touch-ripple {
   --ripple-color: rgba(31, 31, 31, 0.1);
 }

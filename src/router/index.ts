@@ -12,33 +12,50 @@ const router = createRouter({
       children: [
         {
           path: '',
-          name: 'recipes',
-          meta: { title: 'Recipes' },
-          component: RecipesView,
+          name: 'home',
+          meta: { title: 'Home' },
+          component: () => import('../views/HomeView.vue'),
         },
         {
-          path: 'add',
-          name: 'add-recipe',
-          meta: { title: 'Add Recipe' },
-          component: () => import('../views/AddRecipeView.vue'),
+          path: 'recipes',
+          children: [
+            {
+              path: '',
+              name: 'recipes',
+              meta: { title: 'Recipes' },
+              component: RecipesView,
+            },
+            {
+              path: 'add',
+              name: 'add-recipe',
+              meta: { title: 'Add Recipe' },
+              component: () => import('../views/AddRecipeView.vue'),
+            },
+            {
+              path: ':id',
+              name: 'full-recipe',
+              meta: { title: 'Full Recipe' },
+              component: () => import('../views/FullRecipeView.vue'),
+            },
+            {
+              path: 'edit/:id',
+              name: 'edit-recipe',
+              meta: { title: 'Edit Recipe' },
+              component: () => import('../views/EditRecipeView.vue'),
+            },
+          ],
+        },
+        {
+          path: 'folders',
+          name: 'folders',
+          meta: { title: 'Folders' },
+          component: () => import('../views/FoldersView.vue'),
         },
         {
           path: 'settings',
           name: 'settings',
           meta: { title: 'Settings' },
           component: () => import('../views/SettingsView.vue'),
-        },
-        {
-          path: 'recipe/:id',
-          name: 'full-recipe',
-          meta: { title: 'Full Recipe' },
-          component: () => import('../views/FullRecipeView.vue'),
-        },
-        {
-          path: 'edit/:id',
-          name: 'edit-recipe',
-          meta: { title: 'Edit Recipe' },
-          component: () => import('../views/EditRecipeView.vue'),
         },
         {
           path: ':notFound(.*)*',

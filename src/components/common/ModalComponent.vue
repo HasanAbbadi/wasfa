@@ -1,26 +1,24 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-const isClosed = ref<boolean>(true)
-const modal = ref()
+const dialog = ref<HTMLDialogElement>()
+
+const onClick = (e: MouseEvent) => {
+  if (e.target === dialog.value) {
+    close()
+  }
+}
 
 const open = () => {
-  isClosed.value = false
-  modal.value?.classList.remove('closed')
+  dialog.value?.showModal()
 }
 
 const close = () => {
-  // delay the transition
-  modal.value?.classList.add('closed')
+  dialog.value?.classList.add('closing')
   setTimeout(() => {
-    isClosed.value = true
+    dialog.value?.close()
+    dialog.value?.classList.remove('closing')
   }, 200)
 }
-
-window.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape') {
-    close()
-  }
-})
 
 defineExpose({
   open,
@@ -29,74 +27,60 @@ defineExpose({
 </script>
 
 <template>
-  <div v-if="!isClosed" class="modal-backdrop" @click="close" ref="modal">
-    <div class="modal" @click.stop>
-      <div class="modal-header">
-        <slot name="modal-header" />
-      </div>
-      <div class="modal-body">
-        <slot name="modal-body" />
-      </div>
-      <div class="modal-footer">
-        <slot name="modal-footer" />
-      </div>
+  <dialog ref="dialog" class="modal" @click="onClick" @cancel="close">
+    <div class="modal-header">
+      <slot name="modal-header" />
     </div>
-  </div>
+    <div class="modal-body">
+      <slot name="modal-body" />
+    </div>
+    <div class="modal-footer">
+      <slot name="modal-footer" />
+    </div>
+  </dialog>
 </template>
 
 <style>
-.modal-backdrop {
+.modal::backdrop {
   --background: rgba(0, 0, 0, 0.3);
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
   background-color: var(--background);
-  display: flex;
-  z-index: 99;
-  justify-content: center;
-  align-items: center;
-  animation: open 0.2s ease;
+  animation: backdrop-open 0.2s ease;
 }
 
-[data-theme='dark'] .modal-backdrop {
+[data-theme='dark'] .modal::backdrop {
   --background: rgba(0, 0, 0, 0.6);
 }
 
-.modal-backdrop.closed {
-  animation: close 0.2s ease;
+.modal[open] {
+  animation: dialog-open 0.2s ease;
 }
 
-@keyframes open {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+.modal.closing::backdrop {
+  animation: backdrop-close 0.2s ease;
 }
 
-@keyframes close {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
+.modal.closing {
+  animation: dialog-close 0.2s ease;
 }
 
 .modal {
   background-color: var(--color-background);
   padding: 2rem;
   border-radius: var(--border-radius);
-  max-height: 80%;
-  /* width: 400px; */
-  max-width: min(80%, 900px);
-  display: flex;
+  max-height: 80vh;
   flex-direction: column;
   gap: 2rem;
   transition: width 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  margin: auto;
+  inset: 0;
+  border: 0;
+  color: var(--color-text);
+  width: 80%;
+  @media (width > 1028px) {
+    max-width: 80%;
+    min-width: 400px;
+    width: auto;
+  }
 }
 
 .modal-header:not(:has(*)) {
@@ -127,5 +111,45 @@ defineExpose({
 
 .modal-footer > button:only-child {
   flex: 0;
+}
+
+@keyframes backdrop-open {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes backdrop-close {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes dialog-open {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dialog-close {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
 }
 </style>

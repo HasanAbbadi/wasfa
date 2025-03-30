@@ -11,14 +11,24 @@ type recipeType = {
   previewImage?: string
   image?: string
   notes?: string[]
-  dateCreated?: string
+  folderId?: number
+  dateCreated: string
   dateModified?: string
+  dateOpened?: string
 }
 
 type ingredientType = {
   quantity?: number
   unit?: string
   name: string
+}
+
+type folderType = {
+  id: number
+  name: string
+  color?: string
+  children: (number | folderType)[]
+  dateOpened?: string
 }
 
 type filterOptionsType = {
@@ -66,6 +76,7 @@ type sortType = {
 export type {
   recipeType,
   ingredientType,
+  folderType,
   filterOptionsType,
   numericalFilterType,
   dateFilterType,

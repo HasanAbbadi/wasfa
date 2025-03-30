@@ -52,8 +52,9 @@
 import TouchRipple from '@/components/common/TouchRipple.vue'
 import { computed, inject, ref, type Ref } from 'vue'
 
-defineProps<{
+const props = defineProps<{
   modelValue?: boolean
+  open?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -75,6 +76,11 @@ const accordionGroup = inject('accordionGroup') as {
   openItems: Ref<Set<string>>
   toggleItem: (id: string) => void
   multiple: boolean
+}
+
+// If open is true, the accordion item will be open until closed manually
+if (props.open) {
+  accordionGroup.toggleItem(itemId.value)
 }
 
 const isOpen = computed(() => accordionGroup.openItems.value?.has(itemId.value))
@@ -131,7 +137,7 @@ const endTransition = (el: Element) => {
   border-radius: 0 !important;
 }
 
-/* 
+/*
 .accordion-header:hover {
   background-color: #f8fafc;
 } */

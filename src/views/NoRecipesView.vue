@@ -111,6 +111,7 @@ const mockData: recipeType[] = [
     image:
       'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Espaguetis_carbonara.jpg/1280px-Espaguetis_carbonara.jpg',
     dateCreated: '2024-02-15',
+    folderId: 1,
   },
   {
     id: 2,
@@ -142,6 +143,7 @@ const mockData: recipeType[] = [
     image:
       'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Chicken_tikka_masala.jpg/682px-Chicken_tikka_masala.jpg',
     dateCreated: '2024-02-15',
+    folderId: 1,
   },
   {
     id: 3,
@@ -168,6 +170,7 @@ const mockData: recipeType[] = [
     image:
       'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Banana_on_pancake.jpg/1044px-Banana_on_pancake.jpg',
     dateCreated: '2024-02-15',
+    folderId: 2,
   },
   {
     id: 4,
@@ -194,6 +197,7 @@ const mockData: recipeType[] = [
     image:
       'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Caesar_Salad_-_Purezza_2023-11-22.jpg/1280px-Caesar_Salad_-_Purezza_2023-11-22.jpg',
     dateCreated: '2024-02-15',
+    folderId: 2,
   },
   {
     id: 5,
@@ -221,6 +225,7 @@ const mockData: recipeType[] = [
     image:
       'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Beef-Tacos-from-Los_Latinos-2011.jpg/1024px-Beef-Tacos-from-Los_Latinos-2011.jpg',
     dateCreated: '2024-02-15',
+    folderId: 2,
   },
   {
     id: 6,
@@ -251,6 +256,7 @@ const mockData: recipeType[] = [
     image:
       'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Mushroom_Risotto_%284789415965%29.jpg/1024px-Mushroom_Risotto_%284789415965%29.jpg',
     dateCreated: '2024-02-15',
+    folderId: 3,
   },
   {
     id: 7,
@@ -278,6 +284,7 @@ const mockData: recipeType[] = [
     image:
       'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Grilled_salmon.jpg/1024px-Grilled_salmon.jpg',
     dateCreated: '2024-02-15',
+    folderId: 3,
   },
   {
     id: 8,
@@ -304,6 +311,7 @@ const mockData: recipeType[] = [
     image:
       'https://upload.wikimedia.org/wikipedia/commons/8/86/Chocolate_Lava_Cake-2_%2829044642816%29.jpg',
     dateCreated: '2024-02-15',
+    folderId: 3,
   },
 ]
 </script>
