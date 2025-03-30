@@ -62,9 +62,9 @@ watch(showContextMenu, (newValue) => {
 </template>
 
 <style>
-.body {
+/* .body {
   flex: none !important;
-}
+} */
 
 .folders-grid {
   display: grid;

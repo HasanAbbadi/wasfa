@@ -108,9 +108,9 @@ const segmentedButtons = ref([
 </script>
 
 <style>
-.body {
+/* .body {
   flex: none !important;
-}
+} */
 
 .body .header {
   margin: 16px;
